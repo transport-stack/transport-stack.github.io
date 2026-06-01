@@ -1,0 +1,125 @@
+{
+  "event": {
+    "series": "India Urban Mobility Forum",
+    "edition": "Roundtable 1",
+    "theme": "Open Data & Interoperability: Unlocking Urban Mobility Innovation",
+    "date": "2026-06-12",
+    "time_start": "10:00",
+    "time_end": "12:00",
+    "timezone": "IST",
+    "format": "Virtual",
+    "accent_color": "#c75c2e",
+    "primary_color": "#1a3a5c",
+    "secondary_color": "#2d8a6e",
+    "bg_color": "#f8f6f1"
+  },
+  "partners": [
+    {
+      "name": "JICA",
+      "role": "Supported By",
+      "logo": "assets/logos/jica.svg",
+      "logo_width": 120
+    },
+    {
+      "name": "BCG",
+      "role": "Knowledge Partner",
+      "logo": "assets/logos/bcg.svg",
+      "logo_width": 80
+    },
+    {
+      "name": "Chartr",
+      "role": "Ecosystem Partner",
+      "logo": "assets/logos/chartr.png",
+      "logo_width": 100
+    },
+    {
+      "name": "IIIT Delhi",
+      "role": "Host",
+      "logo": "assets/logos/iiitd.png",
+      "logo_width": 100
+    }
+  ],
+  "sessions": [
+    {
+      "id": "welcome",
+      "time_start": "10:00",
+      "time_end": "10:10",
+      "duration": "10 min",
+      "type": "Welcome",
+      "title": "Setting the Stage: India's Open Mobility Opportunity",
+      "speakers": ["Prof. Pravesh Biyani (IIITD)"],
+      "description": "Welcome, live poll, and framing of the central question."
+    },
+    {
+      "id": "keynote",
+      "time_start": "10:10",
+      "time_end": "10:25",
+      "duration": "15 min",
+      "type": "Keynote",
+      "title": "The Open Mobility Moment: What's Working, What's Broken, and What's Possible",
+      "speakers": ["Prof. Inder Gopal"],
+      "description": "Landscape talk on open data, open APIs, open networks in Indian transit."
+    },
+    {
+      "id": "panel",
+      "time_start": "10:25",
+      "time_end": "11:05",
+      "duration": "40 min",
+      "type": "Panel Discussion",
+      "title": "Where Does Open Data Break Down?",
+      "speakers": [
+        "Prof. Gitakrishnan Ramadurai (IIT Madras)",
+        "Mr. Sankalp Devendra (DMRC)",
+        "Ms Aswathy Dilip (ITDP)"
+      ],
+      "description": "Five perspectives on open transit data challenges and opportunities."
+    },
+    {
+      "id": "startup-showcase",
+      "time_start": "11:05",
+      "time_end": "11:15",
+      "duration": "10 min",
+      "type": "Showcase",
+      "title": "Building on Open Networks: A Startup's Experience",
+      "speakers": ["Chartr — Talking Bus Stop"],
+      "description": "Startup showcase on building products with open transit data and Beckn/ONDC."
+    },
+    {
+      "id": "ts-showcase",
+      "time_start": "11:15",
+      "time_end": "11:25",
+      "duration": "10 min",
+      "type": "Showcase",
+      "title": "Transport Stack: Open Infrastructure Already Being Built",
+      "speakers": ["Chartr Team"],
+      "description": "Walkthrough of Transport Stack Wiki and GitHub repositories."
+    },
+    {
+      "id": "discussion",
+      "time_start": "11:25",
+      "time_end": "11:40",
+      "duration": "15 min",
+      "type": "Open Discussion",
+      "title": "Open Floor: What's Blocking Progress — and What Do We Build Next?",
+      "speakers": ["Moderated"],
+      "description": "Facilitated discussion with live shared document and commitment round."
+    },
+    {
+      "id": "closing",
+      "time_start": "11:40",
+      "time_end": "11:45",
+      "duration": "5 min",
+      "type": "Closing",
+      "title": "Synthesis, Commitments & What Comes Next",
+      "speakers": ["Prof. Pravesh Biyani (IIITD)"],
+      "description": "Key takeaways, next steps, GitHub Discussions invitation, RT-2 preview."
+    }
+  ],
+  "links": {
+    "transport_stack_wiki": "https://wiki.transportstack.in",
+    "github_discussions": "https://github.com/transport-stack/.github/discussions",
+    "add_to_calendar": "https://calendar.transportstack.org/rt1.ics",
+    "join_event": "https://meet.transportstack.org/rt1",
+    "feedback_form": "https://forms.transportstack.org/rt1-feedback"
+  }
+}
