@@ -1,6 +1,6 @@
 {
   "event": {
-    "series": "Transport Stack Roundtable Series",
+    "series": "India Urban Mobility Forum",
     "edition": "Roundtable 1",
     "theme": "Open Data & Interoperability: Unlocking Urban Mobility Innovation",
     "date": "2026-06-12",
@@ -29,13 +29,13 @@
     {
       "name": "Chartr",
       "role": "Ecosystem Partner",
-      "logo": "assets/logos/chartr.svg",
+      "logo": "assets/logos/chartr.png",
       "logo_width": 100
     },
     {
       "name": "IIIT Delhi",
       "role": "Host",
-      "logo": "assets/logos/iiitd.svg",
+      "logo": "assets/logos/iiitd.png",
       "logo_width": 100
     }
   ],
@@ -119,7 +119,7 @@
     }
   ],
   "links": {
-    "transport_stack_wiki": "https://wiki.transportstack.org",
+    "transport_stack_wiki": "https://wiki.transportstack.in",
     "github_discussions": "https://github.com/transport-stack/.github/discussions",
     "add_to_calendar": "https://calendar.transportstack.org/rt1.ics",
     "join_event": "https://meet.transportstack.org/rt1",
