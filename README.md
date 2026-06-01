@@ -41,7 +41,7 @@ python3 -m http.server 8088
 |------|---------|----------|
 | 10:00 – 10:10 | Welcome Address | Prof. Pravesh Biyani |
 | 10:10 – 10:25 | Keynote Talk | Prof. Inder Gopal |
-| 10:25 – 11:05 | Panel Discussion | Prof. Gitakrishnan Ramadurai, Sankalp (DMRC), Sivasubramaniam Jayaraman (ITDP) |
+| 10:25 – 11:05 | Panel Discussion | Prof. Gitakrishnan Ramadurai, Sankalp (DMRC), Ms Aswathy Dilip (ITDP) |
 | 11:05 – 11:15 | Practitioner Showcase | Chartr – Talking Bus Stop |
 | 11:15 – 11:25 | Transport Stack Walkthrough | Chartr Team |
 | 11:25 – 11:40 | Open Discussion | Moderated |
