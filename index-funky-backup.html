@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RT1 — Open Data & Interoperability</title>
+  <link rel="icon" type="image/png" href="assets/logos/favicon.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #ebe8e1;
+      color: #1a1a1a;
+      font-family: Georgia, 'Times New Roman', serif;
+      line-height: 1.4;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(0,0,0,0.015) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(0,0,0,0.015) 0%, transparent 50%);
+    }
+    .mono { font-family: 'SF Mono', 'Monaco', 'Cascadia Mono', 'Courier New', monospace; }
+    .hand { font-family: 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive; }
+
+    /* === TICKET STUB === */
+    .stub {
+      background: #1a1a1a;
+      color: #ebe8e1;
+      padding: 8px 16px;
+      font-size: 11px;
+      text-align: center;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 2;
+    }
+    .stub::before { content: '●  '; color: #c75c2e; }
+    .stub::after { content: '  ●'; color: #c75c2e; }
+
+    /* === MAIN TICKET === */
+    .ticket {
+      max-width: 880px;
+      margin: 0 auto;
+      background: #f5f3ed;
+    }
+
+    .perforation {
+      position: relative;
+      height: 0;
+      border-top: 2px dashed #999;
+      margin: 0 40px;
+    }
+    .perforation::before, .perforation::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: #ebe8e1;
+      border-radius: 50%;
+      top: -12px;
+    }
+    .perforation::before { left: -52px; }
+    .perforation::after { right: -52px; }
+
+    /* === HEADER === */
+    .header {
+      padding: 24px 40px 20px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: end;
+    }
+    .header-left .crumb {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 4px;
+    }
+    .header-left h1 {
+      font-size: 56px;
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -2px;
+      color: #1a1a1a;
+    }
+    .header-left h1 .num {
+      color: #c75c2e;
+      font-style: italic;
+    }
+    .header-left .topic {
+      font-size: 16px;
+      font-weight: 400;
+      font-style: italic;
+      color: #444;
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+
+    /* === JOURNEY: FROM → TO === */
+    .journey {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 16px;
+      align-items: center;
+      margin-top: 12px;
+      padding: 8px 0;
+      border-top: 1px solid #d8d4ca;
+      border-bottom: 1px solid #d8d4ca;
+    }
+    .journey .stop {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #888;
+      line-height: 1.3;
+    }
+    .journey .stop .city {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a1a;
+      font-style: normal;
+      letter-spacing: 0;
+      margin-top: 1px;
+      font-family: Georgia, serif;
+    }
+    .journey .arrow {
+      font-size: 18px;
+      color: #c75c2e;
+      font-weight: 700;
+      letter-spacing: 4px;
+    }
+
+    /* === HANDWRITTEN ANNOTATIONS === */
+    .note {
+      position: absolute;
+      font-family: 'Comic Sans MS', 'Marker Felt', 'Bradley Hand', cursive;
+      color: #c75c2e;
+      font-size: 14px;
+      transform: rotate(-4deg);
+      pointer-events: none;
+      z-index: 5;
+    }
+    .note.circle {
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .note.dontmiss {
+      top: -8px;
+      right: -10px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .note.dontmiss::after {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -10px;
+      right: -10px;
+      bottom: -4px;
+      border: 2px solid #c75c2e;
+      border-radius: 50%;
+      transform: rotate(2deg);
+      z-index: -1;
+      opacity: 0.7;
+    }
+
+    /* === HIGHLIGHTER MARK === */
+    .highlight-mark {
+      position: relative;
+      display: inline-block;
+    }
+    .highlight-mark::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      right: -4px;
+      top: 50%;
+      height: 14px;
+      background: rgba(247, 220, 92, 0.45);
+      transform: translateY(-50%) rotate(-1deg);
+      z-index: -1;
+    }
+
+    /* === CHECK MARK STAMP === */
+    .check-stamp {
+      display: inline-block;
+      color: #c75c2e;
+      border: 2px solid #c75c2e;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      transform: rotate(-6deg);
+    }
+    .check-stamp::before { content: '✓ '; }
+
+    /* === BARCODE === */
+    .barcode {
+      display: flex;
+      gap: 1px;
+      height: 28px;
+      align-items: center;
+      margin-top: 8px;
+    }
+    .barcode span {
+      display: block;
+      background: #1a1a1a;
+      height: 100%;
+    }
+    .header-right {
+      text-align: right;
+      font-size: 11px;
+      color: #1a1a1a;
+    }
+    .header-right .stamp {
+      display: inline-block;
+      border: 3px double #c75c2e;
+      color: #c75c2e;
+      padding: 6px 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 12px;
+      transform: rotate(-3deg);
+      margin-top: 4px;
+    }
+    .header-right .route {
+      margin-top: 6px;
+      font-size: 10px;
+      color: #888;
+    }
+    .header-right .route strong { color: #1a1a1a; font-size: 11px; }
+    .header-right .barcode {
+      justify-content: flex-end;
+    }
+
+    /* === DEPARTURES BOARD === */
+    .board {
+      padding: 16px 40px 24px;
+    }
+    .board-title {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #1a1a1a;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #1a1a1a;
+      margin-bottom: 0;
+      display: flex;
+      justify-content: space-between;
+    }
+    .board-title .live {
+      color: #c75c2e;
+      animation: liveblink 1.4s infinite;
+    }
+    @keyframes liveblink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .departure {
+      display: grid;
+      grid-template-columns: 70px 60px 1fr 170px;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid #d8d4ca;
+      align-items: start;
+    }
+    .departure:last-child { border-bottom: none; }
+    .departure::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 4px;
+      height: 4px;
+      background: #c75c2e;
+      border-radius: 50%;
+      transform: translateY(-50%);
+    }
+
+    .dep-time {
+      font-variant-numeric: tabular-nums;
+      position: relative;
+      padding-top: 2px;
+    }
+    .dep-time .start {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .dep-time::before {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: 8px;
+      width: 4px;
+      height: 4px;
+      background: #c75c2e;
+      border-radius: 50%;
+    }
+
+    .dep-platform {
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #fff;
+      background: #1a1a1a;
+      padding: 3px 6px;
+      text-align: center;
+      align-self: start;
+      margin-top: 4px;
+    }
+    .departure.warm .dep-platform { background: #c75c2e; }
+
+    .dep-body .type {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 2px;
+    }
+    .dep-body h3 {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+    .dep-body .by {
+      font-size: 12px;
+      color: #555;
+      font-style: italic;
+    }
+    .dep-body .by em { font-style: normal; color: #1a1a1a; font-weight: 600; }
+    .dep-body .panel-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px 16px;
+      margin-top: 4px;
+      font-size: 11px;
+      color: #555;
+    }
+    .dep-body .panel-list .mod {
+      grid-column: 1 / -1;
+      font-size: 10px;
+      color: #c75c2e;
+      font-style: italic;
+      margin-top: 3px;
+    }
+
+    .dep-tag {
+      text-align: right;
+      font-size: 10px;
+      color: #888;
+    }
+    .dep-tag .run strong { color: #1a1a1a; }
+    .dep-tag .gh-link {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 9px;
+      color: #1a1a1a;
+      text-decoration: none;
+      border: 1px solid #1a1a1a;
+      padding: 3px 6px;
+      letter-spacing: 0.5px;
+    }
+    .dep-tag .gh-link:hover { background: #1a1a1a; color: #f5f3ed; }
+
+    /* === FARE / REGISTRATION === */
+    .fare {
+      margin: 0 40px;
+      padding: 16px 0;
+      border-top: 2px solid #1a1a1a;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+    .fare-label {
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 2px;
+    }
+    .fare .register {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #1a1a1a;
+    }
+    .fare .register .cta {
+      display: inline-block;
+      background: #1a1a1a;
+      color: #f5f3ed;
+      padding: 6px 16px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+      text-decoration: none;
+      margin-top: 8px;
+    }
+    .fare .register .cta:hover { background: #c75c2e; }
+    .fare .form-frame {
+      border: 2px solid #1a1a1a;
+      background: #fff;
+      height: 300px;
+      overflow: auto;
+    }
+
+    /* === PARTNERS === */
+    .partners {
+      padding: 20px 40px;
+      background: #1a1a1a;
+      color: #f5f3ed;
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .partners .plabel {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #888;
+    }
+    .partners .logos {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .partners img { height: 22px; filter: brightness(0) invert(1); opacity: 0.7; }
+    .partners img:hover { opacity: 1; }
+
+    /* === FOOTER === */
+    .ticket-footer {
+      padding: 12px 40px 20px;
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: #888;
+    }
+    .ticket-footer a { color: #1a1a1a; text-decoration: none; border-bottom: 1px solid #888; }
+
+    @media (max-width: 700px) {
+      .header { grid-template-columns: 1fr; gap: 12px; }
+      .header-left h1 { font-size: 36px; }
+      .header-right { text-align: left; }
+      .departure {
+        grid-template-columns: 80px 1fr;
+        gap: 6px 10px;
+      }
+      .dep-platform { grid-column: 1; }
+      .dep-body { grid-column: 2; }
+      .dep-tag { grid-column: 1 / -1; text-align: left; padding-left: 14px; margin-top: 4px; }
+      .dep-body .panel-list { grid-template-columns: 1fr; }
+      .fare { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      @page { margin: 0.25in; size: A4 portrait; }
+      body { background: white !important; font-size: 9pt; }
+      body::before { display: none !important; }
+      .form-frame { display: none !important; }
+      .fare { grid-template-columns: 1fr !important; padding: 8pt 0 !important; }
+      .fare .register { display: block !important; text-align: center; padding: 6pt 0 !important; font-size: 14pt !important; }
+      .fare .register .cta { display: inline-block !important; font-size: 9pt !important; padding: 4pt 12pt !important; }
+      .departure { padding: 4pt 0 !important; }
+      .header { padding: 8pt 16pt !important; }
+      .board { padding: 6pt 16pt 8pt !important; }
+      .stub { padding: 3pt 6pt !important; font-size: 7pt !important; }
+      .header-left h1 { font-size: 26pt !important; }
+      .header-left .topic { font-size: 9pt !important; }
+      .header-right { font-size: 8pt !important; }
+      .header-right .stamp { font-size: 8pt !important; padding: 3pt 6pt !important; }
+      .dep-body h3 { font-size: 10pt !important; }
+      .dep-body .by { font-size: 7pt !important; }
+      .dep-body .panel-list { font-size: 7pt !important; }
+      .dep-time .start { font-size: 12pt !important; }
+      .dep-platform { font-size: 6pt !important; padding: 1pt 3pt !important; }
+      .dep-tag { font-size: 6pt !important; }
+      .dep-tag .check-stamp { font-size: 6pt !important; padding: 1pt 3pt !important; }
+      .dep-tag .gh-link { font-size: 6pt !important; padding: 1pt 3pt !important; }
+      .board-title { font-size: 7pt !important; padding-bottom: 3pt !important; }
+      .perforation { display: none !important; }
+      .ticket-footer { font-size: 7pt !important; padding: 4pt 16pt !important; }
+      .partners { padding: 6pt 16pt !important; }
+      .partners .plabel { font-size: 7pt !important; }
+      .partners img { height: 14pt !important; }
+      .journey { margin-top: 6pt !important; padding: 4pt 0 !important; }
+      .journey .stop .city { font-size: 10pt !important; }
+      .barcode { display: none !important; }
+      .note { display: none !important; }
+      .highlight-mark::before { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stub">Boarding Pass · RT-01 · Transport Stack</div>
+
+  <div class="ticket">
+    <div class="header">
+      <div class="header-left">
+        <div class="crumb">India Urban Mobility Forum</div>
+        <h1>Roundtable <span class="num">01</span></h1>
+        <div class="topic">Open Data &amp; Interoperability: Unlocking Urban Mobility Innovation</div>
+        <div class="journey">
+          <div class="stop">From<div class="city">Data Silos</div></div>
+          <div class="arrow">→</div>
+          <div class="stop" style="text-align:right">To<div class="city">Open Mobility</div></div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div>2026.06.12</div>
+        <div>10:00–12:00 IST</div>
+        <div class="route">Route <strong>RT-01</strong> · Virtual</div>
+        <div class="stamp">Boarding Now</div>
+        <div class="barcode">
+          <span style="width:2px"></span><span style="width:1px;height:80%"></span><span style="width:3px"></span><span style="width:1px;height:60%"></span><span style="width:2px"></span><span style="width:1px;height:90%"></span><span style="width:1px"></span><span style="width:2px;height:70%"></span><span style="width:3px"></span><span style="width:1px;height:80%"></span><span style="width:1px"></span><span style="width:2px"></span><span style="width:1px;height:60%"></span><span style="width:2px"></span><span style="width:1px;height:90%"></span><span style="width:3px"></span><span style="width:1px;height:70%"></span><span style="width:2px"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="perforation"></div>
+
+    <div class="board">
+      <div class="board-title">
+        <span>Departures</span>
+        <span class="live">● LIVE</span>
+      </div>
+
+      <div class="departure">
+        <div class="dep-time">
+          <div class="start">10:00</div>
+        </div>
+        <div class="dep-platform">Plat. A</div>
+        <div class="dep-body">
+          <div class="type">Welcome Address</div>
+          <h3>Setting the Stage</h3>
+          <div class="by">By <em>Prof. Pravesh Biyani</em> · IIIT Delhi</div>
+        </div>
+        <div class="dep-tag">
+          <div class="run">Run <strong>RT-01-A</strong></div>
+          <span class="check-stamp">Boarded</span>
+        </div>
+      </div>
+
+      <div class="departure warm">
+        <div class="dep-time">
+          <div class="start">10:10</div>
+        </div>
+        <div class="dep-platform">Plat. A</div>
+        <div class="dep-body">
+          <div class="type">Keynote</div>
+          <h3>The Open Mobility Moment</h3>
+          <div class="by">By <em>Prof. Inder Gopal</em></div>
+        </div>
+        <div class="dep-tag"><div class="run">Run <strong>RT-01-B</strong></div></div>
+      </div>
+
+      <div class="departure" style="position:relative">
+        <div class="dep-time">
+          <div class="start">10:25</div>
+        </div>
+        <div class="dep-platform">Plat. B</div>
+        <div class="dep-body">
+          <div class="type">Panel Discussion</div>
+          <h3><span class="highlight-mark">Building Open Data for India</span></h3>
+          <div class="panel-list">
+            <div><em>Prof. Gitakrishnan Ramadurai</em> · IIT Madras</div>
+            <div><em>Dr Amit Jain</em> · DMRC</div>
+            <div><em>Ms Aswathy Dilip</em> · ITDP</div>
+            <div class="mod">Moderator: Prof. Pravesh Biyani · IIIT Delhi</div>
+          </div>
+        </div>
+        <div class="dep-tag">
+          <div class="run">Run <strong>RT-01-C</strong></div>
+          <span class="check-stamp">Don't Miss</span>
+        </div>
+        <div class="note dontmiss">key session!</div>
+      </div>
+
+      <div class="departure warm">
+        <div class="dep-time">
+          <div class="start">11:05</div>
+        </div>
+        <div class="dep-platform">Plat. A</div>
+        <div class="dep-body">
+          <div class="type">Showcase</div>
+          <h3>Startup Showcase</h3>
+          <div class="by">Featuring <em>Chartr</em> — Talking Bus Stop</div>
+        </div>
+        <div class="dep-tag"><div class="run">Run <strong>RT-01-D</strong></div></div>
+      </div>
+
+      <div class="departure">
+        <div class="dep-time">
+          <div class="start">11:15</div>
+        </div>
+        <div class="dep-platform">Plat. A</div>
+        <div class="dep-body">
+          <div class="type">Walkthrough</div>
+          <h3>Transport Stack: Open Infrastructure</h3>
+        </div>
+        <div class="dep-tag">
+          <div class="run">Run <strong>RT-01-E</strong></div>
+          <a href="https://github.com/transport-stack" class="gh-link">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="departure warm">
+        <div class="dep-time">
+          <div class="start">11:25</div>
+        </div>
+        <div class="dep-platform">Plat. C</div>
+        <div class="dep-body">
+          <div class="type">Open Discussion</div>
+          <h3>Open Floor: What's Blocking Progress?</h3>
+          <div class="by">All participants · moderated</div>
+        </div>
+        <div class="dep-tag"><div class="run">Run <strong>RT-01-F</strong></div></div>
+      </div>
+
+      <div class="departure">
+        <div class="dep-time">
+          <div class="start">11:40</div>
+        </div>
+        <div class="dep-platform">Plat. A</div>
+        <div class="dep-body">
+          <div class="type">Closing Address</div>
+          <h3>Synthesis &amp; What Comes Next</h3>
+          <div class="by">By <em>Prof. Pravesh Biyani</em> · IIIT Delhi</div>
+        </div>
+        <div class="dep-tag"><div class="run">Run <strong>RT-01-G</strong></div></div>
+      </div>
+    </div>
+
+    <div class="fare">
+      <div class="register">
+        <div class="fare-label">Fare · Register for Boarding</div>
+        Round-1 · Free Entry
+        <br>
+        <a href="https://forms.gle/yAqbQGcvKPfypsso7" class="cta">Register →</a>
+      </div>
+      <div class="form-frame">
+        <iframe src="https://forms.gle/yAqbQGcvKPfypsso7" frameborder="0" style="width:100%;height:100%;display:block;overflow:auto;" scrolling="auto">Loading…</iframe>
+      </div>
+    </div>
+
+    <div class="partners">
+      <div class="plabel">In Partnership With</div>
+      <div class="logos">
+        <img src="assets/logos/jica.svg" alt="JICA">
+        <img src="assets/logos/bcg.webp" alt="BCG">
+        <img src="assets/logos/chartr.png" alt="Chartr">
+        <img src="assets/logos/iiitd.png" alt="IIIT Delhi">
+      </div>
+    </div>
+
+    <div class="ticket-footer">
+      <a href="https://wiki.transportstack.in">wiki.transportstack.in</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/transport-stack">github.com/transport-stack</a>
+      &nbsp;·&nbsp;
+      India Urban Mobility Forum · Quarterly Roundtables
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RT1 — Open Data & Interoperability</title>
+  <link rel="icon" type="image/png" href="assets/logos/favicon.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f0f2f5;
+      color: #0a0a0a;
+      font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      line-height: 1.4;
+    }
+
+    main { max-width: 780px; margin: 0 auto; padding: 40px 20px 60px; }
+
+    /* === HEADER with metro-style top bar === */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 28px;
+    }
+    .header-left { flex: 1; }
+    .header-left .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .header-left .eyebrow .dot {
+      width: 6px;
+      height: 6px;
+      background: #1a1a1a;
+      border-radius: 50%;
+    }
+    .header-left .eyebrow .line {
+      width: 24px;
+      height: 2px;
+      background: #1a1a1a;
+      border-radius: 1px;
+    }
+    .header-left .eyebrow span {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #555;
+    }
+    .header-left h1 {
+      font-size: 44px;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1;
+      color: #1a1a1a;
+    }
+    .header-left h1 .accent {
+      background: #1a1a1a;
+      color: #f0f2f5;
+      padding: 0 8px;
+      margin-left: 0;
+      display: inline-block;
+    }
+    .header-left .subtitle {
+      font-size: 16px;
+      font-weight: 400;
+      color: #555;
+      margin-top: 6px;
+    }
+
+    .header-right {
+      text-align: right;
+      flex-shrink: 0;
+      padding-left: 24px;
+    }
+    .header-right .date {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #1a1a1a;
+    }
+    .header-right .time {
+      font-size: 14px;
+      font-weight: 600;
+      color: #555;
+      margin-top: 2px;
+    }
+    .header-right .format {
+      margin-top: 6px;
+      background: #1a1a1a;
+      color: #fff;
+      padding: 4px 12px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+
+    /* === ROUTE DIAGRAM === */
+    .route {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 16px 0;
+      margin-bottom: 20px;
+      border-top: 2px solid #1a1a1a;
+      border-bottom: 2px solid #1a1a1a;
+    }
+    .route-stop {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      font-size: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #888;
+    }
+    .route-stop .marker {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin: 0 auto 4px;
+      background: #1a1a1a;
+    }
+    .route-stop + .route-stop::before {
+      content: '';
+      position: absolute;
+      left: -50%;
+      top: 5px;
+      width: 100%;
+      height: 2px;
+      background: #1a1a1a;
+      opacity: 0.15;
+    }
+
+    /* === TIMETABLE === */
+    .timetable {
+      background: #fff;
+      border: 1px solid #d0d0d0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .timetable-header {
+      display: grid;
+      grid-template-columns: 80px 1fr 100px;
+      gap: 0;
+      padding: 8px 20px;
+      background: #1a1a1a;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 80px 1fr 100px;
+      gap: 0;
+      padding: 14px 20px;
+      border-bottom: 1px solid #e5e5e5;
+      transition: background 0.1s;
+      position: relative;
+    }
+    .row:last-child { border-bottom: none; }
+    .row:hover { background: #f8f8f8; }
+    .row.highlight {
+      background: #fff9f0;
+    }
+    .row.highlight::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #f59e0b;
+    }
+
+    .row .time {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.3;
+      font-variant-numeric: tabular-nums;
+    }
+    .row .time .tag {
+      display: block;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .row .info .type {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+      margin-bottom: 2px;
+    }
+    .row .info h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+    .row .info .speaker {
+      font-size: 13px;
+      color: #555;
+    }
+    .row .info .speaker strong { color: #1a1a1a; font-weight: 600; }
+    .row .info .panellist {
+      font-size: 12px;
+      color: #555;
+      margin-top: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+    }
+    .row .info .panellist strong { color: #1a1a1a; font-weight: 600; }
+    .row .info .moderator {
+      font-size: 12px;
+      color: #555;
+      margin-top: 4px;
+      font-style: italic;
+    }
+    .row .info .moderator strong { color: #f59e0b; font-weight: 700; font-style: normal; }
+
+    .row .meta {
+      text-align: right;
+      font-size: 9px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .row .meta strong { color: #1a1a1a; }
+    .row .meta a {
+      display: inline-block;
+      margin-top: 4px;
+      color: #1a1a1a;
+      text-decoration: none;
+      border: 1px solid #1a1a1a;
+      padding: 2px 8px;
+      font-size: 8px;
+      letter-spacing: 0.5px;
+    }
+    .row .meta a:hover { background: #1a1a1a; color: #fff; }
+
+    .row .meta .flag {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 2px 6px;
+      font-size: 8px;
+      font-weight: 700;
+      background: #fef3c7;
+      color: #92400e;
+    }
+    .row .meta .flag.starred {
+      background: #f59e0b;
+      color: #fff;
+    }
+
+    /* === FARE === */
+    .fare {
+      margin-top: 24px;
+      padding: 24px;
+      background: #1a1a1a;
+      color: #fff;
+      text-align: center;
+    }
+    .fare h2 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .fare p {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 16px;
+    }
+    .fare .cta {
+      display: inline-block;
+      background: #fff;
+      color: #1a1a1a;
+      padding: 12px 28px;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+    .fare .cta:hover { background: #e5e5e5; }
+
+    /* === PARTNERS === */
+    .partners {
+      margin-top: 24px;
+      padding: 20px 24px;
+      background: #fff;
+      border: 1px solid #d0d0d0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .partners .label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+    }
+    .partners .logos {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .partners img { height: 24px; opacity: 0.7; }
+    .partners img:hover { opacity: 1; }
+
+    /* === FOOTER === */
+    .footer {
+      margin-top: 20px;
+      padding-top: 16px;
+      text-align: center;
+      font-size: 11px;
+      color: #888;
+      border-top: 2px solid #d0d0d0;
+    }
+    .footer a { color: #1a1a1a; text-decoration: none; font-weight: 600; }
+
+    @media (max-width: 640px) {
+      .header { flex-direction: column; gap: 12px; }
+      .header-right { text-align: left; padding-left: 0; }
+      .timetable-header { grid-template-columns: 60px 1fr; }
+      .timetable-header div:last-child { display: none; }
+      .row { grid-template-columns: 60px 1fr; }
+      .row .meta { display: none; }
+      .route-stop .stop-label { display: none; }
+    }
+  </style>
+</head>
+<body>
+<main>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="eyebrow">
+        <span class="dot"></span>
+        <span class="line"></span>
+        <span>India Urban Mobility Forum</span>
+      </div>
+      <h1>Roundtable <span class="accent">01</span></h1>
+      <div class="subtitle">Open Data &amp; Interoperability · Unlocking Urban Mobility Innovation</div>
+    </div>
+    <div class="header-right">
+      <div class="date">12 June 2026</div>
+      <div class="time">10:00–12:00 IST</div>
+      <div class="format">Virtual</div>
+    </div>
+  </div>
+
+  <!-- ROUTE -->
+  <div class="route">
+    <div class="route-stop"><div class="marker"></div><div class="stop-label">Welcome</div></div>
+    <div class="route-stop"><div class="marker"></div><div class="stop-label">Keynote</div></div>
+    <div class="route-stop"><div class="marker"></div><div class="stop-label">Panel★</div></div>
+    <div class="route-stop"><div class="marker"></div><div class="stop-label">Showcase</div></div>
+    <div class="route-stop"><div class="marker"></div><div class="stop-label">Walkthrough</div></div>
+    <div class="route-stop"><div class="marker"></div><div class="stop-label">Discussion</div></div>
+    <div class="route-stop"><div class="marker"></div><div class="stop-label">Closing</div></div>
+  </div>
+
+  <!-- TIMETABLE -->
+  <div class="timetable">
+    <div class="timetable-header">
+      <div>Time</div>
+      <div>Session</div>
+      <div style="text-align:right">Details</div>
+    </div>
+
+    <div class="row">
+      <div class="time">10:00<span class="tag">10 min</span></div>
+      <div class="info">
+        <div class="type">Welcome Address</div>
+        <h3>Setting the Stage</h3>
+        <div class="speaker"><strong>Prof. Pravesh Biyani</strong> · IIIT Delhi</div>
+      </div>
+      <div class="meta">Run RT-01-A</div>
+    </div>
+
+    <div class="row">
+      <div class="time">10:10<span class="tag">15 min</span></div>
+      <div class="info">
+        <div class="type">Keynote Talk</div>
+        <h3>The Open Mobility Moment</h3>
+        <div class="speaker"><strong>Prof. Inder Gopal</strong> · IISc / IUDX</div>
+      </div>
+      <div class="meta">Run RT-01-B</div>
+    </div>
+
+    <div class="row highlight">
+      <div class="time">10:25<span class="tag">40 min</span></div>
+      <div class="info">
+        <div class="type">Panel Discussion</div>
+        <h3>Building Open Data for India</h3>
+        <div class="panellist">
+          <span><strong>Prof. Gitakrishnan Ramadurai</strong> · IIT Madras</span>
+          <span><strong>Dr Amit Jain</strong> · DMRC</span>
+          <span><strong>Ms Aswathy Dilip</strong> · ITDP</span>
+        </div>
+        <div class="moderator">Moderator: <strong>Prof. Pravesh Biyani · IIIT Delhi</strong></div>
+      </div>
+      <div class="meta">Run RT-01-C<span class="flag starred">★ Featured</span></div>
+    </div>
+
+    <div class="row">
+      <div class="time">11:05<span class="tag">10 min</span></div>
+      <div class="info">
+        <div class="type">Startup Showcase</div>
+        <h3>Startup Showcase</h3>
+        <div class="speaker"><strong>Chartr</strong> — Talking Bus Stop</div>
+      </div>
+      <div class="meta">Run RT-01-D</div>
+    </div>
+
+    <div class="row">
+      <div class="time">11:15<span class="tag">10 min</span></div>
+      <div class="info">
+        <div class="type">Walkthrough</div>
+        <h3>Transport Stack: Open Infrastructure</h3>
+      </div>
+      <div class="meta">
+        Run RT-01-E<br>
+        <a href="https://github.com/transport-stack">GitHub →</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="time">11:25<span class="tag">15 min</span></div>
+      <div class="info">
+        <div class="type">Open Discussion</div>
+        <h3>Open Floor: What's Blocking Progress?</h3>
+      </div>
+      <div class="meta">Run RT-01-F</div>
+    </div>
+
+    <div class="row">
+      <div class="time">11:40<span class="tag">5 min</span></div>
+      <div class="info">
+        <div class="type">Closing Address</div>
+        <h3>Synthesis &amp; What Comes Next</h3>
+        <div class="speaker"><strong>Prof. Pravesh Biyani</strong> · IIIT Delhi</div>
+      </div>
+      <div class="meta">Run RT-01-G</div>
+    </div>
+  </div>
+
+  <!-- FARE -->
+  <div class="fare">
+    <h2>Round-1 · Free Entry</h2>
+    <p>Register to receive the meeting link and calendar invite.</p>
+    <a href="https://forms.gle/yAqbQGcvKPfypsso7" class="cta">Register Here →</a>
+  </div>
+
+  <!-- PARTNERS -->
+  <div class="partners">
+    <div class="label">In Partnership With</div>
+    <div class="logos">
+      <img src="assets/logos/jica.svg" alt="JICA">
+      <img src="assets/logos/bcg.webp" alt="BCG">
+      <img src="assets/logos/chartr.png" alt="Chartr">
+      <img src="assets/logos/iiitd.png" alt="IIIT Delhi">
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="https://wiki.transportstack.in">wiki.transportstack.in</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/transport-stack">github.com/transport-stack</a>
+    &nbsp;·&nbsp;
+    India Urban Mobility Forum
+  </div>
+
+</main>
+</body>
+</html>

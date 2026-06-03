@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{event.series}} — {{event.edition}}</title>
+  <link rel="stylesheet" href="styles/poster.css">
+</head>
+<body>
+  <div class="poster">
+    <!-- HEADER -->
+    <header class="poster-header">
+      <div class="partner-strip">
+        {{#each partners}}
+        <img src="{{logo}}" alt="{{name}}" class="partner-logo" style="width:{{logo_width}}px">
+        {{/each}}
+      </div>
+      <div class="title-block">
+        <div class="series-name">Transport Stack</div>
+        <div class="main-title">Roundtable Series</div>
+        <div class="edition">Roundtable 1</div>
+        <div class="subtitle">{{event.theme}}</div>
+        <div class="meta-row">
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z"/></svg>
+            <span>{{event.date}}</span>
+          </div>
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+            <span>{{event.time_start}} – {{event.time_end}} {{event.timezone}}</span>
+          </div>
+          <div class="meta-item">
+            <svg class="meta-icon" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+            <span>{{event.format}}</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- BODY: AGENDA -->
+    <main class="poster-body">
+      {{#each sessions}}
+      <div class="agenda-item {{#if (eq type 'Panel Discussion')}}panel{{/if}}">
+        <div class="time-rail">
+          <span class="time-badge">{{time_start}} – {{time_end}}</span>
+          <span class="duration">{{duration}}</span>
+        </div>
+        <div class="content-rail">
+          <div class="session-type">{{type}}</div>
+          <div class="session-title">{{title}}</div>
+          <div class="speakers">
+            {{#if (gt speakers.length 1)}}
+            <ul>
+              {{#each speakers}}
+              <li>{{this}}</li>
+              {{/each}}
+            </ul>
+            {{else}}
+            {{speakers.[0]}}
+            {{/if}}
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="poster-footer">
+      <div class="footer-branding">
+        <div class="brand-name">Transport Stack</div>
+        <div class="brand-tagline">Open Infrastructure for Indian Urban Mobility</div>
+      </div>
+      <div class="footer-qr">
+        <div class="qr-placeholder">QR CODE<br>wiki.transportstack.org</div>
+        <div style="font-size:14px;opacity:0.8">Scan to explore</div>
+      </div>
+      <div class="footer-links">
+        <div style="margin-bottom:8px">Join the conversation</div>
+        <a href="{{links.github_discussions}}">GitHub Discussions →</a>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
