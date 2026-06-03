@@ -66,11 +66,11 @@
       "time_end": "11:05",
       "duration": "40 min",
       "type": "Panel Discussion",
-      "title": "Where Does Open Data Break Down?",
+      "title": "Building Open Data for India",
       "moderator": "Prof. Pravesh Biyani (IIITD)",
       "speakers": [
         "Prof. Gitakrishnan Ramadurai (IIT Madras)",
-        "Mr Amit Jain (Director Operations, DMRC)",
+        "Dr Amit Jain (Director Operations, DMRC)",
         "Ms Aswathy Dilip (ITDP)"
       ],
       "description": "Five perspectives on open transit data challenges and opportunities."
@@ -81,7 +81,7 @@
       "time_end": "11:15",
       "duration": "10 min",
       "type": "Showcase",
-      "title": "Building on Open Networks: A Startup's Experience",
+      "title": "Startup Showcase",
       "speakers": ["Chartr — Talking Bus Stop"],
       "description": "Startup showcase on building products with open transit data and Beckn/ONDC."
     },

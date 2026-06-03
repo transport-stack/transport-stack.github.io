@@ -59,6 +59,38 @@
         .dark .relative.group + .relative.group {
             border-top-color: #334155;
         }
+
+        /* Data/network visual elements */
+        @keyframes dataPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+        .data-dot {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #06b6d4;
+            border-radius: 50%;
+            animation: dataPulse 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .timeline-pulse {
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 2px;
+            height: 0;
+            background: linear-gradient(to bottom, #06b6d4, transparent);
+            animation: timelineGrow 8s ease-in-out infinite;
+            pointer-events: none;
+            transform: translateX(-50%);
+        }
+        @keyframes timelineGrow {
+            0% { height: 0; opacity: 0; }
+            30% { height: 100%; opacity: 0.15; }
+            70% { height: 100%; opacity: 0.15; }
+            100% { height: 0; opacity: 0; }
+        }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
@@ -155,7 +187,7 @@
 </head>
 <body class="bg-[#f8fafc] text-slate-800 dark:bg-[#030712] dark:text-slate-100 font-sans transition-colors duration-500 overflow-x-hidden">
 
-    <canvas id="apiNetworkCanvas" class="fixed inset-0 w-full h-full pointer-events-none opacity-40 dark:opacity-60 z-0"></canvas>
+    <canvas id="apiNetworkCanvas" class="fixed inset-0 w-full h-full pointer-events-none opacity-60 dark:opacity-75 z-0"></canvas>
 
     <div class="fixed top-6 right-6 z-50 flex items-center gap-3">
         <button onclick="toggleTheme()" class="glass hover:bg-slate-200 dark:hover:bg-slate-800 p-3 rounded-full shadow-lg transition-transform hover:scale-110" title="Toggle Theme">
@@ -252,11 +284,16 @@
         <section class="space-y-8">
             <div class="text-center">
                 <span class="text-brand-cyan text-xs font-bold uppercase tracking-widest block mb-2">Event Schedule</span>
-                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white font-tech">Comprehensive Agenda</h2>
+                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white">Agenda</h2>
             </div>
 
-            <div class="glass rounded-3xl p-6 sm:p-8 space-y-6 shadow-md">
+            <div class="glass rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm border border-slate-200/50 dark:border-slate-800/50">
                 <div class="relative pl-6 sm:pl-8 border-l border-slate-200 dark:border-slate-800 space-y-8">
+                    <div class="timeline-pulse"></div>
+                    <div class="data-dot" style="top:12%;left:-2px;"></div>
+                    <div class="data-dot" style="top:32%;left:-2px;animation-delay:1s;background:#f97316;"></div>
+                    <div class="data-dot" style="top:55%;left:-2px;animation-delay:2s;"></div>
+                    <div class="data-dot" style="top:78%;left:-2px;animation-delay:0.5s;background:#f97316;"></div>
                     
                     <div class="relative group">
                         <div class="absolute -left-[35px] sm:-left-[43px] top-1 bg-white dark:bg-slate-900 border-2 border-brand-cyan w-6 h-6 rounded-full flex items-center justify-center transition-all group-hover:scale-125 z-10">
@@ -311,12 +348,12 @@
                             </div>
                             <div class="md:col-span-3 space-y-2">
                                 <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">
-                                    "Where Does Open Data Break Down?" — Five Perspectives, One Conversation
+                                    Building Open Data for India
                                 </h3>
 
                                 <div class="flex flex-wrap gap-2">
                                     <span class="text-xs bg-slate-100 dark:bg-slate-900/60 px-2.5 py-1 rounded-full text-slate-500 border border-slate-200 dark:border-slate-800"><i class="fa-solid fa-user mr-1 text-brand-cyan"></i><strong>Prof. Gitakrishnan Ramadurai</strong> (IIT Madras)</span>
-                                    <span class="text-xs bg-slate-100 dark:bg-slate-900/60 px-2.5 py-1 rounded-full text-slate-500 border border-slate-200 dark:border-slate-800"><i class="fa-solid fa-user mr-1 text-brand-orange"></i><strong>Mr Amit Jain</strong> (Director Operations, DMRC)</span>
+                                    <span class="text-xs bg-slate-100 dark:bg-slate-900/60 px-2.5 py-1 rounded-full text-slate-500 border border-slate-200 dark:border-slate-800"><i class="fa-solid fa-user mr-1 text-brand-orange"></i><strong>Dr Amit Jain</strong> (Director Operations, DMRC)</span>
                                     <span class="text-xs bg-slate-100 dark:bg-slate-900/60 px-2.5 py-1 rounded-full text-slate-500 border border-slate-200 dark:border-slate-800"><i class="fa-solid fa-user mr-1 text-brand-cyan"></i><strong>Ms Aswathy Dilip</strong> (ITDP)</span>
                                 </div>
                                 <div class="flex items-center gap-2 text-xs text-slate-500 bg-slate-100 dark:bg-slate-900/60 w-fit px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800">
@@ -338,54 +375,7 @@
                             </div>
                             <div class="md:col-span-3 space-y-2">
                                 <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand-orange transition-colors">
-                                    Building on Open Networks: A Startup's Experience
-                                </h3>
-                                <div class="flex items-center gap-2 text-xs text-slate-500 bg-slate-100 dark:bg-slate-900/60 w-fit px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800">
-                                    <i class="fa-solid fa-microphone text-brand-orange"></i>
-                                    <span>Featuring: <strong>Chartr – Talking Bus Stop</strong></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="relative group">
-                        <div class="absolute -left-[35px] sm:-left-[43px] top-1 bg-white dark:bg-slate-900 border-2 border-brand-cyan w-6 h-6 rounded-full flex items-center justify-center transition-all group-hover:scale-125 z-10">
-                            <span class="w-2 h-2 rounded-full bg-brand-cyan"></span>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                            <div class="md:col-span-1">
-                                <span class="text-brand-cyan font-bold font-tech block">10:25 – 11:05 AM</span>
-                                <span class="inline-block bg-brand-cyan/10 text-brand-cyan text-[10px] font-bold uppercase px-2 py-0.5 rounded-md mt-1">Panel Discussion</span>
-                            </div>
-                            <div class="md:col-span-3 space-y-2">
-                                <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">
-                                    "Where Does Open Data Break Down?"
-                                </h3>
-
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="text-xs bg-slate-100 dark:bg-slate-900/60 px-2.5 py-1 rounded-full text-slate-500 border border-slate-200 dark:border-slate-800"><i class="fa-solid fa-user mr-1 text-brand-cyan"></i><strong>Prof. Gitakrishnan Ramadurai</strong> (IIT Madras)</span>
-                                    <span class="text-xs bg-slate-100 dark:bg-slate-900/60 px-2.5 py-1 rounded-full text-slate-500 border border-slate-200 dark:border-slate-800"><i class="fa-solid fa-user mr-1 text-brand-orange"></i><strong>Mr Amit Jain</strong> (Director Operations, DMRC)</span>
-                                    <span class="text-xs bg-slate-100 dark:bg-slate-900/60 px-2.5 py-1 rounded-full text-slate-500 border border-slate-200 dark:border-slate-800"><i class="fa-solid fa-user mr-1 text-brand-cyan"></i><strong>Ms Aswathy Dilip</strong> (ITDP)</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="relative group">
-                        <div class="absolute -left-[35px] sm:-left-[43px] top-1 bg-white dark:bg-slate-900 border-2 border-brand-orange w-6 h-6 rounded-full flex items-center justify-center transition-all group-hover:scale-125 z-10">
-                            <span class="w-2 h-2 rounded-full bg-brand-orange"></span>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                            <div class="md:col-span-1">
-                                <span class="text-brand-orange font-bold font-tech block">11:05 – 11:15 AM</span>
-                                <span class="inline-block bg-brand-orange/10 text-brand-orange text-[10px] font-bold uppercase px-2 py-0.5 rounded-md mt-1">Practitioner Showcase</span>
-                            </div>
-                            <div class="md:col-span-3 space-y-2">
-                                <h3 class="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand-orange transition-colors">
-                                    Building on Open Networks: A Startup's Experience
+                                    Startup Showcase
                                 </h3>
                                 <div class="flex items-center gap-2 text-xs text-slate-500 bg-slate-100 dark:bg-slate-900/60 w-fit px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800">
                                     <i class="fa-solid fa-microphone text-brand-orange"></i>
