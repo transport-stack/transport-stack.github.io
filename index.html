@@ -56,6 +56,18 @@
             padding-top: 1.5rem;
             border-top: 1px solid #e2e8f0;
         }
+        .relative.group + .relative.group::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: -3px;
+            width: 5px;
+            height: 5px;
+            background: #06b6d4;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: dataPulse 3s ease-in-out infinite;
+        }
         .dark .relative.group + .relative.group {
             border-top-color: #334155;
         }
@@ -290,10 +302,6 @@
             <div class="glass rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm border border-slate-200/50 dark:border-slate-800/50">
                 <div class="relative pl-6 sm:pl-8 border-l border-slate-200 dark:border-slate-800 space-y-8">
                     <div class="timeline-pulse"></div>
-                    <div class="data-dot" style="top:12%;left:-2px;"></div>
-                    <div class="data-dot" style="top:32%;left:-2px;animation-delay:1s;background:#f97316;"></div>
-                    <div class="data-dot" style="top:55%;left:-2px;animation-delay:2s;"></div>
-                    <div class="data-dot" style="top:78%;left:-2px;animation-delay:0.5s;background:#f97316;"></div>
                     
                     <div class="relative group">
                         <div class="absolute -left-[35px] sm:-left-[43px] top-1 bg-white dark:bg-slate-900 border-2 border-brand-cyan w-6 h-6 rounded-full flex items-center justify-center transition-all group-hover:scale-125 z-10">
