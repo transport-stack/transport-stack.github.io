@@ -43,8 +43,8 @@
     {
       "id": "welcome",
       "time_start": "10:00",
-      "time_end": "10:10",
-      "duration": "10 min",
+      "time_end": "10:05",
+      "duration": "5 min",
       "type": "Welcome",
       "title": "Setting the Stage: India's Open Mobility Opportunity",
       "speakers": ["Prof. Pravesh Biyani (IIITD)"],
@@ -52,8 +52,8 @@
     },
     {
       "id": "keynote",
-      "time_start": "10:10",
-      "time_end": "10:25",
+      "time_start": "10:05",
+      "time_end": "10:20",
       "duration": "15 min",
       "type": "Keynote",
       "title": "The Open Mobility Moment: What's Working, What's Broken, and What's Possible",
@@ -62,9 +62,9 @@
     },
     {
       "id": "panel",
-      "time_start": "10:25",
+      "time_start": "10:20",
       "time_end": "11:05",
-      "duration": "40 min",
+      "duration": "45 min",
       "type": "Panel Discussion",
       "title": "Building Open Data for India",
       "moderator": "Prof. Pravesh Biyani (IIITD)",
