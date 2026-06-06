@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RT1 — Open Data & Interoperability</title>
+  <link rel="icon" type="image/png" href="assets/logos/favicon.png">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700&display=swap');
+
+    :root {
+      --orange: #d45500;
+      --cream: #faf5eb;
+      --ink: #1a1a1a;
+      --blue: #0055a4;
+      --green: #1a7a3a;
+      --magenta: #8b1a5c;
+      --grey: #6b6b6b;
+      --light: #e8e3d8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', system-ui, sans-serif;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* === GRAIN OVERLAY === */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 150px;
+    }
+
+    .poster {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    /* === MASTHEAD === */
+    .masthead {
+      background: var(--orange);
+      color: #fff;
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .masthead .series {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    .masthead .date {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    /* === HEADLINE === */
+    .headline {
+      padding: 40px 28px 32px;
+      border-bottom: 3px solid var(--ink);
+    }
+    .headline .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 8px;
+    }
+    .headline h1 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 54px;
+      line-height: 0.95;
+      font-weight: 400;
+      color: var(--ink);
+      letter-spacing: -1px;
+    }
+    .headline h1 em {
+      font-style: italic;
+      color: var(--orange);
+    }
+    .headline .sub {
+      font-size: 17px;
+      color: var(--grey);
+      margin-top: 10px;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    /* === ROUTE DIAGRAM === */
+    .route-diagram {
+      padding: 28px;
+      border-bottom: 2px solid var(--ink);
+    }
+    .route-diagram .rd-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 16px;
+    }
+    .route-diagram .rd-map {
+      position: relative;
+      height: 64px;
+    }
+    .route-diagram .rd-track {
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: var(--ink);
+    }
+    .route-diagram .rd-track .segment {
+      position: absolute;
+      height: 100%;
+      top: 0;
+    }
+    .route-diagram .rd-station {
+      position: absolute;
+      top: 0;
+      text-align: center;
+    }
+    .route-diagram .rd-station .circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin: 5px auto 0;
+      border: 3px solid var(--ink);
+      background: var(--cream);
+      position: relative;
+      z-index: 2;
+    }
+    .route-diagram .rd-station .circle.filled {
+      background: var(--ink);
+    }
+    .route-diagram .rd-station .circle.orange { border-color: var(--orange); background: var(--orange); }
+    .route-diagram .rd-station .circle.blue { border-color: var(--blue); background: var(--cream); border-width: 3px; }
+    .route-diagram .rd-station .circle.blue::after {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+    .route-diagram .rd-station .circle.magenta { border-color: var(--magenta); background: var(--magenta); }
+    .route-diagram .rd-station .circle.green { border-color: var(--green); background: var(--green); }
+    .route-diagram .rd-station .circle.yellow-fill {
+      border-color: var(--ink);
+      background: #e8c820;
+    }
+    .route-diagram .rd-station .circle.grey { border-color: var(--grey); background: var(--grey); }
+    .route-diagram .rd-station .time {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 0;
+    }
+    .route-diagram .rd-station .name {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--grey);
+      margin-top: 6px;
+    }
+
+    /* === SCHEDULE === */
+    .schedule {
+      padding: 0;
+    }
+    .session-row {
+      display: grid;
+      grid-template-columns: 72px 10px 1fr;
+      gap: 0 12px;
+      padding: 18px 28px;
+      border-bottom: 1px solid var(--light);
+      position: relative;
+    }
+    .session-row:last-child { border-bottom: none; }
+
+    .session-row .time-col {
+      font-variant-numeric: tabular-nums;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1;
+      padding-top: 2px;
+    }
+    .session-row .time-col .dur {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--grey);
+      display: block;
+      margin-top: 3px;
+    }
+
+    .session-row .dot-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 6px;
+    }
+    .session-row .dot-col .line {
+      width: 3px;
+      flex: 1;
+      background: var(--ink);
+    }
+    .session-row .dot-col .node {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--ink);
+      flex-shrink: 0;
+    }
+    .session-row.type-panel .dot-col .node { background: var(--magenta); }
+    .session-row.type-keynote .dot-col .node { background: var(--blue); }
+    .session-row.type-showcase .dot-col .node { background: var(--green); }
+    .session-row.type-discussion .dot-col .node { background: #e8c820; }
+    .session-row.type-closing .dot-col .node { background: var(--grey); }
+
+    .session-row .content-col .s-type {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 3px;
+    }
+    .session-row.type-panel .content-col .s-type { color: var(--magenta); }
+    .session-row.type-keynote .content-col .s-type { color: var(--blue); }
+    .session-row.type-showcase .content-col .s-type { color: var(--green); }
+    .session-row.type-discussion .content-col .s-type { color: #b8960d; }
+
+    .session-row .content-col h3 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 20px;
+      line-height: 1.2;
+      font-weight: 400;
+      color: var(--ink);
+    }
+    .session-row .content-col .speakers {
+      font-size: 13px;
+      color: var(--grey);
+      margin-top: 2px;
+    }
+    .session-row .content-col .speakers strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .session-row .content-col .panel-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px 16px;
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--grey);
+    }
+    .session-row .content-col .panel-grid .mod {
+      grid-column: 1 / -1;
+      color: var(--orange);
+      font-style: italic;
+      font-size: 11px;
+      margin-top: 2px;
+    }
+
+    .session-row .key-badge {
+      position: absolute;
+      top: 18px;
+      right: 28px;
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 11px;
+      font-style: italic;
+      color: var(--orange);
+      border: 1.5px solid var(--orange);
+      padding: 2px 8px;
+      transform: rotate(-3deg);
+    }
+
+    /* === REGISTER STRIP === */
+    .register-strip {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 24px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .register-strip .rs-left h2 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1;
+    }
+    .register-strip .rs-left .rs-sub {
+      font-size: 13px;
+      color: var(--grey);
+      margin-top: 4px;
+    }
+    .register-strip .rs-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      padding: 12px 28px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      transition: background 0.15s;
+    }
+    .register-strip .rs-btn:hover {
+      background: #b34700;
+    }
+
+    /* === FORM === */
+    .form-section {
+      background: #fff;
+      border-top: 3px solid var(--orange);
+    }
+    .form-section iframe {
+      width: 100%;
+      height: 520px;
+      border: none;
+      display: block;
+    }
+
+    /* === PARTNERS === */
+    .partners {
+      padding: 20px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 2px solid var(--light);
+    }
+    .partners .plabel {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+    .partners .logos {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+    .partners .logos img {
+      height: 22px;
+      opacity: 0.5;
+      transition: opacity 0.15s;
+    }
+    .partners .logos img:hover { opacity: 1; }
+
+    /* === FOOTER === */
+    .footer {
+      padding: 16px 28px 28px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--grey);
+    }
+    .footer a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--light);
+    }
+    .footer a:hover { border-bottom-color: var(--orange); }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 600px) {
+      .headline h1 { font-size: 36px; }
+      .headline { padding: 28px 20px 24px; }
+      .route-diagram { padding: 20px; }
+      .route-diagram .rd-station .name { font-size: 7px; }
+      .session-row { grid-template-columns: 56px 8px 1fr; padding: 14px 20px; gap: 0 8px; }
+      .session-row .time-col { font-size: 18px; }
+      .session-row .content-col h3 { font-size: 17px; }
+      .session-row .content-col .panel-grid { grid-template-columns: 1fr; }
+      .register-strip { flex-direction: column; gap: 12px; text-align: center; }
+      .masthead, .partners, .footer { padding-left: 20px; padding-right: 20px; }
+    }
+
+    /* === PRINT === */
+    @media print {
+      @page { margin: 0.3in; size: A4 portrait; }
+      body::after { display: none !important; }
+      .form-section { display: none !important; }
+      .register-strip { page-break-inside: avoid; }
+      .session-row { break-inside: avoid; }
+      .partners .logos img { filter: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="poster">
+
+  <!-- Masthead -->
+  <div class="masthead">
+    <div class="series">India Urban Mobility Forum</div>
+    <div class="date">12 June 2026 · 10:00–12:00 IST</div>
+  </div>
+
+  <!-- Headline -->
+  <div class="headline">
+    <div class="eyebrow">Roundtable 01 — Virtual</div>
+    <h1>Open Data &amp; <em>Interoperability</em></h1>
+    <div class="sub">Unlocking Urban Mobility Innovation</div>
+  </div>
+
+  <!-- Route Diagram -->
+  <div class="route-diagram">
+    <div class="rd-label">Route RT-01 · 7 Stops</div>
+    <div class="rd-map">
+      <div class="rd-track"></div>
+      <!-- Station 1: Welcome -->
+      <div class="rd-station" style="left: 0%;">
+        <div class="time">10:00</div>
+        <div class="circle orange"></div>
+        <div class="name">Welcome</div>
+      </div>
+      <!-- Station 2: Keynote -->
+      <div class="rd-station" style="left: 17%;">
+        <div class="time">10:10</div>
+        <div class="circle blue"></div>
+        <div class="name">Keynote</div>
+      </div>
+      <!-- Station 3: Panel -->
+      <div class="rd-station" style="left: 33%;">
+        <div class="time">10:25</div>
+        <div class="circle magenta"></div>
+        <div class="name">Panel</div>
+      </div>
+      <!-- Station 4: Showcase -->
+      <div class="rd-station" style="left: 50%;">
+        <div class="time">11:05</div>
+        <div class="circle green"></div>
+        <div class="name">Showcase</div>
+      </div>
+      <!-- Station 5: Walkthrough -->
+      <div class="rd-station" style="left: 65%;">
+        <div class="time">11:15</div>
+        <div class="circle green"></div>
+        <div class="name">Walkthrough</div>
+      </div>
+      <!-- Station 6: Discussion -->
+      <div class="rd-station" style="left: 80%;">
+        <div class="time">11:25</div>
+        <div class="circle yellow-fill"></div>
+        <div class="name">Discussion</div>
+      </div>
+      <!-- Station 7: Close -->
+      <div class="rd-station" style="left: 95%;">
+        <div class="time">11:40</div>
+        <div class="circle grey"></div>
+        <div class="name">Close</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Schedule -->
+  <div class="schedule">
+
+    <div class="session-row type-welcome">
+      <div class="time-col">10:00<span class="dur">10 min</span></div>
+      <div class="dot-col"><div class="node"></div><div class="line"></div></div>
+      <div class="content-col">
+        <div class="s-type">Welcome Address</div>
+        <h3>Setting the Stage</h3>
+        <div class="speakers">By <strong>Prof. Pravesh Biyani</strong> · IIIT Delhi</div>
+      </div>
+    </div>
+
+    <div class="session-row type-keynote">
+      <div class="time-col">10:10<span class="dur">15 min</span></div>
+      <div class="dot-col"><div class="node"></div><div class="line"></div></div>
+      <div class="content-col">
+        <div class="s-type">Keynote</div>
+        <h3>The Open Mobility Moment</h3>
+        <div class="speakers">By <strong>Prof. Inder Gopal</strong> · IISc / IUDX</div>
+      </div>
+    </div>
+
+    <div class="session-row type-panel" style="position:relative;">
+      <div class="key-badge">Key Session</div>
+      <div class="time-col">10:25<span class="dur">40 min</span></div>
+      <div class="dot-col"><div class="node"></div><div class="line"></div></div>
+      <div class="content-col">
+        <div class="s-type">Panel Discussion</div>
+        <h3>Building Open Data for India</h3>
+        <div class="panel-grid">
+          <div><strong>Prof. Gitakrishnan Ramadurai</strong> · IIT Madras</div>
+          <div><strong>Dr Amit Jain</strong> · DMRC</div>
+          <div><strong>Ms Aswathy Dilip</strong> · ITDP</div>
+          <div class="mod">Moderator: Prof. Pravesh Biyani · IIIT Delhi</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="session-row type-showcase">
+      <div class="time-col">11:05<span class="dur">10 min</span></div>
+      <div class="dot-col"><div class="node"></div><div class="line"></div></div>
+      <div class="content-col">
+        <div class="s-type">Showcase</div>
+        <h3>Startup Showcase</h3>
+        <div class="speakers">Featuring <strong>Chartr</strong> — Talking Bus Stop</div>
+      </div>
+    </div>
+
+    <div class="session-row type-showcase">
+      <div class="time-col">11:15<span class="dur">10 min</span></div>
+      <div class="dot-col"><div class="node"></div><div class="line"></div></div>
+      <div class="content-col">
+        <div class="s-type">Walkthrough</div>
+        <h3>Transport Stack: Open Infrastructure</h3>
+        <div class="speakers"><a href="https://github.com/transport-stack" style="color:var(--green); text-decoration:none; border-bottom: 1px solid var(--green);">github.com/transport-stack ↗</a></div>
+      </div>
+    </div>
+
+    <div class="session-row type-discussion">
+      <div class="time-col">11:25<span class="dur">15 min</span></div>
+      <div class="dot-col"><div class="node"></div><div class="line"></div></div>
+      <div class="content-col">
+        <div class="s-type">Open Discussion</div>
+        <h3>What's Blocking Progress?</h3>
+        <div class="speakers">All participants · moderated</div>
+      </div>
+    </div>
+
+    <div class="session-row type-closing">
+      <div class="time-col">11:40<span class="dur">5 min</span></div>
+      <div class="dot-col"><div class="node"></div><div class="line" style="background:transparent;"></div></div>
+      <div class="content-col">
+        <div class="s-type">Closing Address</div>
+        <h3>Synthesis &amp; What Comes Next</h3>
+        <div class="speakers">By <strong>Prof. Pravesh Biyani</strong> · IIIT Delhi</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Register -->
+  <div class="register-strip">
+    <div class="rs-left">
+      <h2>Free Boarding</h2>
+      <div class="rs-sub">Round-1 · Open Access · Virtual</div>
+    </div>
+    <a href="https://forms.gle/yAqbQGcvKPfypsso7" class="rs-btn">Register →</a>
+  </div>
+
+  <!-- Form (hidden in print) -->
+  <div class="form-section">
+    <iframe src="https://forms.gle/yAqbQGcvKPfypsso7" scrolling="auto" style="width:100%;height:520px;border:none;display:block;overflow:auto;">Loading…</iframe>
+  </div>
+
+  <!-- Partners -->
+  <div class="partners">
+    <div class="plabel">In Partnership With</div>
+    <div class="logos">
+      <img src="assets/logos/jica.svg" alt="JICA">
+      <img src="assets/logos/bcg.webp" alt="BCG">
+      <img src="assets/logos/chartr.png" alt="Chartr">
+      <img src="assets/logos/iiitd.png" alt="IIIT Delhi">
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <a href="https://wiki.transportstack.in">wiki.transportstack.in</a> · <a href="https://github.com/transport-stack">github.com/transport-stack</a> · India Urban Mobility Forum
+  </div>
+
+</div>
+
+</body>
+</html>

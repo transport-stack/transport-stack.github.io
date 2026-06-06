@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RT1 — Interactive Timeline</title>
+  <link rel="icon" type="image/png" href="assets/logos/favicon.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f0f2f5;
+      font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+      color: #1a1a1a;
+      line-height: 1.5;
+    }
+    main { max-width: 720px; margin: 0 auto; padding: 40px 20px 80px; }
+
+    .header {
+      text-align: center;
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+      border-bottom: 2px solid #1a1a1a;
+    }
+    .header .tag {
+      display: inline-block;
+      background: #1a1a1a;
+      color: #fff;
+      padding: 4px 14px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .header h1 { font-size: 36px; font-weight: 900; line-height: 1.1; }
+    .header h1 span { color: #888; font-weight: 400; }
+    .header p { font-size: 14px; color: #555; margin-top: 6px; }
+
+    .meta-bar {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+    .meta-bar .chip {
+      font-size: 11px;
+      font-weight: 600;
+      color: #555;
+      background: #fff;
+      border: 1px solid #d0d0d0;
+      padding: 6px 14px;
+    }
+
+    /* === TIMELINE === */
+    .timeline {
+      position: relative;
+      padding-left: 36px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 14px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #1a1a1a;
+      border-radius: 2px;
+      opacity: 0.12;
+    }
+
+    .session {
+      position: relative;
+      padding: 16px 20px 16px 0;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+    .session.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .session::before {
+      content: '';
+      position: absolute;
+      left: -22px;
+      top: 22px;
+      width: 14px;
+      height: 14px;
+      background: #fff;
+      border: 3px solid #1a1a1a;
+      border-radius: 50%;
+      z-index: 2;
+      transition: all 0.3s;
+    }
+    .session:hover::before {
+      background: #1a1a1a;
+      transform: scale(1.2);
+    }
+    .session.highlight::before {
+      border-color: #c75c2e;
+    }
+    .session.highlight:hover::before {
+      background: #c75c2e;
+    }
+
+    .session .top {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    .session .top .time {
+      font-size: 13px;
+      font-weight: 700;
+      color: #888;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .session .top .type {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #aaa;
+    }
+    .session .top .dur {
+      font-size: 10px;
+      color: #bbb;
+    }
+    .session .top .badge {
+      font-size: 8px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 8px;
+      margin-left: auto;
+    }
+    .session .top .badge.star { background: #f59e0b; color: #fff; border-radius: 10px; }
+    .session .top .badge.highlight { color: #c75c2e; border: 1px solid #c75c2e; border-radius: 10px; }
+
+    .session h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.2;
+      transition: color 0.2s;
+    }
+    .session:hover h3 { color: #c75c2e; }
+
+    .session .details {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s, margin 0.3s, opacity 0.3s;
+      opacity: 0;
+    }
+    .session .details.open {
+      max-height: 200px;
+      margin-top: 10px;
+      opacity: 1;
+    }
+    .session .details .speaker {
+      font-size: 13px;
+      color: #555;
+      padding: 10px 14px;
+      background: #f8f8f8;
+      border-left: 3px solid #1a1a1a;
+    }
+    .session .details .speaker strong { color: #1a1a1a; }
+    .session .details .panelist {
+      font-size: 12px;
+      color: #555;
+      padding: 10px 14px;
+      background: #f8f8f8;
+      border-left: 3px solid #c75c2e;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+    }
+    .session .details .panelist strong { color: #1a1a1a; }
+    .session .details .mod {
+      font-size: 11px;
+      color: #c75c2e;
+      font-style: italic;
+      margin-top: 4px;
+    }
+    .session .details .gh-link {
+      display: inline-block;
+      font-size: 12px;
+      color: #1a1a1a;
+      text-decoration: none;
+      border: 1px solid #1a1a1a;
+      padding: 4px 10px;
+      margin-top: 4px;
+    }
+    .session .click-hint {
+      font-size: 10px;
+      color: #bbb;
+      margin-top: 4px;
+    }
+
+    /* === FARE === */
+    .fare-box {
+      margin-top: 40px;
+      padding: 24px;
+      background: #1a1a1a;
+      color: #fff;
+      text-align: center;
+    }
+    .fare-box h2 { font-size: 18px; font-weight: 800; }
+    .fare-box p { font-size: 12px; opacity: 0.8; margin: 4px 0 14px; }
+    .fare-box .cta {
+      display: inline-block;
+      background: #fff;
+      color: #1a1a1a;
+      padding: 10px 24px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    .partners {
+      margin-top: 20px;
+      padding: 14px 20px;
+      background: #fff;
+      border: 1px solid #d0d0d0;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 10px; color: #888;
+    }
+    .partners .logos { display: flex; gap: 16px; align-items: center; }
+    .partners img { height: 20px; opacity: 0.6; }
+
+    .footer {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 11px;
+      color: #888;
+    }
+    .footer a { color: #1a1a1a; text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+<main>
+
+  <div class="header">
+    <div class="tag">Click Any Session to Expand</div>
+    <h1>Roundtable 01 <span>· Interactive Timeline</span></h1>
+    <p>Open Data &amp; Interoperability · India Urban Mobility Forum</p>
+    <div class="meta-bar">
+      <div class="chip">12 June 2026</div>
+      <div class="chip">10:00 – 12:00 IST</div>
+      <div class="chip">Virtual</div>
+      <div class="chip">7 Sessions</div>
+    </div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="session visible highlight">
+      <div class="top">
+        <span class="time">10:00</span>
+        <span class="type">Welcome</span>
+        <span class="dur">10 min</span>
+        <span class="badge highlight">Click to expand</span>
+      </div>
+      <h3>Setting the Stage: India's Open Mobility Opportunity</h3>
+      <div class="details">
+        <div class="speaker"><strong>Prof. Pravesh Biyani</strong> · IIIT Delhi</div>
+      </div>
+      <div class="click-hint">▼ click to expand</div>
+    </div>
+
+    <div class="session visible">
+      <div class="top">
+        <span class="time">10:10</span>
+        <span class="type">Keynote</span>
+        <span class="dur">15 min</span>
+      </div>
+      <h3>The Open Mobility Moment</h3>
+      <div class="details">
+        <div class="speaker"><strong>Prof. Inder Gopal</strong> · IISc / IUDX</div>
+      </div>
+      <div class="click-hint">▼ click to expand</div>
+    </div>
+
+    <div class="session highlight">
+      <div class="top">
+        <span class="time">10:25</span>
+        <span class="type">Panel Discussion</span>
+        <span class="dur">40 min</span>
+        <span class="badge star">★ Featured</span>
+      </div>
+      <h3>Building Open Data for India</h3>
+      <div class="details">
+        <div class="panelist">
+          <span><strong>Prof. Gitakrishnan Ramadurai</strong> · IIT Madras</span>
+          <span><strong>Dr Amit Jain</strong> · DMRC</span>
+          <span><strong>Ms Aswathy Dilip</strong> · ITDP</span>
+        </div>
+        <div class="mod">Moderator: Prof. Pravesh Biyani · IIITD</div>
+      </div>
+      <div class="click-hint">▼ click to expand</div>
+    </div>
+
+    <div class="session visible">
+      <div class="top">
+        <span class="time">11:05</span>
+        <span class="type">Showcase</span>
+        <span class="dur">10 min</span>
+      </div>
+      <h3>Startup Showcase</h3>
+      <div class="details">
+        <div class="speaker"><strong>Chartr</strong> — Talking Bus Stop</div>
+      </div>
+      <div class="click-hint">▼ click to expand</div>
+    </div>
+
+    <div class="session visible">
+      <div class="top">
+        <span class="time">11:15</span>
+        <span class="type">Walkthrough</span>
+        <span class="dur">10 min</span>
+      </div>
+      <h3>Transport Stack: Open Infrastructure</h3>
+      <div class="details">
+        <a href="https://github.com/transport-stack" class="gh-link">View GitHub Repo →</a>
+      </div>
+      <div class="click-hint">▼ click to expand</div>
+    </div>
+
+    <div class="session visible">
+      <div class="top">
+        <span class="time">11:25</span>
+        <span class="type">Open Discussion</span>
+        <span class="dur">15 min</span>
+      </div>
+      <h3>Open Floor: What's Blocking Progress?</h3>
+      <div class="details">
+        <div class="speaker">All participants · Moderated</div>
+      </div>
+      <div class="click-hint">▼ click to expand</div>
+    </div>
+
+    <div class="session visible">
+      <div class="top">
+        <span class="time">11:40</span>
+        <span class="type">Closing</span>
+        <span class="dur">5 min</span>
+      </div>
+      <h3>Synthesis &amp; What Comes Next</h3>
+      <div class="details">
+        <div class="speaker"><strong>Prof. Pravesh Biyani</strong> · IIIT Delhi</div>
+      </div>
+      <div class="click-hint">▼ click to expand</div>
+    </div>
+
+  </div>
+
+  <div class="fare-box">
+    <h2>Round-1 · Free Entry</h2>
+    <p>Register to receive the meeting link and calendar invite.</p>
+    <a href="https://forms.gle/yAqbQGcvKPfypsso7" class="cta">Register →</a>
+  </div>
+
+  <div class="partners">
+    <span>In Partnership With</span>
+    <div class="logos">
+      <img src="assets/logos/jica.svg" alt="JICA">
+      <img src="assets/logos/bcg.webp" alt="BCG">
+      <img src="assets/logos/chartr.png" alt="Chartr">
+      <img src="assets/logos/iiitd.png" alt="IIIT Delhi">
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="https://wiki.transportstack.in">wiki.transportstack.in</a> · <a href="https://github.com/transport-stack">github.com/transport-stack</a> · India Urban Mobility Forum
+  </div>
+
+</main>
+
+<script>
+  document.querySelectorAll('.session').forEach(s => {
+    const details = s.querySelector('.details');
+    const hint = s.querySelector('.click-hint');
+    s.addEventListener('click', () => {
+      const isOpen = details.classList.contains('open');
+      document.querySelectorAll('.details.open').forEach(d => d.classList.remove('open'));
+      if (!isOpen) {
+        details.classList.add('open');
+        if (hint) hint.textContent = '▲ click to collapse';
+      } else {
+        if (hint) hint.textContent = '▼ click to expand';
+      }
+    });
+  });
+
+  // Scroll reveal animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.session:not(.visible)').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

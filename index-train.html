@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RT1 — Train Timetable</title>
+  <link rel="icon" type="image/png" href="assets/logos/favicon.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #e8ecf0;
+      font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+      color: #001a33;
+      line-height: 1.4;
+      padding: 40px 20px;
+    }
+    main { max-width: 800px; margin: 0 auto; }
+
+    /* === IRCTC Blue Header === */
+    .ir-header {
+      background: #003366;
+      color: #fff;
+      padding: 24px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .ir-header .left .service {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+    .ir-header .left h1 {
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 1;
+      margin-top: 4px;
+    }
+    .ir-header .left h1 span { color: #ff9933; }
+    .ir-header .left .route-name {
+      font-size: 15px;
+      font-weight: 500;
+      margin-top: 4px;
+      opacity: 0.9;
+    }
+    .ir-header .right {
+      text-align: right;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+    .ir-header .right strong { font-weight: 700; }
+
+    /* === Info bar === */
+    .info-bar {
+      background: #fff;
+      border-left: 1px solid #d0d0d0;
+      border-right: 1px solid #d0d0d0;
+      display: flex;
+      gap: 0;
+      font-size: 11px;
+    }
+    .info-bar > div {
+      flex: 1;
+      padding: 10px 16px;
+      border-right: 1px solid #e5e5e5;
+      font-weight: 500;
+      color: #555;
+    }
+    .info-bar > div:last-child { border-right: none; }
+    .info-bar > div strong {
+      display: block;
+      color: #001a33;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* === Train Chart === */
+    .chart {
+      border: 1px solid #d0d0d0;
+      border-top: none;
+      background: #fff;
+    }
+    .chart-header {
+      display: grid;
+      grid-template-columns: 70px 120px 1fr 80px 80px;
+      gap: 0;
+      background: #f0f2f5;
+      padding: 8px 16px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #555;
+      border-bottom: 2px solid #003366;
+    }
+
+    .stop {
+      display: grid;
+      grid-template-columns: 70px 120px 1fr 80px 80px;
+      gap: 0;
+      padding: 12px 16px;
+      border-bottom: 1px solid #e5e5e5;
+      font-size: 12px;
+      color: #555;
+      position: relative;
+    }
+    .stop:last-child { border-bottom: none; }
+
+    .stop .sno { font-weight: 600; color: #001a33; }
+    .stop .station-name { font-weight: 600; color: #001a33; font-size: 14px; }
+    .stop .station-name .sub { font-weight: 400; font-size: 11px; color: #555; display: block; }
+    .stop .arr-dep { color: #001a33; font-weight: 600; }
+    .stop .arr-dep .label { font-size: 9px; color: #888; font-weight: 500; text-transform: uppercase; display: block; }
+    .stop .platform { text-align: center; font-weight: 600; }
+    .stop .status { text-align: right; }
+
+    .stop.highlight {
+      background: #fffcf0;
+    }
+    .stop.highlight .station-name { color: #b35900; }
+    .stop.highlight::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #ff9933;
+    }
+
+    .stop .status .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .tag.green { background: #d4edda; color: #155724; }
+    .tag.amber { background: #fff3cd; color: #856404; }
+    .tag.blue { background: #cce5ff; color: #004085; }
+    .tag.star { background: #ff9933; color: #fff; }
+
+    .stop .connector {
+      position: absolute;
+      left: 24px;
+      top: 100%;
+      width: 2px;
+      height: 16px;
+      background: #003366;
+      opacity: 0.15;
+    }
+    .stop:last-child .connector { display: none; }
+
+    /* === Reservation / Fare === */
+    .fare-box {
+      margin-top: 20px;
+      padding: 20px 28px;
+      background: #003366;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .fare-box .left .label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.7;
+    }
+    .fare-box .left .price {
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .fare-box .cta {
+      background: #ff9933;
+      color: #001a33;
+      padding: 10px 24px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+    .fare-box .cta:hover { background: #e68a00; }
+
+    /* === Partners === */
+    .partners {
+      margin-top: 20px;
+      padding: 16px 24px;
+      background: #fff;
+      border: 1px solid #d0d0d0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+    }
+    .partners .logos { display: flex; gap: 18px; align-items: center; }
+    .partners img { height: 22px; opacity: 0.6; }
+    .partners img:hover { opacity: 1; }
+
+    .footer {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 11px;
+      color: #888;
+    }
+    .footer a { color: #003366; text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+<main>
+
+  <div class="ir-header">
+    <div class="left">
+      <div class="service">Superfast Express · Transport Stack</div>
+      <h1>RT-01 <span>Roundtable Express</span></h1>
+      <div class="route-name">Open Data &amp; Interoperability · Via India Urban Mobility Forum</div>
+    </div>
+    <div class="right">
+      <strong>Date:</strong> 12 Jun 2026<br>
+      <strong>Duration:</strong> 2 hrs<br>
+      <strong>Class:</strong> Executive Chair Car
+    </div>
+  </div>
+
+  <div class="info-bar">
+    <div>Total Stops <strong>7 stations</strong></div>
+    <div>From <strong>Data Silos</strong></div>
+    <div>To <strong>Open Mobility</strong></div>
+    <div>Format <strong>Virtual · Live</strong></div>
+  </div>
+
+  <div class="chart">
+    <div class="chart-header">
+      <div>No.</div>
+      <div>Station</div>
+      <div>Schedule</div>
+      <div style="text-align:center">Platform</div>
+      <div style="text-align:right">Status</div>
+    </div>
+
+    <div class="stop">
+      <div class="sno">1</div>
+      <div class="station-name">
+        Setting the Stage
+        <span class="sub">Welcome Address · Prof. Pravesh Biyani (IIITD)</span>
+      </div>
+      <div class="arr-dep">
+        10:00<div class="label">Departure</div>
+      </div>
+      <div class="platform">A</div>
+      <div class="status"><span class="tag green">On Time</span></div>
+      <div class="connector"></div>
+    </div>
+
+    <div class="stop">
+      <div class="sno">2</div>
+      <div class="station-name">
+        The Open Mobility Moment
+        <span class="sub">Keynote · Prof. Inder Gopal (IISc / IUDX)</span>
+      </div>
+      <div class="arr-dep">
+        10:10<div class="label">Departure</div>
+      </div>
+      <div class="platform">A</div>
+      <div class="status"><span class="tag green">On Time</span></div>
+      <div class="connector"></div>
+    </div>
+
+    <div class="stop highlight">
+      <div class="sno">3</div>
+      <div class="station-name">
+        Building Open Data for India
+        <span class="sub">★ Featured · Panel Discussion · 40 min</span>
+      </div>
+      <div class="arr-dep">
+        10:25 → 11:05<div class="label">Halt</div>
+      </div>
+      <div class="platform">B</div>
+      <div class="status"><span class="tag star">★ Don't Miss</span></div>
+      <div class="connector"></div>
+    </div>
+
+    <div class="stop">
+      <div class="sno">4</div>
+      <div class="station-name">
+        Startup Showcase
+        <span class="sub">Chartr — Talking Bus Stop</span>
+      </div>
+      <div class="arr-dep">
+        11:05<div class="label">Departure</div>
+      </div>
+      <div class="platform">A</div>
+      <div class="status"><span class="tag green">On Time</span></div>
+      <div class="connector"></div>
+    </div>
+
+    <div class="stop">
+      <div class="sno">5</div>
+      <div class="station-name">
+        Transport Stack: Open Infrastructure
+        <span class="sub">Walkthrough</span>
+      </div>
+      <div class="arr-dep">
+        11:15<div class="label">Departure</div>
+      </div>
+      <div class="platform">A</div>
+      <div class="status"><span class="tag blue"><a href="https://github.com/transport-stack" style="color:#004085;text-decoration:none;">GitHub →</a></span></div>
+      <div class="connector"></div>
+    </div>
+
+    <div class="stop">
+      <div class="sno">6</div>
+      <div class="station-name">
+        Open Floor: What's Blocking Progress?
+        <span class="sub">Open Discussion · Moderated</span>
+      </div>
+      <div class="arr-dep">
+        11:25<div class="label">Departure</div>
+      </div>
+      <div class="platform">C</div>
+      <div class="status"><span class="tag amber">Discussion</span></div>
+      <div class="connector"></div>
+    </div>
+
+    <div class="stop">
+      <div class="sno">7</div>
+      <div class="station-name">
+        Synthesis &amp; What Comes Next
+        <span class="sub">Closing Address · Prof. Pravesh Biyani (IIITD)</span>
+      </div>
+      <div class="arr-dep">
+        11:40<div class="label">Arrival</div>
+      </div>
+      <div class="platform">A</div>
+      <div class="status"><span class="tag green">Terminates</span></div>
+    </div>
+
+  </div>
+
+  <div class="fare-box">
+    <div class="left">
+      <div class="label">Fare</div>
+      <div class="price">Round-1 · Free Entry</div>
+    </div>
+    <a href="https://forms.gle/yAqbQGcvKPfypsso7" class="cta">Book Ticket →</a>
+  </div>
+
+  <div class="partners">
+    <span>In Partnership With</span>
+    <div class="logos">
+      <img src="assets/logos/jica.svg" alt="JICA">
+      <img src="assets/logos/bcg.webp" alt="BCG">
+      <img src="assets/logos/chartr.png" alt="Chartr">
+      <img src="assets/logos/iiitd.png" alt="IIIT Delhi">
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="https://wiki.transportstack.in">wiki.transportstack.in</a>
+    · <a href="https://github.com/transport-stack">github.com/transport-stack</a>
+    · India Urban Mobility Forum
+  </div>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RT1 — Network Map</title>
+  <link rel="icon" type="image/png" href="assets/logos/favicon.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f4f0e8;
+      font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+      color: #1a1a1a;
+      line-height: 1.4;
+    }
+    main { max-width: 960px; margin: 0 auto; padding: 32px 20px 60px; }
+
+    /* === HEADER === */
+    .map-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 20px 0 16px;
+      border-bottom: 2px solid #1a1a1a;
+    }
+    .map-header .left h1 {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+    .map-header .left h1 span { color: #888; font-weight: 400; }
+    .map-header .left .sub {
+      font-size: 13px;
+      color: #555;
+      margin-top: 2px;
+    }
+    .map-header .right {
+      text-align: right;
+      font-size: 11px;
+      color: #555;
+      line-height: 1.5;
+    }
+    .map-header .right strong { color: #1a1a1a; }
+
+    /* === LEGEND === */
+    .legend {
+      display: flex;
+      gap: 20px;
+      padding: 12px 0;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #555;
+    }
+    .legend span { display: flex; align-items: center; gap: 6px; }
+    .legend .sw {
+      width: 12px;
+      height: 4px;
+      border-radius: 2px;
+    }
+
+    /* === SPIDER MAP === */
+    .spider {
+      position: relative;
+      border: 1px solid #d0d0d0;
+      background: #fff;
+      padding: 48px 32px;
+      overflow: hidden;
+    }
+
+    .spider-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .spider-bg circle {
+      fill: none;
+      stroke: #e5e5e5;
+      stroke-width: 1;
+    }
+    .spider-bg line {
+      stroke: #e5e5e5;
+      stroke-width: 1;
+    }
+
+    .spider-map {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .spider-map svg {
+      width: 100%;
+      height: auto;
+      max-height: 500px;
+    }
+
+    /* === LIST === */
+    .stop-list {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #d0d0d0;
+      padding: 12px 14px;
+      position: relative;
+    }
+    .card .route-pin {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-bottom: 6px;
+    }
+    .card .label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #888;
+    }
+    .card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.15;
+      margin: 2px 0;
+    }
+    .card .speaker {
+      font-size: 10px;
+      color: #555;
+    }
+    .card .speaker strong { color: #1a1a1a; }
+    .card .time {
+      font-size: 10px;
+      font-weight: 700;
+      color: #888;
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .card.panelist .panels {
+      font-size: 10px;
+      color: #555;
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+    .card.panelist .panels strong { color: #1a1a1a; }
+    .card.panelist .mod {
+      font-size: 9px;
+      color: #c75c2e;
+      font-style: italic;
+      margin-top: 2px;
+    }
+
+    .card .gh-link {
+      font-size: 10px;
+      color: #1a1a1a;
+      text-decoration: none;
+      border: 1px solid #1a1a1a;
+      padding: 1px 6px;
+      display: inline-block;
+      margin-top: 2px;
+    }
+
+    /* === FARE === */
+    .fare-box {
+      margin-top: 24px;
+      padding: 20px 24px;
+      background: #1a1a1a;
+      color: #fff;
+      text-align: center;
+    }
+    .fare-box h2 { font-size: 18px; font-weight: 800; }
+    .fare-box p { font-size: 12px; opacity: 0.8; margin: 4px 0 12px; }
+    .fare-box .cta {
+      display: inline-block;
+      background: #fff;
+      color: #1a1a1a;
+      padding: 10px 24px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+    .fare-box .cta:hover { background: #e5e5e5; }
+
+    .partners {
+      margin-top: 20px;
+      padding: 14px 20px;
+      background: #fff;
+      border: 1px solid #d0d0d0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      color: #888;
+    }
+    .partners .logos { display: flex; gap: 16px; align-items: center; }
+    .partners img { height: 20px; opacity: 0.6; }
+
+    .footer {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 11px;
+      color: #888;
+    }
+    .footer a { color: #1a1a1a; text-decoration: none; font-weight: 600; }
+
+    @media (max-width: 700px) {
+      .stop-list { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+<main>
+
+  <div class="map-header">
+    <div class="left">
+      <h1>Network Map <span>RT-01</span></h1>
+      <div class="sub">India Urban Mobility Forum · Open Data &amp; Interoperability</div>
+    </div>
+    <div class="right">
+      <strong>12 June 2026</strong><br>
+      10:00 – 12:00 IST · Virtual
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><span class="sw" style="background:#1a1a1a;"></span> Main Line</span>
+    <span><span class="sw" style="background:#c75c2e;"></span> Featured</span>
+    <span><span class="sw" style="background:#888;"></span> Transfers</span>
+  </div>
+
+  <!-- SVG SPIDER MAP -->
+  <div class="spider">
+    <svg viewBox="0 0 800 380" style="display:block;margin:0 auto;">
+      <!-- Route lines -->
+      <path d="M 400 340 L 400 280 L 400 220 L 400 160 L 400 100 L 400 60 L 400 40" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" opacity="0.08"/>
+      <path d="M 400 280 L 240 280 L 100 280" fill="none" stroke="#c75c2e" stroke-width="3" stroke-dasharray="6 4" opacity="0.6"/>
+      <path d="M 400 220 L 560 220 L 700 220" fill="none" stroke="#888" stroke-width="2" stroke-dasharray="4 4" opacity="0.4"/>
+
+      <!-- Connection nodes -->
+      <circle cx="400" cy="40" r="5" fill="none" stroke="#888" stroke-width="2"/>
+      <circle cx="400" cy="60" r="15" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+      <circle cx="400" cy="100" r="15" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+      <circle cx="400" cy="160" r="20" fill="#fff" stroke="#c75c2e" stroke-width="3"/>
+      <circle cx="400" cy="220" r="15" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+      <circle cx="400" cy="280" r="15" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+      <circle cx="400" cy="340" r="15" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+
+      <!-- Labels -->
+      <text x="420" y="64" font-family="system-ui" font-size="12" font-weight="700" fill="#1a1a1a">10:00</text>
+      <text x="420" y="104" font-family="system-ui" font-size="12" font-weight="700" fill="#1a1a1a">10:10</text>
+      <text x="425" y="165" font-family="system-ui" font-size="13" font-weight="700" fill="#c75c2e">10:25</text>
+      <text x="420" y="224" font-family="system-ui" font-size="12" font-weight="700" fill="#1a1a1a">11:05</text>
+      <text x="420" y="284" font-family="system-ui" font-size="12" font-weight="700" fill="#1a1a1a">11:15</text>
+      <text x="420" y="344" font-family="system-ui" font-size="12" font-weight="700" fill="#1a1a1a">11:40</text>
+
+      <!-- Right side labels -->
+      <text x="245" y="284" font-family="system-ui" font-size="11" fill="#555" text-anchor="end">Startup Showcase →</text>
+      <text x="565" y="224" font-family="system-ui" font-size="11" fill="#555">→ Open Discussion</text>
+
+      <!-- Session titles on the left -->
+      <text x="390" y="54" font-family="system-ui" font-size="11" font-weight="600" fill="#555" text-anchor="end">Closing</text>
+      <text x="390" y="94" font-family="system-ui" font-size="11" font-weight="600" fill="#555" text-anchor="end">Keynote</text>
+      <text x="385" y="153" font-family="system-ui" font-size="12" font-weight="800" fill="#c75c2e" text-anchor="end">Panel ★</text>
+      <text x="390" y="214" font-family="system-ui" font-size="11" font-weight="600" fill="#555" text-anchor="end">Showcase</text>
+      <text x="390" y="274" font-family="system-ui" font-size="11" font-weight="600" fill="#555" text-anchor="end">Walkthrough</text>
+      <text x="390" y="334" font-family="system-ui" font-size="11" font-weight="600" fill="#555" text-anchor="end">Welcome</text>
+
+      <!-- Dotted connector to right branch -->
+      <text x="250" y="296" font-family="system-ui" font-size="10" fill="#888" text-anchor="end">11:05</text>
+      <text x="560" y="238" font-family="system-ui" font-size="10" fill="#888">11:25</text>
+
+    </svg>
+  </div>
+
+  <!-- STATION CARDS -->
+  <div class="stop-list">
+    <div class="card">
+      <div class="route-pin" style="background:#1a1a1a;"></div>
+      <div class="label">Welcome · 10:00</div>
+      <h3>Setting the Stage</h3>
+      <div class="speaker"><strong>Prof. Pravesh Biyani</strong> · IIITD</div>
+      <div class="time">10 min</div>
+    </div>
+
+    <div class="card">
+      <div class="route-pin" style="background:#1a1a1a;"></div>
+      <div class="label">Keynote · 10:10</div>
+      <h3>The Open Mobility Moment</h3>
+      <div class="speaker"><strong>Prof. Inder Gopal</strong> · IISc / IUDX</div>
+      <div class="time">15 min</div>
+    </div>
+
+    <div class="card panelist">
+      <div class="route-pin" style="background:#c75c2e;"></div>
+      <div class="label">★ Panel · 10:25 · 40 min</div>
+      <h3>Building Open Data for India</h3>
+      <div class="panels">
+        <strong>Prof. Gitakrishnan Ramadurai</strong> · IIT Madras<br>
+        <strong>Dr Amit Jain</strong> · DMRC<br>
+        <strong>Ms Aswathy Dilip</strong> · ITDP
+      </div>
+      <div class="mod">Mod: Prof. Pravesh Biyani</div>
+    </div>
+
+    <div class="card">
+      <div class="route-pin" style="background:#1a1a1a;"></div>
+      <div class="label">Showcase · 11:05</div>
+      <h3>Startup Showcase</h3>
+      <div class="speaker"><strong>Chartr</strong> — Talking Bus Stop</div>
+      <div class="time">10 min</div>
+    </div>
+
+    <div class="card">
+      <div class="route-pin" style="background:#888;"></div>
+      <div class="label">Walkthrough · 11:15</div>
+      <h3>Transport Stack: Open Infra</h3>
+      <a href="https://github.com/transport-stack" class="gh-link">GitHub</a>
+      <div class="time">10 min</div>
+    </div>
+
+    <div class="card">
+      <div class="route-pin" style="background:#888;"></div>
+      <div class="label">Discussion · 11:25</div>
+      <h3>Open Floor: What's Blocking?</h3>
+      <div class="time">15 min</div>
+    </div>
+
+    <div class="card">
+      <div class="route-pin" style="background:#1a1a1a;"></div>
+      <div class="label">Closing · 11:40</div>
+      <h3>Synthesis &amp; Next Steps</h3>
+      <div class="speaker"><strong>Prof. Pravesh Biyani</strong> · IIITD</div>
+      <div class="time">5 min</div>
+    </div>
+  </div>
+
+  <div class="fare-box">
+    <h2>RT-01 · Free Entry</h2>
+    <p>Register to receive the meeting link and calendar invite.</p>
+    <a href="https://forms.gle/yAqbQGcvKPfypsso7" class="cta">Register →</a>
+  </div>
+
+  <div class="partners">
+    <span>In Partnership With</span>
+    <div class="logos">
+      <img src="assets/logos/jica.svg" alt="JICA">
+      <img src="assets/logos/bcg.webp" alt="BCG">
+      <img src="assets/logos/chartr.png" alt="Chartr">
+      <img src="assets/logos/iiitd.png" alt="IIIT Delhi">
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="https://wiki.transportstack.in">wiki.transportstack.in</a>
+    · <a href="https://github.com/transport-stack">github.com/transport-stack</a>
+    · India Urban Mobility Forum
+  </div>
+
+</main>
+</body>
+</html>

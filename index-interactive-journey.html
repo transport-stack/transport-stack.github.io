@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RT1 — Journey Mode</title>
+  <link rel="icon" type="image/png" href="assets/logos/favicon.png">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #1a1a1a;
+      font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+      color: #e5e5e5;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    main {
+      flex: 1;
+      max-width: 580px;
+      margin: 0 auto;
+      padding: 48px 20px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* === PROGRESS BAR === */
+    .progress {
+      display: flex;
+      gap: 0;
+      justify-content: space-between;
+      margin-bottom: 48px;
+      position: relative;
+    }
+    .progress::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 8px;
+      height: 2px;
+      background: #333;
+      z-index: 0;
+    }
+    .progress .dot {
+      position: relative;
+      z-index: 1;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #333;
+      transition: all 0.4s;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 700;
+      color: transparent;
+    }
+    .progress .dot.active {
+      background: #fff;
+      color: #1a1a1a;
+      transform: scale(1.3);
+      box-shadow: 0 0 16px rgba(255,255,255,0.2);
+    }
+    .progress .dot.done {
+      background: #555;
+      border: 2px solid #fff;
+    }
+    .progress .dot-label {
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #555;
+      white-space: nowrap;
+      transition: color 0.3s;
+    }
+    .progress .dot.active .dot-label,
+    .progress .dot.done .dot-label { color: #fff; }
+
+    /* === CURRENT STOP === */
+    .stop-card {
+      background: #222;
+      border: 1px solid #333;
+      padding: 32px 28px;
+      text-align: center;
+      transition: opacity 0.4s, transform 0.4s;
+    }
+    .stop-card .stop-num {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #555;
+      margin-bottom: 8px;
+    }
+    .stop-card .stop-type {
+      display: inline-block;
+      background: #333;
+      padding: 4px 14px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #aaa;
+      margin-bottom: 12px;
+    }
+    .stop-card h2 {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .stop-card .speaker {
+      font-size: 14px;
+      color: #888;
+    }
+    .stop-card .speaker strong { color: #e5e5e5; }
+    .stop-card .time {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #555;
+      font-variant-numeric: tabular-nums;
+    }
+    .stop-card .time strong { color: #aaa; }
+    .stop-card .dur {
+      font-size: 11px;
+      color: #555;
+      margin-top: 2px;
+    }
+
+    .stop-card .panelist {
+      margin-top: 12px;
+      font-size: 12px;
+      color: #888;
+      line-height: 1.6;
+    }
+    .stop-card .panelist strong { color: #e5e5e5; }
+    .stop-card .mod {
+      font-size: 11px;
+      color: #c75c2e;
+      font-style: italic;
+      margin-top: 6px;
+    }
+    .stop-card .gh-link {
+      display: inline-block;
+      margin-top: 12px;
+      color: #1a1a1a;
+      background: #fff;
+      padding: 6px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+    .stop-card .gh-link:hover { background: #e5e5e5; }
+
+    .stop-card.featured {
+      border-color: #c75c2e;
+    }
+    .stop-card.featured .stop-type {
+      background: #c75c2e;
+      color: #fff;
+    }
+
+    /* === NAV === */
+    .nav {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+      justify-content: center;
+    }
+    .nav button {
+      background: #333;
+      border: none;
+      color: #fff;
+      padding: 12px 28px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav button:hover { background: #444; }
+    .nav button:disabled { opacity: 0.2; cursor: default; }
+    .nav button.primary { background: #fff; color: #1a1a1a; }
+    .nav button.primary:hover { background: #e5e5e5; }
+
+    .nav .counter {
+      display: flex;
+      align-items: center;
+      font-size: 11px;
+      color: #555;
+    }
+
+    /* === FARE === */
+    .fare-box {
+      margin-top: 40px;
+      padding: 20px 24px;
+      background: #222;
+      border: 1px solid #333;
+      text-align: center;
+    }
+    .fare-box h3 { font-size: 16px; font-weight: 800; color: #fff; }
+    .fare-box p { font-size: 12px; color: #888; margin: 4px 0 12px; }
+    .fare-box .cta {
+      display: inline-block;
+      background: #fff;
+      color: #1a1a1a;
+      padding: 10px 24px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    .partners {
+      margin-top: 20px;
+      padding: 14px 20px;
+      background: #222;
+      border: 1px solid #333;
+      display: flex; align-items: center; justify-content: center; gap: 18px;
+    }
+    .partners img { height: 18px; opacity: 0.4; }
+
+    .footer {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 10px;
+      color: #444;
+    }
+    .footer a { color: #888; text-decoration: none; }
+  </style>
+</head>
+<body>
+<main>
+  <div class="progress" id="progressDots"></div>
+
+  <div class="stop-card" id="stopCard">
+    <div class="stop-num" id="stopNum"></div>
+    <div class="stop-type" id="stopType"></div>
+    <h2 id="stopTitle"></h2>
+    <div class="speaker" id="stopSpeaker"></div>
+    <div class="time" id="stopTime"></div>
+    <div class="dur" id="stopDur"></div>
+  </div>
+
+  <div class="nav">
+    <button id="prevBtn" disabled>← Previous</button>
+    <span class="counter" id="counter"></span>
+    <button id="nextBtn" class="primary">Next →</button>
+  </div>
+
+  <div class="fare-box">
+    <h3>Round-1 · Free Entry</h3>
+    <p>Register to receive the meeting link and calendar invite.</p>
+    <a href="https://forms.gle/yAqbQGcvKPfypsso7" class="cta">Register →</a>
+  </div>
+
+  <div class="partners" style="justify-content:center;gap:20px;">
+    <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#555;">Partners</div>
+    <img src="assets/logos/jica.svg" alt="JICA">
+    <img src="assets/logos/bcg.webp" alt="BCG">
+    <img src="assets/logos/chartr.png" alt="Chartr">
+    <img src="assets/logos/iiitd.png" alt="IIIT Delhi">
+  </div>
+
+  <div class="footer">
+    <a href="https://wiki.transportstack.in">wiki.transportstack.in</a> · <a href="https://github.com/transport-stack">github.com/transport-stack</a>
+  </div>
+</main>
+
+<script>
+  const stops = [
+    { num: '01', type: 'Welcome Address', title: 'Setting the Stage: India\'s Open Mobility Opportunity', speaker: 'Prof. Pravesh Biyani · IIIT Delhi', time: '10:00', dur: '10 min', featured: false, detail: '' },
+    { num: '02', type: 'Keynote Talk', title: 'The Open Mobility Moment', speaker: 'Prof. Inder Gopal · IISc / IUDX', time: '10:10', dur: '15 min', featured: false, detail: '' },
+    { num: '03', type: '★ Panel Discussion', title: 'Building Open Data for India', speaker: '', time: '10:25', dur: '40 min', featured: true, detail: 'panel' },
+    { num: '04', type: 'Startup Showcase', title: 'Startup Showcase', speaker: 'Chartr — Talking Bus Stop', time: '11:05', dur: '10 min', featured: false, detail: '' },
+    { num: '05', type: 'Walkthrough', title: 'Transport Stack: Open Infrastructure', speaker: '', time: '11:15', dur: '10 min', featured: false, detail: 'github' },
+    { num: '06', type: 'Open Discussion', title: 'Open Floor: What\'s Blocking Progress?', speaker: 'All participants · Moderated', time: '11:25', dur: '15 min', featured: false, detail: '' },
+    { num: '07', type: 'Closing Address', title: 'Synthesis & What Comes Next', speaker: 'Prof. Pravesh Biyani · IIIT Delhi', time: '11:40', dur: '5 min', featured: false, detail: '' }
+  ];
+
+  let current = 0;
+  const card = document.getElementById('stopCard');
+  const numEl = document.getElementById('stopNum');
+  const typeEl = document.getElementById('stopType');
+  const titleEl = document.getElementById('stopTitle');
+  const speakerEl = document.getElementById('stopSpeaker');
+  const timeEl = document.getElementById('stopTime');
+  const durEl = document.getElementById('stopDur');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const counter = document.getElementById('counter');
+  const dotsContainer = document.getElementById('progressDots');
+
+  stops.forEach((s, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot';
+    d.innerHTML = `<span class="dot-label">${s.type.replace('★ ','').split(' ')[0]}</span>`;
+    d.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(d);
+  });
+
+  function render() {
+    const s = stops[current];
+    card.style.opacity = '0.3';
+    card.style.transform = 'scale(0.97)';
+    setTimeout(() => {
+      numEl.textContent = `Stop ${s.num}`;
+      typeEl.textContent = s.type;
+      titleEl.textContent = s.title;
+      timeEl.textContent = `⏰ ${s.time} – ${s.time.split(':')[0]}:${parseInt(s.dur) + parseInt(s.time.split(':')[1]) > 59 ? (parseInt(s.time.split(':')[0])+1)+':0'+(parseInt(s.time.split(':')[1])+parseInt(s.dur)-60) : s.time.split(':')[0]+':'+(parseInt(s.time.split(':')[1])+parseInt(s.dur))}`;
+      durEl.textContent = `⏱ ${s.dur}`;
+      
+      if (s.speaker) speakerEl.innerHTML = s.speaker;
+      else if (s.detail === 'panel') {
+        speakerEl.innerHTML = `
+          <div class="panelist">
+            <strong>Prof. Gitakrishnan Ramadurai</strong> · IIT Madras<br>
+            <strong>Dr Amit Jain</strong> · DMRC<br>
+            <strong>Ms Aswathy Dilip</strong> · ITDP
+          </div>
+          <div class="mod">Moderator: Prof. Pravesh Biyani</div>`;
+      } else if (s.detail === 'github') {
+        speakerEl.innerHTML = `<a href="https://github.com/transport-stack" class="gh-link">View GitHub Repo →</a>`;
+      } else speakerEl.innerHTML = '';
+
+      card.className = 'stop-card' + (s.featured ? ' featured' : '');
+      card.style.opacity = '1';
+      card.style.transform = 'scale(1)';
+
+      document.querySelectorAll('.dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+        d.classList.toggle('done', i < current);
+      });
+
+      prevBtn.disabled = current === 0;
+      nextBtn.textContent = current === stops.length - 1 ? 'Finish ✓' : 'Next →';
+      counter.textContent = `${current + 1} / ${stops.length}`;
+    }, 200);
+  }
+
+  function goTo(i) {
+    if (i < 0 || i >= stops.length) return;
+    current = i;
+    render();
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => {
+    if (current === stops.length - 1) {
+      document.querySelector('.fare-box').scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    goTo(current + 1);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextBtn.click(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); prevBtn.click(); }
+  });
+
+  render();
+</script>
+</body>
+</html>
