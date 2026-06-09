@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roundtable 1 — Speaker Briefing</title>
+  <style>
+    :root {
+      --cyan: #06b6d4;
+      --orange: #f97316;
+      --navy: #0b1329;
+      --ink: #1e293b;
+      --muted: #64748b;
+      --bg: #ffffff;
+      --light: #f8fafc;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+    .page {
+      max-width: 800px;
+      margin: 24px auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(15,23,42,0.08);
+      overflow: hidden;
+    }
+    .page-header {
+      background: linear-gradient(135deg, #0b1329 0%, #1e3a5f 100%);
+      color: white;
+      padding: 32px 40px 28px;
+    }
+    .page-header .badge {
+      display: inline-block;
+      background: var(--cyan);
+      color: var(--navy);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .page-header h1 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .page-header h1 .accent { color: var(--orange); }
+    .page-header p { font-size: 14px; color: #cbd5e1; margin: 0; }
+    .page-body { padding: 32px 40px; }
+    h2 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0 0 12px 0;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--cyan);
+    }
+    h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 20px 0 8px 0;
+    }
+    p { font-size: 14px; color: var(--ink); margin: 0 0 10px 0; }
+    p.muted { color: var(--muted); font-size: 13px; }
+    ul { margin: 0 0 12px 0; padding-left: 20px; }
+    li { font-size: 14px; margin-bottom: 4px; color: var(--ink); }
+    strong { color: var(--navy); }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .info-card {
+      background: var(--light);
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .info-card .label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 4px;
+    }
+    .info-card .value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+    .info-card .sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .agenda-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+      font-size: 13px;
+    }
+    .agenda-table th {
+      text-align: left;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      padding: 6px 10px;
+      border-bottom: 2px solid var(--cyan);
+    }
+    .agenda-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+    .agenda-table td:first-child {
+      font-weight: 600;
+      white-space: nowrap;
+      color: var(--orange);
+      font-size: 12px;
+      width: 100px;
+    }
+    .agenda-table tr:last-child td { border-bottom: none; }
+    .tip-box {
+      background: #f0f9ff;
+      border-left: 3px solid var(--cyan);
+      padding: 14px 16px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+    .tip-box strong { color: var(--navy); }
+    .tip-box.orange { border-left-color: var(--orange); background: #fff7ed; }
+    .divider { height: 1px; background: #e2e8f0; margin: 24px 0; }
+    footer {
+      background: var(--light);
+      border-top: 1px solid #e2e8f0;
+      padding: 16px 40px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+    footer .brand {
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: 0.5px;
+    }
+
+    @media print {
+      body { background: white; }
+      .page { margin: 0 auto; box-shadow: none; border-radius: 0; max-width: 100%; }
+      .page-body { padding: 24px 32px; }
+      .page-header { padding: 20px 32px 16px; }
+      .info-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .info-card { padding: 10px 12px; }
+      h2 { font-size: 16px; margin-bottom: 8px; }
+      p, li { font-size: 12px; }
+      .agenda-table td { font-size: 11px; padding: 4px 6px; }
+      .agenda-table th { font-size: 9px; padding: 4px 6px; }
+      .tip-box { font-size: 12px; padding: 10px 14px; }
+      footer { padding: 12px 32px; }
+      @page { margin: 0.5in; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="page-header">
+      <div class="badge">SPEAKER BRIEFING</div>
+      <h1>Roundtable 1: <span class="accent">Open Data &amp; Interoperability</span></h1>
+      <p>June 12, 2026 · 10:00 AM – 12:00 PM IST · Live Virtual Room</p>
+    </div>
+
+    <div class="page-body">
+
+      <!-- Quick reference grid -->
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="label">Event</div>
+          <div class="value">India Urban Mobility Forum</div>
+          <div class="sub">Transport Stack Roundtable Series · Edition 1</div>
+        </div>
+        <div class="info-card">
+          <div class="label">Date &amp; Time</div>
+          <div class="value">Friday, June 12, 2026</div>
+          <div class="sub">10:00 AM – 12:00 PM IST</div>
+        </div>
+        <div class="info-card">
+          <div class="label">Format</div>
+          <div class="value">Live Virtual Room</div>
+          <div class="sub">Zoom Webinar (link shared separately)</div>
+        </div>
+        <div class="info-card">
+          <div class="label">Partners</div>
+          <div class="value">JICA · BCG · Chartr · IIIT Delhi</div>
+          <div class="sub">Hosted by IIIT Delhi</div>
+        </div>
+      </div>
+
+      <!-- What is Transport Stack -->
+      <h2>About Transport Stack</h2>
+      <p>Transport Stack is an open platform of software and data for Indian urban mobility — GTFS datasets, ETA calculators, schedule adherence tools, transit APIs, and a community Wiki — custodianed by Chartr and BCG under a <strong>JICA-funded initiative</strong> with IIIT Delhi as the academic partner. The code lives on <a href="https://github.com/transport-stack">GitHub</a>, and the platform is live at <a href="https://delhi.transportstack.in/">delhi.transportstack.in</a>.</p>
+      <p>This roundtable series is the community-engagement arm of the custodianship — quarterly conversations with the ecosystem of people who generate, consume, and regulate transit data in Indian cities.</p>
+
+      <!-- Agenda -->
+      <h2>Agenda</h2>
+      <table class="agenda-table">
+        <tr><th>Time</th><th>Session</th><th>Format</th></tr>
+        <tr><td>10:00–10:05</td><td><strong>Welcome Address</strong> — Prof. Pravesh Biyani (IIITD)<br><span style="color:var(--muted);font-size:12px;">Setting the stage: why open data matters</span></td><td>Opening</td></tr>
+        <tr><td>10:05–10:20</td><td><strong>Keynote Talk</strong> — Prof. Inder Gopal (IISc · IUDX)<br><span style="color:var(--muted);font-size:12px;">The open mobility moment — what's working, what's broken</span></td><td>Talk + Q&amp;A</td></tr>
+        <tr><td>10:20–11:05</td><td><strong>Panel Discussion</strong> — What Does Open Data Take?<br><span style="color:var(--muted);font-size:12px;">Building Open Data for India. 4 panelists + moderator. Then open floor.</span></td><td>Panel + Discussion</td></tr>
+        <tr><td>11:05–11:15</td><td><strong>Practitioner Showcase</strong> — Chartr (Talking Bus Stop)<br><span style="color:var(--muted);font-size:12px;">Building on open networks: a startup's experience</span></td><td>Showcase</td></tr>
+        <tr><td>11:15–11:25</td><td><strong>TS Walkthrough</strong> — Transport Stack Tour<br><span style="color:var(--muted);font-size:12px;">What's been built so far, and how to contribute</span></td><td>Demo</td></tr>
+        <tr><td>11:25–11:40</td><td><strong>Open Discussion</strong> — Open Floor<br><span style="color:var(--muted);font-size:12px;">What's blocking progress? What do we build next?</span></td><td>Facilitated</td></tr>
+        <tr><td>11:40–11:45</td><td><strong>Closing</strong> — Prof. Pravesh Biyani<br><span style="color:var(--muted);font-size:12px;">Synthesis, commitments, RT-2 preview</span></td><td>Wrap-up</td></tr>
+      </table>
+
+      <!-- Panel Details -->
+      <h2>Panel Discussion: Building Open Data for India</h2>
+      <div class="tip-box">
+        <strong>Format:</strong> Each panelist will share one perspective (3–5 min). Then the moderator opens for conversation. The panel sets up the open discussion that follows, so the goal is to surface friction points and provocations — not to resolve everything.
+      </div>
+      <p><strong>Panelists:</strong> Prof. Gitakrishnan Ramadurai (IIT Madras), Dr Amit Jain (Director Operations, DMRC), Ms Aswathy Dilip (ITDP), Mr Dayanidhi D (Namma Yatri)</p>
+      <p><strong>Moderator:</strong> Prof. Pravesh Biyani (IIITD)</p>
+      <p class="muted">If your session requires slides, please share them by 10 June so we can pre-load them on the shared screen.</p>
+
+      <!-- Keynote Details -->
+      <h2>Keynote: The Open Mobility Moment</h2>
+      <p>Prof. Inder Gopal will give a 10–12 minute talk followed by 3–5 minutes of Q&amp;A. The talk should cover the landscape of open data and open networks in Indian mobility — what exists, what's missing, and where the building blocks are converging.</p>
+
+      <!-- Audio / Video -->
+      <h2>Audio &amp; Video Setup</h2>
+      <ul>
+        <li><strong>Camera on:</strong> Please keep your camera on during your session. It makes a significant difference in an all-virtual setting.</li>
+        <li><strong>Mic:</strong> A headset or external mic is preferred over your laptop's built-in mic (reduces echo).</li>
+        <li><strong>Connection:</strong> A wired internet connection is recommended. If on Wi-Fi, please sit close to the router.</li>
+        <li><strong>Background:</strong> A plain or blurred background works best. Or show us your bookshelf — we like those too.</li>
+      </ul>
+
+      <div class="divider"></div>
+
+      <!-- What to expect -->
+      <h2>What to Expect During the Event</h2>
+      <div class="tip-box orange">
+        <strong>This is not a conference.</strong> This is a focused 2-hour working conversation. There are ~20 invitees in the room, all from the Indian transit ecosystem. Expect to be in conversation, not just on stage.
+      </div>
+      <ul>
+        <li><strong>Moderator:</strong> Prof. Pravesh Biyani will facilitate and keep time. If you're running long, don't worry — he'll give you a gentle signal.</li>
+        <li><strong>Chat &amp; Q&amp;A:</strong> Attendees can submit questions via the Zoom Q&amp;A panel. The moderator will read select questions aloud.</li>
+        <li><strong>Recording:</strong> The session will be recorded and shared (unlisted) with all invitees and on GitHub Discussions afterwards.</li>
+        <li><strong>Post-event:</strong> A summary of key takeaways will be circulated within 3 days. You'll be invited to the Transport Stack GitHub Discussions for ongoing conversation.</li>
+      </ul>
+
+      <!-- Contacts -->
+      <h2>Need Help?</h2>
+      <p>For any questions about the event, your session, or logistics, reach out to:</p>
+      <ul>
+        <li><strong>Event coordination:</strong> Transport Stack team, IIIT Delhi / Chartr (details in your invitation email)</li>
+        <li><strong>Technical check:</strong> A brief tech check can be scheduled the day before if you'd like to test your audio/video setup.</li>
+      </ul>
+
+    </div>
+
+    <footer>
+      <div class="brand">TRANSPORT STACK INITIATIVE</div>
+      Building open mobility infrastructure for Indian cities.<br>
+      Hosted by IIIT Delhi · Supported by JICA · Knowledge Partner BCG · Ecosystem Partner Chartr<br>
+      <a href="https://delhi.transportstack.in/" style="color:var(--cyan);">delhi.transportstack.in</a> · <a href="https://wiki.transportstack.in/" style="color:var(--cyan);">wiki.transportstack.in</a> · <a href="https://github.com/transport-stack" style="color:var(--cyan);">github.com/transport-stack</a>
+    </footer>
+  </div>
+</body>
+</html>

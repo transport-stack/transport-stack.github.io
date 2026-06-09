@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+  <text x="0" y="42" font-family="Arial, sans-serif" font-weight="bold" font-size="32" fill="#1a1a1a" letter-spacing="-1">II</text>
+  <text x="42" y="42" font-family="Arial, sans-serif" font-weight="bold" font-size="32" fill="#0b7a3a" letter-spacing="-1">I</text>
+  <text x="56" y="42" font-family="Arial, sans-serif" font-weight="bold" font-size="32" fill="#1a1a1a" letter-spacing="-1">T</text>
+  <circle cx="105" cy="36" r="8" fill="none" stroke="#0b7a3a" stroke-width="2"/>
+  <path d="M 100 36 Q 105 28 110 36" fill="none" stroke="#0b7a3a" stroke-width="2"/>
+  <path d="M 100 36 Q 105 44 110 36" fill="none" stroke="#0b7a3a" stroke-width="2"/>
+  <path d="M 98 36 L 112 36" stroke="#0b7a3a" stroke-width="1.5"/>
+  <text x="125" y="22" font-family="Arial, sans-serif" font-size="9" fill="#1a1a1a" letter-spacing="0.5">DELHI</text>
+</svg>
