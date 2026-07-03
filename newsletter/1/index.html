@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Transport Stack Dispatch — Roundtable-1 Roundup</title>
+<link rel="icon" type="image/png" href="https://delhi.transportstack.in/static/media/ts-logo-updated.06f04be10e290d3d4c43.png" />
+<style>
+  :root {
+    --blue: #0d6efd;
+    --blue-bright: #25a7ff;
+    --blue-mid: #0186e0;
+    --blue-deep: #2e4d9c;
+    --blue-light: #e7f1ff;
+    --blue-pale: #f3f8ff;
+    --ink: #212529;
+    --body: #3c4654;
+    --muted: #6c757d;
+    --line: #dee2e6;
+    --bg: #ffffff;
+    --green: #198754;
+    --red: #dc3545;
+    --shadow: 0 1px 3px rgba(16,24,40,.06), 0 1px 2px rgba(16,24,40,.04);
+    --shadow-lg: 0 6px 20px rgba(13,110,253,.10);
+    --radius: 10px;
+    --maxw: 800px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 60px; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: var(--body); background: var(--bg); line-height: 1.45; -webkit-font-smoothing: antialiased; font-size: 13.5px; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+  svg { display: block; }
+
+  /* logo */
+  .ts-logo { display:flex; align-items:center; gap:8px; }
+  .ts-logo-img { height: 32px; width:auto; display:block; }
+  .ts-logo-img.footer { height: 28px; }
+
+  /* nav */
+  .nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.92); backdrop-filter: saturate(180%) blur(10px); border-bottom: 1px solid var(--line); }
+  .nav-inner { max-width: var(--maxw); margin: 0 auto; padding: 7px 20px; display: flex; align-items: center; gap: 20px; }
+  .nav-links { display: flex; gap: 14px; margin-left: 6px; }
+  .nav-links a { color: var(--body); font-size: 12.5px; font-weight: 500; }
+  .nav-links a:hover { color: var(--blue); }
+  .nav-cta { margin-left: auto; }
+  .nav-cta a { border: 1px solid var(--blue); color: var(--blue); padding: 4px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; }
+  @media (max-width: 820px) { .nav-links { display: none; } }
+
+  /* hero */
+  .hero { padding: 24px 0 6px; }
+  .pill { display: inline-block; border: 1px solid var(--blue); color: var(--blue); padding: 3px 10px; border-radius: 12px; font-size: 10.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .hero h1 { font-size: 28px; line-height: 1.1; color: var(--blue); margin: 10px 0 6px; letter-spacing: -.02em; }
+  .hero .sub { font-size: 13.5px; color: var(--muted); max-width: 760px; margin: 4px 0; }
+  .hero .sub strong { color: var(--ink); }
+  @media (max-width: 760px) { .hero h1 { font-size: 24px; } }
+
+  /* hero facts strip */
+  .hero-facts { display:flex; gap:14px; flex-wrap:wrap; margin: 12px 0 4px; padding: 10px 14px; background: var(--blue-pale); border: 1px solid var(--line); border-radius: var(--radius); }
+  .hero-facts .f { flex:1; min-width:160px; }
+  .hero-facts .f .n { font-size:20px; font-weight:800; color:var(--blue); line-height:1; }
+  .hero-facts .f .l { font-size:11.5px; color:var(--muted); margin-top:3px; }
+
+  /* overview / in-this-issue box */
+  .overview { margin: 10px 0 4px; padding: 12px 16px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; box-shadow: var(--shadow); }
+  .overview .tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--blue); margin-bottom:6px; }
+  .overview ol { margin: 0; padding-left: 18px; }
+  .overview ol li { font-size: 12px; color: var(--body); padding: 3px 0; }
+  .overview ol li strong { color: var(--ink); }
+  .overview ol li a { font-weight: 500; }
+
+  /* RT1 screenshot */
+  .rt-photo { margin: 8px 0 4px; border:1px solid var(--line); border-radius: var(--radius); overflow:hidden; box-shadow: var(--shadow); }
+  .rt-photo img { width:100%; display:block; }
+  .rt-photo figcaption { font-size:11px; color:var(--muted); padding:5px 10px; background:var(--blue-pale); border-top:1px solid var(--line); }
+  .rt-photo.rt-narrow { max-width: 600px; margin-left: auto; margin-right: auto; }
+  .rt-ctx { font-size: 12px; color: var(--body); margin: 6px 0 0; }
+
+  /* sections */
+  section.block { padding: 24px 0; border-top: 1px solid var(--line); }
+  .sec-kicker { font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--blue); }
+  .back-top { float: right; font-size: 11.5px; color: var(--muted); font-weight: 500; display:inline-flex; align-items:center; gap:4px; }
+  .back-top:hover { color: var(--blue); }
+  .back-top svg { width:12px; height:12px; stroke:currentColor; fill:none; stroke-width:2; }
+  section.block h2 { font-size: 22px; color: var(--blue); margin: 4px 0 4px; letter-spacing: -.02em; line-height: 1.15; }
+  @media (max-width: 760px) { section.block h2 { font-size: 20px; } }
+  section.block .lead { font-size: 13.5px; color: var(--muted); margin-bottom: 4px; max-width: 760px; }
+
+  h3.subhead { font-size: 16px; color: var(--ink); margin: 18px 0 4px; display: flex; align-items: center; gap: 8px; }
+  h3.subhead .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue); }
+  h4.minihead { font-size: 13px; color: var(--blue-deep); margin: 12px 0 2px; font-weight: 700; }
+  p.para { margin: 5px 0; color: var(--body); }
+
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 760px) { .twocol { grid-template-columns: 1fr; } }
+
+  .cards { display: grid; gap: 10px; margin: 10px 0; }
+  .c2 { grid-template-columns: 1fr 1fr; }
+  .c3 { grid-template-columns: repeat(3,1fr); }
+  @media (max-width: 760px) { .c2, .c3 { grid-template-columns: 1fr; } }
+
+  .card { border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; background: #fff; box-shadow: var(--shadow); }
+  .card.soft { background: var(--blue-pale); }
+  .card h5 { font-size: 13.5px; color: var(--ink); margin-bottom: 4px; }
+  .card p { font-size: 12.5px; color: var(--body); }
+  .card .ic { width: 30px; height: 30px; border-radius: 8px; background: var(--blue-light); display: grid; place-items: center; margin-bottom: 8px; }
+  .card .ic svg { width:16px; height:16px; stroke:var(--blue); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+
+  .num { flex:0 0 24px; width:24px; height:24px; border-radius:50%; background:var(--blue); color:#fff; display:grid; place-items:center; font-weight:700; font-size:12px; }
+
+  .panel { border:1px solid var(--line); border-radius:var(--radius); padding:12px 14px; }
+  .panel.blue { background: var(--blue-pale); }
+  .panel > h4 { color: var(--blue); font-size: 13.5px; margin-bottom: 4px; }
+
+  ul.clean { list-style: none; margin: 4px 0; }
+  ul.clean li { position: relative; padding: 5px 0 5px 24px; border-bottom: 1px solid var(--line); font-size: 12.5px; line-height: 1.4; }
+  ul.clean li:last-child { border-bottom: none; }
+  ul.clean li > svg { position:absolute; left:0; top:7px; width:13px; height:13px; stroke:var(--blue); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  ul.cross li > svg { stroke:var(--red); }
+
+  .callout { border-left: 3px solid var(--blue); background: var(--blue-pale); padding: 9px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 12.5px; }
+  .callout strong { color: var(--blue-deep); }
+
+  .res { display:flex; gap:10px; align-items:flex-start; }
+  .res .ic { flex:0 0 32px; height:32px; border-radius:8px; background:var(--blue-light); display:grid; place-items:center; }
+  .res .ic svg { width:16px; height:16px; stroke:var(--blue); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+
+  .link-table { width:100%; border-collapse:collapse; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; margin-top:6px; box-shadow:var(--shadow); }
+  .link-table th, .link-table td { text-align:left; padding:7px 12px; font-size:12.5px; border-bottom:1px solid var(--line); vertical-align:top; }
+  .link-table thead th { background:var(--blue-pale); color:var(--blue-deep); font-weight:700; font-size:10.5px; letter-spacing:.05em; text-transform:uppercase; }
+  .link-table tbody tr:last-child td { border-bottom:none; }
+  .link-table tbody tr:hover { background:#fafcff; }
+  .link-table td:first-child { font-weight:600; color:var(--ink); white-space:nowrap; width:210px; }
+  .link-table a { word-break:break-all; }
+  @media (max-width:600px){ .link-table td:first-child{ white-space:normal; width:auto; } }
+
+  /* featured build (talking box) */
+  .build-feat { display:grid; grid-template-columns: 0.7fr 1.3fr; gap: 16px; align-items: center; margin: 14px 0; }
+  @media (max-width:760px){ .build-feat { grid-template-columns: 1fr; } }
+  .build-feat .photo { border:1px solid var(--line); border-radius: var(--radius); overflow:hidden; background: var(--blue-pale); box-shadow: var(--shadow); display:flex; flex-direction:column; max-height: 320px; }
+  .build-feat .photo img { width:100%; height:100%; max-height: 320px; object-fit: contain; display:block; padding: 8px; }
+  .build-feat .photo figcaption { font-size:11.5px; color:var(--muted); padding:6px 12px; background:#fff; border-top:1px solid var(--line); }
+  .build-feat .desc { border:1px solid var(--line); border-radius: var(--radius); padding: 14px; background:#fff; box-shadow: var(--shadow); display:flex; flex-direction:column; }
+  .build-feat .desc h4 { color: var(--blue); font-size: 15px; margin-bottom: 4px; }
+  .build-feat .desc .who { font-size: 11.5px; color: var(--muted); margin-bottom: 8px; }
+  .build-feat .desc ul.clean { margin-top: 2px; }
+  .build-feat .desc .cta { margin-top: auto; padding-top: 10px; font-size: 12.5px; }
+
+  /* testimonial placeholder strip */
+  .testi-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:10px; margin: 10px 0; }
+  @media (max-width:760px){ .testi-grid { grid-template-columns: 1fr; } }
+  .testi { border: 1px dashed #c4d8f5; border-radius: var(--radius); padding: 12px 14px; background: var(--blue-pale); min-height: 100px; display:flex; flex-direction:column; gap:6px; }
+  .testi .ph { font-size: 11.5px; color: var(--blue-deep); font-weight: 600; letter-spacing: .03em; }
+  .testi .quote { color: var(--muted); font-size: 12.5px; font-style: italic; }
+  .testi .by { font-size: 11.5px; color: var(--muted); margin-top: auto; }
+
+  /* glossary at end */
+  .glossary-wrap { border:1px solid var(--line); border-radius:var(--radius); padding:12px 14px; background: var(--blue-pale); }
+  .glossary-wrap .tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--blue); margin-bottom:6px; }
+  .glossary-wrap dl { display:grid; grid-template-columns: repeat(2, auto 1fr); gap:3px 12px; margin:0; }
+  @media (max-width:600px){ .glossary-wrap dl { grid-template-columns: auto 1fr; } }
+  .glossary-wrap dt { font-weight:700; color:var(--ink); font-size:12px; }
+  .glossary-wrap dd { margin:0; font-size:12px; color:var(--muted); }
+
+  footer.site { border-top:1px solid var(--line); margin-top:0; padding:14px 0; }
+  footer.site .fi { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
+  footer.site .copy { font-size:11.5px; color:var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- icon symbols -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></symbol>
+  <symbol id="i-q" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17.01"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+</defs></svg>
+
+<!-- HERO -->
+<header id="top" class="hero">
+  <div class="wrap">
+    <img src="https://delhi.transportstack.in/static/media/ts-logo-updated.06f04be10e290d3d4c43.png" alt="Transport Stack" class="ts-logo-img" style="margin-bottom:8px;" />
+    <span class="pill">Transport Stack Dispatch</span>
+    <h1>Transport Stack</h1>
+    <p class="sub"><strong>Transport Stack</strong> is Delhi's open mobility data platform &mdash; it publishes vetted, standardized data for buses, metros and shared mobility, with open-source code anyone can build on. <strong>Roundtable-1 (RT-1)</strong> brought planners, academics, operators and builders together on one question: how do we open up India's public-transport data so anyone can improve it?</p>
+
+    <div class="hero-facts">
+      <div class="f"><div class="n">60%</div><div class="l">of project time lost to fixing data quality</div></div>
+      <div class="f"><div class="n">37%</div><div class="l">of trips don't follow their route IDs</div></div>
+      <div class="f"><div class="n">9+</div><div class="l">metros &amp; bus entities on the ONDC network</div></div>
+    </div>
+
+    <div class="overview">
+      <span class="tag">In this issue</span>
+      <ol>
+        <li><a href="#rt1">Key outcomes, barriers to open data, the legal framework, scaling challenges, and what the group is taking forward.</a></li>
+        <li><strong><a href="#stack">What's on Transport Stack</a></strong> &mdash; platform features, representative datasets, and a featured build: the Talking Box voice assistant for bus stops.</li>
+        <li><strong><a href="#involved">Get Involved</a></strong> &mdash; GitHub, Discussions, Wiki, and other ways to join the community.</li>
+        <li><strong><a href="#resources">Resources</a></strong> &mdash; links to CDPG, IUDX, Delhi Transport Stack and more.</li>
+      </ol>
+    </div>
+  </div>
+</header>
+
+<!-- ============ SECTION 1: RT-1 ROUNDUP ============ -->
+<section id="rt1" class="block">
+  <div class="wrap">
+    <h2>Roundtable-1 Roundup</h2>
+
+    <figure class="rt-photo rt-narrow">
+      <img src="RT1-ss.jpeg" alt="Roundtable-1 discussion screenshot" />
+      <figcaption>RT-1 &mdash; the India Mobility Forum roundtable in session.</figcaption>
+    </figure>
+    <p class="rt-ctx">Roundtable-1 convened transit planners, academics, operators and builders to discuss opening up India's public-transport data. The conversation covered what's working, what's broken, and what needs to happen next &mdash; from vendor lock-in and data quality to procurement reform and national policy.</p>
+
+    <h3 class="subhead"><span class="dot"></span>Key outcomes</h3>
+    <p class="para"><strong>Consensus:</strong> open data and open systems are essential for public transport in India &mdash; proven in Delhi and via Namma Yatri.</p>
+    <p class="para"><strong>Barriers:</strong> data locked in proprietary vendor systems, unwillingness to share, poor data quality (60% of project time), weak institutional capacity.</p>
+    <p class="para"><strong>What's needed:</strong> national policy mandates, capacity building for agencies, standardized procurement, open-source platform adoption.</p>
+
+    <h3 class="subhead"><span class="dot"></span>Where the discussion converged</h3>
+    <p class="para">No formal votes were taken &mdash; what follows is where the room's discussion converged rather than binding decisions.</p>
+    <div class="cards c3">
+      <div class="card soft"><h5>Public ownership of transit data</h5><p>Taxpayer-funded data should be publicly owned &mdash; monetization models can still exist on top.</p></div>
+      <div class="card soft"><h5>Open systems over proprietary</h5><p>Build on open-source platforms to avoid vendor lock-in and enable third-party innovation.</p></div>
+      <div class="card soft"><h5>Data exchange architecture</h5><p>Use data exchanges as an intermediate layer to separate data from applications.</p></div>
+    </div>
+
+    <h3 class="subhead"><span class="dot"></span>Current state of open mobility systems</h3>
+    <div class="twocol">
+      <div class="panel">
+        <h4 style="color:var(--green)">What's working</h4>
+        <ul class="clean">
+          <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><strong>Platforms exist:</strong> IUDX and Transport Stack are built and proven functional.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><strong>Expertise available:</strong> IISc, IIIT Delhi, IIT Kanpur &mdash; on both technology and policy.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><strong>Success cases:</strong> Transport for All challenge &mdash; startups built solid solutions for Belgavi, Pune, Devangiri on limited data.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><strong>Government interest:</strong> MoHUA and Smart City Mission engaged; some officials recognize value.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4 style="color:var(--red)">What's not working</h4>
+        <ul class="clean cross">
+          <li><svg viewBox="0 0 24 24"><use href="#i-x"/></svg><strong>Data locked in vendor systems:</strong> vendors have no incentive to open up; it takes years to force.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-x"/></svg><strong>Unwillingness to share:</strong> cities fear exposing service gaps and want to control customer-facing apps.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-x"/></svg><strong>Poor data quality:</strong> 60% of project time fixing it; 37% of trips break route IDs and trip IDs don't change properly.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-x"/></svg><strong>No data SLAs:</strong> feeds shut off arbitrarily despite heavy citizen use; no guarantees.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-x"/></svg><strong>Privacy paralysis:</strong> DPDP uncertainty over what's shareable leads to inaction.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-x"/></svg><strong>Operators seen as competitors:</strong> cities withhold bus stop locations, missing collaborative benefits.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-x"/></svg><strong>Official churn:</strong> frequent transfers erase institutional memory and restart relationships.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="subhead"><span class="dot"></span>Data ownership and legal framework</h3>
+    <div class="twocol">
+      <div class="panel">
+        <h4>Ownership clarity</h4>
+        <ul class="clean">
+          <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><strong>Transit data is a public good:</strong> taxpayer-funded data should be taxpayer-owned &mdash; not government or vendor-owned.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><strong>Namma Yatri model:</strong> a private entity opened its data for trust, enabling research and city planning in Chennai and Bangalore.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4>Legal and policy context</h4>
+        <ul class="clean">
+          <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><strong>Personal data protected:</strong> DPDP Act (mandatory 2027) needs consent for PII &mdash; specific, revocable, legislatively compliant.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><strong>Non-personal data unregulated:</strong> no ownership concept &mdash; a "free for all" with no sharing mandate.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><strong>Geospatial exception:</strong> National Geospatial Policy (2022) mandates publicly-funded geospatial data be public; monetization allowed.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><strong>No near-term change:</strong> non-personal framework unlikely to be revisited for a decade after the 6&ndash;8 year DPDP process.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="subhead"><span class="dot"></span>Scaling challenges and solutions</h3>
+    <h4 class="minihead">Why national scale-up fails</h4>
+    <div class="cards c2">
+      <div class="card"><h5>India's diversity</h5><p>Every state/city is different &mdash; reaching each SDU takes far longer; scaling won't happen in the first meeting.</p></div>
+      <div class="card"><h5>No central mandate</h5><p>Unlike roads/flyovers (funded despite &lt;10% car ownership), open data has no enforcement as law/rule.</p></div>
+      <div class="card"><h5>Capacity gaps</h5><p>Agencies can't code or maintain data; each reinvents the wheel without standard formats.</p></div>
+      <div class="card"><h5>Broken procurement</h5><p>Tendering blocks innovation; qualification criteria loop &mdash; marketplace-based procurement is needed.</p></div>
+    </div>
+
+    <h4 class="minihead">Proposed solutions</h4>
+    <div class="cards c3">
+      <div class="panel">
+        <h4>National level</h4>
+        <ul class="clean">
+          <li><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg><strong>Central alignment:</strong> if MoHUA or central entities set standards, everyone follows &mdash; fastest path to scale.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg><strong>Policy &rarr; law:</strong> move from guidance to enforceable acts/rules with a national champion.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg><strong>ONDC model:</strong> open network working &mdash; 9+ metros and bus entities joining; the future for distributed systems.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4>Institutional level</h4>
+        <ul class="clean">
+          <li><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg><strong>Capacity programs:</strong> standard formats beyond GTFS &mdash; crew, bus, depot management as a prequel to GTFS.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg><strong>Handhold agencies:</strong> prove value via use cases &mdash; e.g. Chennai spotting unpaid commercial taxes through data overlays.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg><strong>Tender specs:</strong> simple, mandatory clauses per SDU procurement ensuring data ownership and openness.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4>Technical level</h4>
+        <ul class="clean">
+          <li><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg><strong>Operational data standards:</strong> research India-specific standards for crew/fleet/depot data fitting local conditions.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg><strong>Software escrow:</strong> UK-style escrow keeps continuity when vendors change &mdash; avoids 12&ndash;18 month re-stabilization.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-arrow"/></svg><strong>Open-source community:</strong> vendors build on a shared base, adding value while staying compatible for the next vendor.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="subhead"><span class="dot"></span>Data quality and standards</h3>
+    <div class="twocol">
+      <div class="panel">
+        <h4>Quality issues identified</h4>
+        <ul class="clean cross">
+          <li><svg viewBox="0 0 24 24"><use href="#i-x"/></svg><strong>Route ID problems:</strong> 37% of trips don't follow route IDs &mdash; buses appear to continue the wrong trip.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-x"/></svg><strong>Research impact:</strong> quality limits research; much time goes to quantifying it before use.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-x"/></svg><strong>Metrics needed:</strong> the platform should record and publish quality metrics alongside the data.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h4>Standardization gaps</h4>
+        <ul class="clean cross">
+          <li><svg viewBox="0 0 24 24"><use href="#i-x"/></svg><strong>AIS-140 GPS standards:</strong> present at policy level, but implementation varies.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-x"/></svg><strong>ASRTU rate contracts:</strong> vendors chase profitable e-ticketing; promised apps and citizen features undelivered.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-x"/></svg><strong>GTFS insufficient:</strong> needs an operational data layer (crew, depot, fleet) as a foundation beneath it.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="subhead"><span class="dot"></span>Open questions</h3>
+    <div class="panel blue">
+      <ul class="clean">
+        <li><svg viewBox="0 0 24 24"><use href="#i-q"/></svg><strong>Revenue sharing:</strong> how do we compensate individuals whose aggregated data creates value, like social-media creators?</li>
+        <li><svg viewBox="0 0 24 24"><use href="#i-q"/></svg><strong>Joint ownership:</strong> should data individuals generate on public systems be jointly owned with the operator?</li>
+        <li><svg viewBox="0 0 24 24"><use href="#i-q"/></svg><strong>Vendor continuity:</strong> how do we balance open systems with vendor models when interoperability erodes lock-in?</li>
+      </ul>
+    </div>
+
+    <h3 class="subhead"><span class="dot"></span>What we're taking forward</h3>
+    <div class="cards c2">
+      <div class="card"><div style="display:flex;gap:10px;align-items:flex-start;"><div class="num">1</div><div><h5>Research consortium</h5><p>Prof. Gita, Prof. Pravesh and Prof. Inder to build India-specific operational data standards (crew, fleet, depot).</p></div></div></div>
+      <div class="card"><div style="display:flex;gap:10px;align-items:flex-start;"><div class="num">2</div><div><h5>Capacity-building curriculum</h5><p>Train transit agencies on data-coding standards and maintenance.</p></div></div></div>
+      <div class="card"><div style="display:flex;gap:10px;align-items:flex-start;"><div class="num">3</div><div><h5>Standard tender template</h5><p>Mandatory tender clauses ensuring data ownership and openness for all SDU procurements.</p></div></div></div>
+      <div class="card"><div style="display:flex;gap:10px;align-items:flex-start;"><div class="num">4</div><div><h5>Data-quality metrics</h5><p>Record and publish quality metrics on the Delhi Transport Stack platform.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 2: WHAT'S ON TRANSPORT STACK ============ -->
+<section id="stack" class="block">
+  <div class="wrap">
+    <h2>What's on Transport Stack</h2>
+    <p class="lead">A look at the platform's features, the data already published, and what's being built on top of it.</p>
+
+    <h3 class="subhead"><span class="dot"></span>Platform features</h3>
+    <div class="cards c2">
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="12" rx="2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="8" cy="19" r="1.5"/><circle cx="16" cy="19" r="1.5"/></svg></div>
+        <h5>Multimodal coverage</h5>
+        <p>Buses, metros and shared mobility (autos, e-rickshaws near metro stations) &mdash; all in a standardized format in one place, so you don't piece modes together manually.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+        <h5>Open-source code base</h5>
+        <p>Journey planner, ETA services, bus-bunching detection and platform infrastructure &mdash; all available as public repositories anyone can read, fork and run.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div>
+        <h5>Low entry barrier</h5>
+        <p>A transparent, open ecosystem designed to cut the cost of entry for developers, researchers and small organizations building on transit data.</p>
+      </div>
+      <div class="card">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9"/><polyline points="21 3 21 9 15 9"/></svg></div>
+        <h5>OTD migration in progress</h5>
+        <p>The older Open Transit Data platform is being deprecated; all data is moving to Transport Stack with better consistency and a single source of truth.</p>
+      </div>
+    </div>
+
+    <h3 class="subhead"><span class="dot"></span>Representative datasets on the platform</h3>
+    <p class="para">A snapshot of what's published today &mdash; the list keeps growing as more modes and cities come online:</p>
+    <div class="cards c3">
+      <div class="card"><h5>Bus static data (GTFS)</h5><p>Routes, stops, schedules and trip definitions for Delhi's bus network in standard GTFS format.</p></div>
+      <div class="card"><h5>Bus real-time data (AVLS)</h5><p>Live vehicle positions streamed from on-board GPS units &mdash; the basis for arrival predictions and bunching detection.</p></div>
+      <div class="card"><h5>Bus ETA &amp; derived feeds</h5><p>Estimated time of arrival per stop, plus processed trip/route information and bus-bunching signals derived from raw AVLS.</p></div>
+      <div class="card"><h5>Metro data</h5><p>Metro routes, stations and schedules in the same standardized format as the bus feeds &mdash; so a single journey planner covers both.</p></div>
+      <div class="card"><h5>Intermediate Public Transport</h5><p>Shared-mobility data around metro stations &mdash; autos and e-rickshaws &mdash; currently collected via app, not as live operator feeds.</p></div>
+      <div class="card"><h5>Journey planner APIs</h5><p>Public API endpoints that wrap the underlying datasets so third-party apps can plan multimodal trips without re-implementing routing.</p></div>
+    </div>
+    <div class="callout">
+      <strong>Coming soon: ticketing &amp; ridership.</strong> Delhi's ticketing data exists but sits in a disguised internal system; transport-department approval is pending before it can be released for flow and ridership analysis on the platform.
+    </div>
+
+    <h3 class="subhead"><span class="dot"></span>Built on the stack</h3>
+    <p class="para">The point of an open data platform is what people build on top of it. Here's a featured build &mdash; with space for many more.</p>
+
+    <div class="build-feat">
+      <figure class="photo">
+        <img src="https://chartr.in/images/talking-box/talking-box-both.png" alt="Talking Box &mdash; oval and rectangular form factors side by side" />
+        <figcaption>Talking Box &mdash; two form factors (oval and rectangular) for different stop types.</figcaption>
+      </figure>
+      <div class="desc">
+        <h4>Talking Box &mdash; voice assistant for bus stops</h4>
+        <div class="who">Built by <a href="https://chartr.in/" target="_blank" rel="noopener">Chartr</a> &middot; live in Delhi</div>
+        <ul class="clean">
+          <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><strong>Press. Talk. Done.</strong> &mdash; one-button interaction; no smartphone, no internet needed by the rider.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><strong>Multilingual:</strong> Hindi &amp; English today, more languages coming.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><strong>Real-time ETA:</strong> live arrivals, journey planning and route guidance spoken aloud.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><strong>Static fallback:</strong> uses scheduled APIs when real-time buses are unavailable; suggests alternative stops.</li>
+          <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg><strong>Powered by Chartr's live GTFS + AVLS data</strong> flowing through the Transport Stack.</li>
+        </ul>
+        <div class="cta"><a href="https://chartr.in/talking-box/" target="_blank" rel="noopener">&rarr; See the product page</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 3: GET INVOLVED ============ -->
+<section id="involved" class="block">
+  <div class="wrap">
+    <h2>Get Involved</h2>
+    <p class="lead">Transport Stack is open source and community-driven. Three primary ways to plug in:</p>
+
+    <div class="cards c3">
+      <div class="card">
+        <div class="res">
+          <div class="ic"><svg viewBox="0 0 24 24"><use href="#i-github"/></svg></div>
+          <div>
+            <h5>GitHub</h5>
+            <p>Browse the repos, star the ones you use, file issues, or open pull requests.</p>
+            <p style="margin-top:6px;"><a href="https://github.com/transport-stack" target="_blank" rel="noopener">github.com/transport-stack &rarr;</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="res">
+          <div class="ic"><svg viewBox="0 0 24 24"><use href="#i-chat"/></svg></div>
+          <div>
+            <h5>GitHub Discussions</h5>
+            <p>Ask questions, share what you're building, and trade notes with other builders and agencies.</p>
+            <p style="margin-top:6px;"><a href="https://github.com/orgs/transport-stack/discussions" target="_blank" rel="noopener">orgs/transport-stack/discussions &rarr;</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="res">
+          <div class="ic"><svg viewBox="0 0 24 24"><use href="#i-book"/></svg></div>
+          <div>
+            <h5>Wiki</h5>
+            <p>Documentation, how-tos, data dictionaries and architectural notes for the platform.</p>
+            <p style="margin-top:6px;"><a href="https://wiki.transportstack.in/" target="_blank" rel="noopener">wiki.transportstack.in &rarr;</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subhead"><span class="dot"></span>Other ways to engage</h3>
+    <div class="cards c2">
+      <div class="card">
+        <h5>Build something &amp; tell us</h5>
+        <p>The &ldquo;Built on the stack&rdquo; section above is intentionally under-filled. Try the data, ship something small, and we'll feature your work in the next dispatch.</p>
+      </div>
+      <div class="card">
+        <h5>Join the next roundtable</h5>
+        <p>RT-1 surfaced more questions than answers. Roundtable-2 will pick up on operational data standards, procurement clauses and capacity-building. Reach out via GitHub Discussions if you'd like a seat.</p>
+      </div>
+      <div class="card">
+        <h5>Bring a city or agency</h5>
+        <p>If you're a transit agency, city official or researcher working with an SDU, the platform and community can help you get data flowing &mdash; including the standard tender clauses drafted at RT-1.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Have an idea or a question?</strong> The fastest path is a post on <a href="https://github.com/orgs/transport-stack/discussions" target="_blank" rel="noopener">GitHub Discussions</a> &mdash; maintainers and the wider community read it regularly.
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 4: RESOURCES ============ -->
+<section id="resources" class="block">
+  <div class="wrap">
+    <h2>Resources</h2>
+    <p class="lead">Key resources shared at the roundtable.</p>
+
+    <div class="cards c3">
+      <div class="card">
+        <div class="res">
+          <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></div>
+          <div><h5><a href="https://dataforpublicgood.org.in/" target="_blank" rel="noopener">CDPG</a></h5><p>Centre of Data for Public Good &mdash; open-source platforms, AI/ML models and data policies for societal impact. <a href="https://dataforpublicgood.org.in/" target="_blank" rel="noopener">dataforpublicgood.org.in &rarr;</a></p></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="res">
+          <div class="ic"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="12" rx="2"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="8" cy="19" r="1.5"/><circle cx="16" cy="19" r="1.5"/></svg></div>
+          <div><h5><a href="https://delhi.transportstack.in/" target="_blank" rel="noopener">Delhi Transport Stack</a></h5><p>Delhi's open mobility platform &mdash; multimodal data, open APIs and open-source code repositories. <a href="https://delhi.transportstack.in/" target="_blank" rel="noopener">delhi.transportstack.in &rarr;</a></p></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="res">
+          <div class="ic"><svg viewBox="0 0 24 24"><path d="M10 13a4 4 0 0 0 5.7.3l3-3a4 4 0 0 0-5.7-5.7l-1.5 1.5"/><path d="M14 11a4 4 0 0 0-5.7-.3l-3 3a4 4 0 0 0 5.7 5.7l1.5-1.5"/></svg></div>
+          <div><h5><a href="https://iudx.org.in/" target="_blank" rel="noopener">IUDX</a></h5><p>India Urban Data Exchange &mdash; open-source data exchange platform built for the Smart City Mission. <a href="https://iudx.org.in/" target="_blank" rel="noopener">iudx.org.in &rarr;</a></p></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subhead"><span class="dot"></span>Links</h3>
+    <table class="link-table">
+      <thead>
+        <tr><th>Resource</th><th>Link</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Transport Stack GitHub</td><td><a href="https://github.com/transport-stack">github.com/transport-stack</a></td></tr>
+        <tr><td>Transport Stack Wiki</td><td><a href="https://wiki.transportstack.in">wiki.transportstack.in</a></td></tr>
+        <tr><td>GitHub Discussions</td><td><a href="https://github.com/orgs/transport-stack/discussions">github.com/orgs/transport-stack/discussions</a></td></tr>
+        <tr><td>Delhi Transport Stack</td><td><a href="https://delhi.transportstack.in/">delhi.transportstack.in</a> &mdash; Delhi's open mobility platform</td></tr>
+        <tr><td>IUDX</td><td><a href="https://iudx.org.in/">iudx.org.in</a> &mdash; India Urban Data Exchange</td></tr>
+        <tr><td>CDPG</td><td><a href="https://dataforpublicgood.org.in/">dataforpublicgood.org.in</a> &mdash; Centre of Data for Public Good</td></tr>
+        <tr><td>Talking Box (Chartr)</td><td><a href="https://chartr.in/talking-box/">chartr.in/talking-box</a> &mdash; voice assistant built on the stack</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site">
+  <div class="wrap fi">
+    <div class="ts-logo">
+      <img class="ts-logo-img footer" src="https://delhi.transportstack.in/static/media/ts-logo-updated.06f04be10e290d3d4c43.png" alt="Transport Stack" />
+      <div class="copy">Transport Stack Dispatch</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
