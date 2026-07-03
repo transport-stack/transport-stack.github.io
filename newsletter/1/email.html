@@ -5,394 +5,543 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Transport Stack Dispatch — RT-1 Roundup</title>
 </head>
-<body style="margin:0;padding:0;background:#f1f5f9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;-webkit-font-smoothing:antialiased;color:#1e293b;font-size:14px;line-height:1.6;">
+<body style="margin:0;padding:0;background:#ffffff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased;color:#3c4654;font-size:13.5px;line-height:1.45;">
 
-<!-- OUTER WRAPPER -->
-<table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f1f5f9;">
-  <tr><td align="center" style="padding:24px 12px;">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#ffffff;">
+  <tr><td align="center" style="padding:0;">
 
-    <!-- MAIN CARD: 600px -->
-    <table cellpadding="0" cellspacing="0" border="0" width="600" style="background:#ffffff;border-radius:12px;overflow:hidden;max-width:600px;width:100%;">
-      <tr><td>
+    <!-- MAX-WIDTH WRAPPER: 800px to match web -->
+    <table cellpadding="0" cellspacing="0" border="0" width="760" style="max-width:760px;width:100%;margin:0 auto;">
 
-        <!-- ===== HEADER ===== -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:linear-gradient(135deg,#0b1329,#1e3a5f);padding:32px 28px;text-align:center;">
-          <tr><td>
-            <img src="https://delhi.transportstack.in/static/media/ts-logo-updated.06f04be10e290d3d4c43.png" alt="Transport Stack" style="height:28px;margin-bottom:12px;display:inline-block;" />
-            <br>
-            <span style="display:inline-block;background:#06b6d4;color:#0b1329;font-size:10px;font-weight:800;letter-spacing:2px;padding:4px 10px;border-radius:4px;margin-bottom:14px;text-transform:uppercase;">Transport Stack Dispatch</span>
-            <h1 style="font-size:24px;font-weight:800;color:#ffffff;margin:0 0 6px;line-height:1.2;">Roundtable-1 Roundup</h1>
-            <p style="font-size:13px;color:#cbd5e1;margin:0;line-height:1.5;">Transport Stack is Delhi's open mobility data platform. Roundtable-1 brought planners, academics, operators and builders together on one question: <em>how do we open up India's public-transport data so anyone can improve it?</em></p>
-          </td></tr>
-        </table>
-
-        <!-- HERO FACTS -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:20px 28px;background:#f8fafc;">
-          <tr>
-            <td width="33%" style="text-align:center;padding:0 8px;">
-              <span style="display:block;font-size:32px;font-weight:800;color:#06b6d4;line-height:1;">60%</span>
-              <span style="display:block;font-size:11px;color:#64748b;margin-top:4px;line-height:1.3;">of project time lost to fixing data quality</span>
-            </td>
-            <td width="33%" style="text-align:center;padding:0 8px;">
-              <span style="display:block;font-size:32px;font-weight:800;color:#f97316;line-height:1;">37%</span>
-              <span style="display:block;font-size:11px;color:#64748b;margin-top:4px;line-height:1.3;">of trips don't follow their route IDs</span>
-            </td>
-            <td width="33%" style="text-align:center;padding:0 8px;">
-              <span style="display:block;font-size:32px;font-weight:800;color:#06b6d4;line-height:1;">9+</span>
-              <span style="display:block;font-size:11px;color:#64748b;margin-top:4px;line-height:1.3;">metros &amp; bus entities on ONDC network</span>
-            </td>
-          </tr>
-        </table>
-
-        <!-- TOC -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:20px 28px;background:#f0f9ff;border-top:1px solid #e0f2fe;">
-          <tr><td>
-            <p style="font-size:11px;font-weight:700;color:#06b6d4;text-transform:uppercase;letter-spacing:1px;margin:0 0 8px;">In this issue</p>
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-              <tr><td style="padding:3px 0;font-size:13px;color:#334155;line-height:1.5;">1. Key outcomes, barriers to open data, legal framework, scaling challenges, and what the group is taking forward.</td></tr>
-              <tr><td style="padding:3px 0;font-size:13px;color:#334155;line-height:1.5;">2. What's on Transport Stack — platform features, datasets, and Talking Box voice assistant.</td></tr>
-              <tr><td style="padding:3px 0;font-size:13px;color:#334155;line-height:1.5;">3. Get Involved — GitHub, Discussions, Wiki, and other ways to join.</td></tr>
-              <tr><td style="padding:3px 0;font-size:13px;color:#334155;line-height:1.5;">4. Resources — CDPG, IUDX, Delhi Transport Stack and more.</td></tr>
-            </table>
-          </td></tr>
-        </table>
-
-        <!-- ===== SECTION 1: ROUNDTABLE-1 ROUNDUP ===== -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:28px 28px 0;">
-          <tr><td>
-            <h2 style="font-size:18px;font-weight:800;color:#0b1329;margin:0 0 16px;padding-bottom:8px;border-bottom:2px solid #06b6d4;">Roundtable-1 Roundup</h2>
-          </td></tr>
-        </table>
-
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:0 28px 16px;">
-          <tr><td>
-            <img src="https://transport-stack.github.io/newsletter/1/RT1-ss.jpeg" alt="RT-1 session" style="width:100%;max-width:544px;border-radius:8px;margin-bottom:12px;display:block;" />
-            <p style="font-size:11px;color:#94a3b8;text-align:center;margin:0 0 12px;">RT-1 — the India Mobility Forum roundtable in session.</p>
-            <p style="font-size:14px;color:#334155;margin:0 0 16px;line-height:1.6;">Roundtable-1 convened transit planners, academics, operators and builders to discuss opening up India's public-transport data. The conversation covered what's working, what's broken, and what needs to happen next.</p>
-          </td></tr>
-        </table>
-
-        <!-- KEY OUTCOMES -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:0 28px 16px;">
-          <tr><td>
-            <h3 style="font-size:15px;font-weight:700;color:#0b1329;margin:0 0 8px;">Key outcomes</h3>
-            <p style="font-size:14px;color:#334155;margin:0 0 6px;line-height:1.6;"><strong style="color:#0b1329;">Consensus:</strong> open data and open systems are essential for public transport in India — proven in Delhi and via Namma Yatri.</p>
-            <p style="font-size:14px;color:#334155;margin:0 0 6px;line-height:1.6;"><strong style="color:#0b1329;">Barriers:</strong> data locked in proprietary vendor systems, unwillingness to share, poor data quality (60% of project time), weak institutional capacity.</p>
-            <p style="font-size:14px;color:#334155;margin:0;line-height:1.6;"><strong style="color:#0b1329;">What's needed:</strong> national policy mandates, capacity building for agencies, standardized procurement, open-source platform adoption.</p>
-          </td></tr>
-        </table>
-
-        <!-- WHERE DISCUSSION CONVERGED -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:0 28px 16px;">
-          <tr><td>
-            <h3 style="font-size:15px;font-weight:700;color:#0b1329;margin:0 0 8px;">Where the discussion converged</h3>
-            <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;line-height:1.5;">No formal votes — what follows is where the room converged rather than binding decisions.</p>
-            <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom:8px;">
-              <tr>
-                <td style="padding:12px 14px;background:#f0f9ff;border:1px solid #e0f2fe;border-radius:8px 8px 0 0;font-size:14px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;margin-bottom:2px;">Public ownership of transit data</strong>Taxpayer-funded data should be publicly owned — monetization models can still exist on top.</td>
-              </tr>
-              <tr>
-                <td style="padding:12px 14px;background:#f0f9ff;border-left:1px solid #e0f2fe;border-right:1px solid #e0f2fe;font-size:14px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;margin-bottom:2px;">Open systems over proprietary</strong>Build on open-source platforms to avoid vendor lock-in and enable third-party innovation.</td>
-              </tr>
-              <tr>
-                <td style="padding:12px 14px;background:#f0f9ff;border:1px solid #e0f2fe;border-radius:0 0 8px 8px;font-size:14px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;margin-bottom:2px;">Data exchange architecture</strong>Use data exchanges as an intermediate layer to separate data from applications.</td>
-              </tr>
-            </table>
-          </td></tr>
-        </table>
-
-        <!-- WHAT'S WORKING / WHAT'S NOT -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:0 28px 16px;">
-          <tr>
-            <td width="50%" valign="top" style="padding-right:8px;">
-              <h4 style="font-size:14px;font-weight:700;color:#198754;margin:0 0 8px;">What's working</h4>
-              <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                <tr><td valign="top" style="padding:4px 0;font-size:13px;color:#334155;line-height:1.5;"><span style="color:#198754;">✓</span> <strong>Platforms exist:</strong> IUDX and Transport Stack are built and proven functional.</td></tr>
-                <tr><td valign="top" style="padding:4px 0;font-size:13px;color:#334155;line-height:1.5;"><span style="color:#198754;">✓</span> <strong>Expertise available:</strong> IISc, IIIT Delhi, IIT Kanpur — on both technology and policy.</td></tr>
-                <tr><td valign="top" style="padding:4px 0;font-size:13px;color:#334155;line-height:1.5;"><span style="color:#198754;">✓</span> <strong>Success cases:</strong> Transport for All challenge — startups built solid solutions on limited data.</td></tr>
-                <tr><td valign="top" style="padding:4px 0;font-size:13px;color:#334155;line-height:1.5;"><span style="color:#198754;">✓</span> <strong>Government interest:</strong> MoHUA and Smart City Mission engaged.</td></tr>
-              </table>
-            </td>
-            <td width="50%" valign="top" style="padding-left:8px;">
-              <h4 style="font-size:14px;font-weight:700;color:#dc3545;margin:0 0 8px;">What's not working</h4>
-              <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                <tr><td valign="top" style="padding:4px 0;font-size:13px;color:#334155;line-height:1.5;"><span style="color:#dc3545;">✗</span> <strong>Data locked in vendor systems:</strong> no incentive to open up; takes years to force.</td></tr>
-                <tr><td valign="top" style="padding:4px 0;font-size:13px;color:#334155;line-height:1.5;"><span style="color:#dc3545;">✗</span> <strong>Unwillingness to share:</strong> cities fear exposing service gaps.</td></tr>
-                <tr><td valign="top" style="padding:4px 0;font-size:13px;color:#334155;line-height:1.5;"><span style="color:#dc3545;">✗</span> <strong>Poor data quality:</strong> 60% of project time fixing it; 37% of trips break route IDs.</td></tr>
-                <tr><td valign="top" style="padding:4px 0;font-size:13px;color:#334155;line-height:1.5;"><span style="color:#dc3545;">✗</span> <strong>No data SLAs:</strong> feeds shut off arbitrarily despite heavy citizen use.</td></tr>
-                <tr><td valign="top" style="padding:4px 0;font-size:13px;color:#334155;line-height:1.5;"><span style="color:#dc3545;">✗</span> <strong>Privacy paralysis:</strong> DPDP uncertainty leads to inaction.</td></tr>
-                <tr><td valign="top" style="padding:4px 0;font-size:13px;color:#334155;line-height:1.5;"><span style="color:#dc3545;">✗</span> <strong>Operators seen as competitors:</strong> cities withhold bus stop locations.</td></tr>
-                <tr><td valign="top" style="padding:4px 0;font-size:13px;color:#334155;line-height:1.5;"><span style="color:#dc3545;">✗</span> <strong>Official churn:</strong> frequent transfers erase institutional memory.</td></tr>
-              </table>
-            </td>
-          </tr>
-        </table>
-
-        <!-- DATA OWNERSHIP & LEGAL -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:0 28px 16px;">
-          <tr><td>
-            <h3 style="font-size:15px;font-weight:700;color:#0b1329;margin:0 0 8px;">Data ownership and legal framework</h3>
-            <p style="font-size:13px;color:#334155;margin:0 0 6px;line-height:1.5;"><span style="color:#198754;">✓</span> <strong>Transit data is a public good:</strong> taxpayer-funded data should be taxpayer-owned — not government or vendor-owned.</p>
-            <p style="font-size:13px;color:#334155;margin:0 0 6px;line-height:1.5;"><span style="color:#198754;">✓</span> <strong>Namma Yatri model:</strong> a private entity opened its data for trust, enabling research in Chennai and Bangalore.</p>
-            <p style="font-size:13px;color:#334155;margin:0 0 6px;line-height:1.5;"><span style="color:#198754;">✓</span> <strong>Personal data protected:</strong> DPDP Act (mandatory 2027) needs consent for PII.</p>
-            <p style="font-size:13px;color:#334155;margin:0 0 6px;line-height:1.5;"><span style="color:#198754;">✓</span> <strong>Geospatial exception:</strong> National Geospatial Policy (2022) mandates publicly-funded geospatial data be public.</p>
-            <p style="font-size:13px;color:#334155;margin:0;line-height:1.5;"><span style="color:#dc3545;">✗</span> <strong>Non-personal data unregulated:</strong> no ownership concept — a "free for all" with no sharing mandate.</p>
-          </td></tr>
-        </table>
-
-        <!-- SCALING CHALLENGES -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:0 28px 16px;">
-          <tr><td>
-            <h3 style="font-size:15px;font-weight:700;color:#0b1329;margin:0 0 8px;">Scaling challenges</h3>
-            <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom:8px;">
-              <tr>
-                <td style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:6px 6px 0 0;font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;">India's diversity</strong>Every state/city is different — reaching each SDU takes far longer.</td>
-              </tr>
-              <tr>
-                <td style="padding:10px 14px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;">No central mandate</strong>Unlike roads/flyovers, open data has no enforcement as law/rule.</td>
-              </tr>
-              <tr>
-                <td style="padding:10px 14px;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;">Capacity gaps</strong>Agencies can't code or maintain data; each reinvents the wheel.</td>
-              </tr>
-              <tr>
-                <td style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:0 0 6px 6px;font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;">Broken procurement</strong>Tendering blocks innovation; marketplace-based procurement is needed.</td>
-              </tr>
-            </table>
-          </td></tr>
-        </table>
-
-        <!-- PROPOSED SOLUTIONS -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:0 28px 16px;">
-          <tr>
-            <td width="33%" valign="top" style="padding:0 6px 0 0;font-size:13px;color:#334155;">
-              <h4 style="font-size:13px;font-weight:700;color:#0b1329;margin:0 0 6px;">National level</h4>
-              <p style="margin:0 0 4px;line-height:1.5;"><span style="color:#06b6d4;">→</span> If MoHUA sets standards, everyone follows — fastest path to scale.</p>
-              <p style="margin:0 0 4px;line-height:1.5;"><span style="color:#06b6d4;">→</span> Policy → law: move from guidance to enforceable acts/rules.</p>
-              <p style="margin:0;line-height:1.5;"><span style="color:#06b6d4;">→</span> ONDC model: open network working — 9+ metros joining.</p>
-            </td>
-            <td width="33%" valign="top" style="padding:0 6px;font-size:13px;color:#334155;">
-              <h4 style="font-size:13px;font-weight:700;color:#0b1329;margin:0 0 6px;">Institutional</h4>
-              <p style="margin:0 0 4px;line-height:1.5;"><span style="color:#f97316;">→</span> Capacity programs for crew, bus, depot management data.</p>
-              <p style="margin:0 0 4px;line-height:1.5;"><span style="color:#f97316;">→</span> Handhold agencies — prove value via use cases.</p>
-              <p style="margin:0;line-height:1.5;"><span style="color:#f97316;">→</span> Tender specs: mandatory clauses for data ownership.</p>
-            </td>
-            <td width="33%" valign="top" style="padding:0 0 0 6px;font-size:13px;color:#334155;">
-              <h4 style="font-size:13px;font-weight:700;color:#0b1329;margin:0 0 6px;">Technical</h4>
-              <p style="margin:0 0 4px;line-height:1.5;"><span style="color:#198754;">→</span> India-specific operational data standards.</p>
-              <p style="margin:0 0 4px;line-height:1.5;"><span style="color:#198754;">→</span> Software escrow: UK-style model for continuity.</p>
-              <p style="margin:0;line-height:1.5;"><span style="color:#198754;">→</span> Open-source community: shared base for vendors.</p>
-            </td>
-          </tr>
-        </table>
-
-        <!-- DATA QUALITY -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:0 28px 16px;">
-          <tr><td>
-            <h3 style="font-size:15px;font-weight:700;color:#0b1329;margin:0 0 8px;">Data quality and standards</h3>
-            <p style="font-size:13px;color:#334155;margin:0 0 4px;line-height:1.5;"><span style="color:#dc3545;">✗</span> <strong>Route ID problems:</strong> 37% of trips don't follow route IDs.</p>
-            <p style="font-size:13px;color:#334155;margin:0 0 4px;line-height:1.5;"><span style="color:#dc3545;">✗</span> <strong>AIS-140 GPS standards:</strong> present at policy level, but implementation varies.</p>
-            <p style="font-size:13px;color:#334155;margin:0 0 4px;line-height:1.5;"><span style="color:#dc3545;">✗</span> <strong>GTFS insufficient:</strong> needs an operational data layer (crew, depot, fleet) beneath it.</p>
-            <p style="font-size:13px;color:#334155;margin:0;line-height:1.5;"><span style="color:#dc3545;">✗</span> <strong>Metrics needed:</strong> the platform should publish quality metrics alongside the data.</p>
-          </td></tr>
-        </table>
-
-        <!-- OPEN QUESTIONS -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:0 28px 16px;">
-          <tr><td>
-            <h3 style="font-size:15px;font-weight:700;color:#0b1329;margin:0 0 8px;">Open questions</h3>
-            <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f0f9ff;border:1px solid #e0f2fe;border-radius:8px;padding:14px;">
-              <tr><td style="padding:3px 0;font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#06b6d4;">?</strong> <strong>Revenue sharing:</strong> how do we compensate individuals whose aggregated data creates value?</td></tr>
-              <tr><td style="padding:3px 0;font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#06b6d4;">?</strong> <strong>Joint ownership:</strong> should data individuals generate on public systems be jointly owned with the operator?</td></tr>
-              <tr><td style="padding:3px 0;font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#06b6d4;">?</strong> <strong>Vendor continuity:</strong> how do we balance open systems with vendor models when interoperability erodes lock-in?</td></tr>
-            </table>
-          </td></tr>
-        </table>
-
-        <!-- WHAT WE'RE TAKING FORWARD -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:0 28px 16px;">
-          <tr><td>
-            <h3 style="font-size:15px;font-weight:700;color:#0b1329;margin:0 0 8px;">What we're taking forward</h3>
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-              <tr><td style="padding:8px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px 6px 0 0;font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#06b6d4;">1.</strong> <strong>Research consortium</strong> — Prof. Gita, Prof. Pravesh and Prof. Inder to build India-specific operational data standards.</td></tr>
-              <tr><td style="padding:8px 12px;background:#f8fafc;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#f97316;">2.</strong> <strong>Capacity-building curriculum</strong> — Train transit agencies on data-coding standards and maintenance.</td></tr>
-              <tr><td style="padding:8px 12px;background:#f8fafc;border-left:1px solid #e2e8f0;border-right:1px solid #e2e8f0;font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#198754;">3.</strong> <strong>Standard tender template</strong> — Mandatory tender clauses ensuring data ownership and openness for all SDU procurements.</td></tr>
-              <tr><td style="padding:8px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:0 0 6px 6px;font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#06b6d4;">4.</strong> <strong>Data-quality metrics</strong> — Record and publish quality metrics on the Delhi Transport Stack platform.</td></tr>
-            </table>
-          </td></tr>
-        </table>
-
-        <!-- DIVIDER -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:8px 28px;">
-          <tr><td style="border-top:1px solid #e2e8f0;"></td></tr>
-        </table>
-
-        <!-- ===== SECTION 2: WHAT'S ON TRANSPORT STACK ===== -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:28px 28px 0;">
-          <tr><td>
-            <h2 style="font-size:18px;font-weight:800;color:#0b1329;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid #06b6d4;">What's on Transport Stack</h2>
-          </td></tr>
-        </table>
-
-        <!-- PLATFORM FEATURES -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:0 28px 16px;">
-          <tr><td>
-            <h3 style="font-size:15px;font-weight:700;color:#0b1329;margin:0 0 8px;">Platform features</h3>
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-              <tr>
-                <td width="50%" valign="top" style="padding:10px 14px;border:1px solid #e2e8f0;border-radius:6px 0 0 0;font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;">Multimodal coverage</strong>Buses, metros and shared mobility — all standardized in one place.</td>
-                <td width="50%" valign="top" style="padding:10px 14px;border:1px solid #e2e8f0;border-left:none;border-radius:0 6px 0 0;font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;">Open-source code base</strong>Journey planner, ETA services, bus-bunching detection — all public repos.</td>
-              </tr>
-              <tr>
-                <td width="50%" valign="top" style="padding:10px 14px;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 0 6px;font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;">Low entry barrier</strong>Transparent ecosystem designed to cut the cost of entry for developers and researchers.</td>
-                <td width="50%" valign="top" style="padding:10px 14px;border:1px solid #e2e8f0;border-left:none;border-top:none;border-radius:0 0 6px 0;font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;">OTD migration in progress</strong>Older Open Transit Data platform being deprecated; all data moving to Transport Stack.</td>
-              </tr>
-            </table>
-          </td></tr>
-        </table>
-
-        <!-- REPRESENTATIVE DATASETS -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:0 28px 16px;">
-          <tr><td>
-            <h3 style="font-size:15px;font-weight:700;color:#0b1329;margin:0 0 8px;">Representative datasets on the platform</h3>
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-              <tr>
-                <td width="50%" valign="top" style="padding:8px 10px;border:1px solid #e2e8f0;border-radius:6px 0 0 0;font-size:12px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;">Bus static data (GTFS)</strong>Routes, stops, schedules and trip definitions for Delhi's bus network.</td>
-                <td width="50%" valign="top" style="padding:8px 10px;border:1px solid #e2e8f0;border-left:none;border-radius:0 6px 0 0;font-size:12px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;">Bus real-time data (AVLS)</strong>Live vehicle positions from on-board GPS units.</td>
-              </tr>
-              <tr>
-                <td width="50%" valign="top" style="padding:8px 10px;border:1px solid #e2e8f0;border-top:none;font-size:12px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;">Bus ETA &amp; derived feeds</strong>Arrival predictions and bus-bunching detection from raw AVLS.</td>
-                <td width="50%" valign="top" style="padding:8px 10px;border:1px solid #e2e8f0;border-left:none;border-top:none;font-size:12px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;">Metro data</strong>Metro routes, stations and schedules in the same standardized format.</td>
-              </tr>
-              <tr>
-                <td width="50%" valign="top" style="padding:8px 10px;border:1px solid #e2e8f0;border-top:none;font-size:12px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;">Intermediate Public Transport</strong>Shared-mobility data around metro stations — autos and e-rickshaws.</td>
-                <td width="50%" valign="top" style="padding:8px 10px;border:1px solid #e2e8f0;border-left:none;border-top:none;font-size:12px;color:#334155;line-height:1.5;"><strong style="color:#0b1329;display:block;">Journey planner APIs</strong>Public API endpoints for multimodal trip planning.</td>
-              </tr>
-            </table>
-            <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top:8px;background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:10px 14px;">
-              <tr><td style="font-size:12px;color:#334155;line-height:1.5;"><strong style="color:#f97316;">Coming soon: ticketing &amp; ridership.</strong> Delhi's ticketing data exists but sits in a disguised internal system; transport-department approval is pending before it can be released.</td></tr>
-            </table>
-          </td></tr>
-        </table>
-
-        <!-- TALKING BOX -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:0 28px 16px;">
-          <tr><td>
-            <h3 style="font-size:15px;font-weight:700;color:#0b1329;margin:0 0 8px;">Built on the stack: Talking Box</h3>
-            <img src="https://chartr.in/images/talking-box/talking-box-both.png" alt="Talking Box" style="width:100%;max-width:544px;border-radius:8px;margin-bottom:10px;display:block;" />
-            <p style="font-size:12px;color:#94a3b8;text-align:center;margin:0 0 10px;">Two form factors (oval and rectangular) for different stop types.</p>
-            <p style="font-size:13px;color:#334155;margin:0 0 8px;line-height:1.5;"><strong style="color:#0b1329;">Voice assistant for bus stops</strong> — Built by <a href="https://chartr.in/" style="color:#06b6d4;">Chartr</a> · live in Delhi</p>
-            <p style="font-size:13px;color:#334155;margin:0 0 4px;line-height:1.5;"><span style="color:#198754;">✓</span> <strong>Press. Talk. Done.</strong> — one-button interaction; no smartphone needed.</p>
-            <p style="font-size:13px;color:#334155;margin:0 0 4px;line-height:1.5;"><span style="color:#198754;">✓</span> <strong>Multilingual:</strong> Hindi &amp; English today, more languages coming.</p>
-            <p style="font-size:13px;color:#334155;margin:0 0 4px;line-height:1.5;"><span style="color:#198754;">✓</span> <strong>Real-time ETA:</strong> live arrivals and route guidance spoken aloud.</p>
-            <p style="font-size:13px;color:#334155;margin:0;line-height:1.5;"><span style="color:#198754;">✓</span> <strong>Powered by Chartr's live GTFS + AVLS data</strong> flowing through the Transport Stack.</p>
-            <p style="margin:10px 0 0;"><a href="https://chartr.in/talking-box/" style="display:inline-block;background:#06b6d4;color:#0b1329;text-decoration:none;font-size:12px;font-weight:700;padding:8px 18px;border-radius:6px;">See the product page →</a></p>
-          </td></tr>
-        </table>
-
-        <!-- DIVIDER -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:8px 28px;">
-          <tr><td style="border-top:1px solid #e2e8f0;"></td></tr>
-        </table>
-
-        <!-- ===== SECTION 3: GET INVOLVED ===== -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:28px 28px 0;">
-          <tr><td>
-            <h2 style="font-size:18px;font-weight:800;color:#0b1329;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid #06b6d4;">Get Involved</h2>
-          </td></tr>
-        </table>
-
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:0 28px 16px;">
-          <tr><td>
-            <p style="font-size:14px;color:#334155;margin:0 0 12px;line-height:1.5;">Transport Stack is open source and community-driven. Three primary ways to plug in:</p>
-            <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom:16px;">
-              <tr>
-                <td width="33%" valign="top" style="padding:12px;border:1px solid #e2e8f0;border-radius:6px 0 0 6px;font-size:13px;color:#334155;line-height:1.5;">
-                  <strong style="color:#0b1329;display:block;margin-bottom:4px;">GitHub</strong>
-                  Browse the repos, star the ones you use, file issues, or open pull requests.
-                  <br><a href="https://github.com/transport-stack" style="color:#06b6d4;">github.com/transport-stack →</a>
-                </td>
-                <td width="33%" valign="top" style="padding:12px;border:1px solid #e2e8f0;border-left:none;font-size:13px;color:#334155;line-height:1.5;">
-                  <strong style="color:#0b1329;display:block;margin-bottom:4px;">Discussions</strong>
-                  Ask questions, share what you're building, trade notes.
-                  <br><a href="https://github.com/orgs/transport-stack/discussions" style="color:#06b6d4;">Discussions →</a>
-                </td>
-                <td width="33%" valign="top" style="padding:12px;border:1px solid #e2e8f0;border-left:none;border-radius:0 6px 6px 0;font-size:13px;color:#334155;line-height:1.5;">
-                  <strong style="color:#0b1329;display:block;margin-bottom:4px;">Wiki</strong>
-                  Documentation, how-tos, data dictionaries and architectural notes.
-                  <br><a href="https://wiki.transportstack.in/" style="color:#06b6d4;">wiki.transportstack.in →</a>
-                </td>
-              </tr>
-            </table>
-
-            <h3 style="font-size:15px;font-weight:700;color:#0b1329;margin:0 0 8px;">Other ways to engage</h3>
-            <p style="font-size:13px;color:#334155;margin:0 0 6px;line-height:1.5;"><strong>Build something &amp; tell us.</strong> Try the data, ship something small, and we'll feature your work in the next dispatch.</p>
-            <p style="font-size:13px;color:#334155;margin:0 0 6px;line-height:1.5;"><strong>Join the next roundtable.</strong> RT-2 picks up on operational data standards, procurement clauses and capacity-building. Reach out via GitHub Discussions.</p>
-            <p style="font-size:13px;color:#334155;margin:0 0 6px;line-height:1.5;"><strong>Bring a city or agency.</strong> If you're a transit agency, city official or researcher working with an SDU, the platform and community can help you get data flowing.</p>
-
-            <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top:8px;background:#f0f9ff;border:1px solid #e0f2fe;border-radius:6px;padding:10px 14px;">
-              <tr><td style="font-size:13px;color:#334155;line-height:1.5;"><strong style="color:#06b6d4;">Have an idea or a question?</strong> The fastest path is a post on <a href="https://github.com/orgs/transport-stack/discussions" style="color:#06b6d4;">GitHub Discussions</a> — maintainers and the wider community read it regularly.</td></tr>
-            </table>
-          </td></tr>
-        </table>
-
-        <!-- DIVIDER -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:8px 28px;">
-          <tr><td style="border-top:1px solid #e2e8f0;"></td></tr>
-        </table>
-
-        <!-- ===== SECTION 4: RESOURCES ===== -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:28px 28px 0;">
-          <tr><td>
-            <h2 style="font-size:18px;font-weight:800;color:#0b1329;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid #06b6d4;">Resources</h2>
-          </td></tr>
-        </table>
-
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:0 28px 16px;">
-          <tr><td>
-            <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom:12px;">
-              <tr>
-                <td width="33%" valign="top" style="padding:12px;border:1px solid #e2e8f0;border-radius:6px 0 0 6px;font-size:12px;color:#334155;line-height:1.5;">
-                  <a href="https://dataforpublicgood.org.in/" style="color:#06b6d4;font-weight:700;display:block;margin-bottom:4px;">CDPG</a>
-                  Centre of Data for Public Good — open-source platforms, AI/ML models and data policies.
-                </td>
-                <td width="33%" valign="top" style="padding:12px;border:1px solid #e2e8f0;border-left:none;font-size:12px;color:#334155;line-height:1.5;">
-                  <a href="https://delhi.transportstack.in/" style="color:#06b6d4;font-weight:700;display:block;margin-bottom:4px;">Delhi Transport Stack</a>
-                  Delhi's open mobility platform — multimodal data, open APIs and open-source code.
-                </td>
-                <td width="33%" valign="top" style="padding:12px;border:1px solid #e2e8f0;border-left:none;border-radius:0 6px 6px 0;font-size:12px;color:#334155;line-height:1.5;">
-                  <a href="https://iudx.org.in/" style="color:#06b6d4;font-weight:700;display:block;margin-bottom:4px;">IUDX</a>
-                  India Urban Data Exchange — open-source data exchange platform for Smart City Mission.
-                </td>
-              </tr>
-            </table>
-
-            <h3 style="font-size:15px;font-weight:700;color:#0b1329;margin:0 0 8px;">Quick Links</h3>
-            <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;">
-              <tr><td style="padding:6px 8px;border:1px solid #e2e8f0;font-size:12px;color:#334155;line-height:1.5;border-radius:6px 0 0 0;">Transport Stack GitHub</td><td style="padding:6px 8px;border:1px solid #e2e8f0;border-left:none;font-size:12px;border-radius:0 6px 0 0;"><a href="https://github.com/transport-stack" style="color:#06b6d4;">github.com/transport-stack</a></td></tr>
-              <tr><td style="padding:6px 8px;border:1px solid #e2e8f0;border-top:none;font-size:12px;color:#334155;line-height:1.5;">Transport Stack Wiki</td><td style="padding:6px 8px;border:1px solid #e2e8f0;border-left:none;border-top:none;font-size:12px;"><a href="https://wiki.transportstack.in" style="color:#06b6d4;">wiki.transportstack.in</a></td></tr>
-              <tr><td style="padding:6px 8px;border:1px solid #e2e8f0;border-top:none;font-size:12px;color:#334155;line-height:1.5;">GitHub Discussions</td><td style="padding:6px 8px;border:1px solid #e2e8f0;border-left:none;border-top:none;font-size:12px;"><a href="https://github.com/orgs/transport-stack/discussions" style="color:#06b6d4;">orgs/transport-stack/discussions</a></td></tr>
-              <tr><td style="padding:6px 8px;border:1px solid #e2e8f0;border-top:none;font-size:12px;color:#334155;line-height:1.5;">Delhi Transport Stack</td><td style="padding:6px 8px;border:1px solid #e2e8f0;border-left:none;border-top:none;font-size:12px;"><a href="https://delhi.transportstack.in/" style="color:#06b6d4;">delhi.transportstack.in</a></td></tr>
-              <tr><td style="padding:6px 8px;border:1px solid #e2e8f0;border-top:none;font-size:12px;color:#334155;line-height:1.5;">IUDX</td><td style="padding:6px 8px;border:1px solid #e2e8f0;border-left:none;border-top:none;font-size:12px;"><a href="https://iudx.org.in/" style="color:#06b6d4;">iudx.org.in</a></td></tr>
-              <tr><td style="padding:6px 8px;border:1px solid #e2e8f0;border-top:none;font-size:12px;color:#334155;line-height:1.5;">CDPG</td><td style="padding:6px 8px;border:1px solid #e2e8f0;border-left:none;border-top:none;font-size:12px;"><a href="https://dataforpublicgood.org.in/" style="color:#06b6d4;">dataforpublicgood.org.in</a></td></tr>
-              <tr><td style="padding:6px 8px;border:1px solid #e2e8f0;border-top:none;font-size:12px;color:#334155;line-height:1.5;border-radius:0 0 0 6px;">Talking Box (Chartr)</td><td style="padding:6px 8px;border:1px solid #e2e8f0;border-left:none;border-top:none;font-size:12px;border-radius:0 0 6px 0;"><a href="https://chartr.in/talking-box/" style="color:#06b6d4;">chartr.in/talking-box</a></td></tr>
-            </table>
-          </td></tr>
-        </table>
-
-        <!-- ===== FOOTER ===== -->
-        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f8fafc;padding:24px 28px;text-align:center;margin-top:16px;">
-          <tr><td>
-            <img src="https://delhi.transportstack.in/static/media/ts-logo-updated.06f04be10e290d3d4c43.png" alt="Transport Stack" style="height:22px;margin-bottom:8px;" /><br>
-            <span style="font-size:11px;font-weight:800;color:#0b1329;letter-spacing:1px;text-transform:uppercase;">Transport Stack Dispatch</span><br>
-            <span style="font-size:11px;color:#94a3b8;line-height:1.6;">
-              <a href="https://delhi.transportstack.in/" style="color:#06b6d4;">delhi.transportstack.in</a> ·
-              <a href="https://wiki.transportstack.in/" style="color:#06b6d4;">wiki.transportstack.in</a> ·
-              <a href="https://github.com/transport-stack" style="color:#06b6d4;">github.com/transport-stack</a>
-            </span>
-          </td></tr>
-        </table>
-
+      <!-- HERO -->
+      <tr><td style="padding:24px 20px 6px;">
+        <img src="https://delhi.transportstack.in/static/media/ts-logo-updated.06f04be10e290d3d4c43.png" alt="Transport Stack" style="height:32px;width:auto;display:block;margin-bottom:8px;" />
+        <span style="display:inline-block;border:1px solid #0d6efd;color:#0d6efd;padding:3px 10px;border-radius:12px;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">Transport Stack Dispatch</span>
+        <h1 style="font-size:28px;line-height:1.1;color:#0d6efd;margin:10px 0 6px;letter-spacing:-.02em;">Roundtable-1 Roundup</h1>
+        <p style="font-size:13.5px;color:#6c757d;margin:4px 0;line-height:1.45;"><strong style="color:#212529;">Transport Stack</strong> is Delhi's open mobility data platform — it publishes vetted, standardized data for buses, metros and shared mobility, with open-source code anyone can build on. <strong style="color:#212529;">Roundtable-1 (RT-1)</strong> brought planners, academics, operators and builders together on one question: how do we open up India's public-transport data so anyone can improve it?</p>
       </td></tr>
+
+      <!-- HERO FACTS STRIP -->
+      <tr><td style="padding:0 20px;">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f3f8ff;border:1px solid #dee2e6;border-radius:10px;padding:10px 14px;">
+          <tr>
+            <td width="33%" valign="top" style="font-size:20px;font-weight:800;color:#0d6efd;line-height:1;padding-right:8px;">60%<br><span style="font-size:11.5px;font-weight:400;color:#6c757d;margin-top:3px;display:block;">of project time lost to fixing data quality</span></td>
+            <td width="33%" valign="top" style="font-size:20px;font-weight:800;color:#0d6efd;line-height:1;padding:0 8px;">37%<br><span style="font-size:11.5px;font-weight:400;color:#6c757d;margin-top:3px;display:block;">of trips don't follow their route IDs</span></td>
+            <td width="33%" valign="top" style="font-size:20px;font-weight:800;color:#0d6efd;line-height:1;padding-left:8px;">9+<br><span style="font-size:11.5px;font-weight:400;color:#6c757d;margin-top:3px;display:block;">metros &amp; bus entities on the ONDC network</span></td>
+          </tr>
+        </table>
+      </td></tr>
+
+      <!-- OVERVIEW / IN THIS ISSUE -->
+      <tr><td style="padding:10px 20px;">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #dee2e6;border-radius:10px;background:#ffffff;box-shadow:0 1px 3px rgba(16,24,40,.06);padding:12px 16px;">
+          <tr><td>
+            <span style="display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#0d6efd;margin-bottom:6px;">In this issue</span>
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+              <tr><td valign="top" style="font-size:12px;color:#3c4654;padding:3px 0;line-height:1.4;">1. Key outcomes, barriers to open data, the legal framework, scaling challenges, and what the group is taking forward.</td></tr>
+              <tr><td valign="top" style="font-size:12px;color:#3c4654;padding:3px 0;line-height:1.4;"><strong style="color:#212529;">2. What's on Transport Stack</strong> — platform features, representative datasets, and a featured build: the Talking Box voice assistant for bus stops.</td></tr>
+              <tr><td valign="top" style="font-size:12px;color:#3c4654;padding:3px 0;line-height:1.4;"><strong style="color:#212529;">3. Get Involved</strong> — GitHub, Discussions, Wiki, and other ways to join the community.</td></tr>
+              <tr><td valign="top" style="font-size:12px;color:#3c4654;padding:3px 0;line-height:1.4;"><strong style="color:#212529;">4. Resources</strong> — links to CDPG, IUDX, Delhi Transport Stack and more.</td></tr>
+            </table>
+          </td></tr>
+        </table>
+      </td></tr>
+
+      <!-- ===== SECTION 1: ROUNDTABLE-1 ROUNDUP ===== -->
+      <tr><td style="border-top:1px solid #dee2e6;padding:24px 20px 0;">
+        <h2 style="font-size:22px;color:#0d6efd;margin:4px 0 4px;letter-spacing:-.02em;line-height:1.15;">Roundtable-1 Roundup</h2>
+      </td></tr>
+
+      <!-- RT1 SCREENSHOT -->
+      <tr><td style="padding:8px 20px;">
+        <table cellpadding="0" cellspacing="0" border="0" width="600" align="center" style="max-width:600px;border:1px solid #dee2e6;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(16,24,40,.06);">
+          <tr><td>
+            <img src="https://transport-stack.github.io/newsletter/1/RT1-ss.jpeg" alt="RT-1 discussion screenshot" style="width:100%;display:block;" />
+            <p style="font-size:11px;color:#6c757d;padding:5px 10px;background:#f3f8ff;border-top:1px solid #dee2e6;margin:0;">RT-1 — the India Mobility Forum roundtable in session.</p>
+          </td></tr>
+        </table>
+        <p style="font-size:12px;color:#3c4654;margin:6px 0 0;">Roundtable-1 convened transit planners, academics, operators and builders to discuss opening up India's public-transport data. The conversation covered what's working, what's broken, and what needs to happen next — from vendor lock-in and data quality to procurement reform and national policy.</p>
+      </td></tr>
+
+      <!-- KEY OUTCOMES -->
+      <tr><td style="padding:0 20px;">
+        <h3 style="font-size:16px;color:#212529;margin:18px 0 4px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0d6efd;margin-right:8px;vertical-align:middle;"></span>Key outcomes</h3>
+        <p style="margin:5px 0;color:#3c4654;"><strong style="color:#212529;">Consensus:</strong> open data and open systems are essential for public transport in India — proven in Delhi and via Namma Yatri.</p>
+        <p style="margin:5px 0;color:#3c4654;"><strong style="color:#212529;">Barriers:</strong> data locked in proprietary vendor systems, unwillingness to share, poor data quality (60% of project time), weak institutional capacity.</p>
+        <p style="margin:5px 0;color:#3c4654;"><strong style="color:#212529;">What's needed:</strong> national policy mandates, capacity building for agencies, standardized procurement, open-source platform adoption.</p>
+      </td></tr>
+
+      <!-- WHERE DISCUSSION CONVERGED -->
+      <tr><td style="padding:0 20px;">
+        <h3 style="font-size:16px;color:#212529;margin:18px 0 4px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0d6efd;margin-right:8px;vertical-align:middle;"></span>Where the discussion converged</h3>
+        <p style="margin:5px 0;color:#3c4654;">No formal votes were taken — what follows is where the room's discussion converged rather than binding decisions.</p>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:10px 0;">
+          <tr>
+            <td width="33%" valign="top" style="padding:12px 14px;background:#f3f8ff;border:1px solid #dee2e6;border-radius:10px;box-shadow:0 1px 3px rgba(16,24,40,.06);">
+              <h4 style="font-size:13.5px;color:#212529;margin:0 0 4px;">Public ownership of transit data</h4>
+              <p style="font-size:12.5px;color:#3c4654;margin:0;">Taxpayer-funded data should be publicly owned — monetization models can still exist on top.</p>
+            </td>
+          </tr>
+          <tr><td height="10"></td></tr>
+          <tr>
+            <td width="33%" valign="top" style="padding:12px 14px;background:#f3f8ff;border:1px solid #dee2e6;border-radius:10px;box-shadow:0 1px 3px rgba(16,24,40,.06);">
+              <h4 style="font-size:13.5px;color:#212529;margin:0 0 4px;">Open systems over proprietary</h4>
+              <p style="font-size:12.5px;color:#3c4654;margin:0;">Build on open-source platforms to avoid vendor lock-in and enable third-party innovation.</p>
+            </td>
+          </tr>
+          <tr><td height="10"></td></tr>
+          <tr>
+            <td width="33%" valign="top" style="padding:12px 14px;background:#f3f8ff;border:1px solid #dee2e6;border-radius:10px;box-shadow:0 1px 3px rgba(16,24,40,.06);">
+              <h4 style="font-size:13.5px;color:#212529;margin:0 0 4px;">Data exchange architecture</h4>
+              <p style="font-size:12.5px;color:#3c4654;margin:0;">Use data exchanges as an intermediate layer to separate data from applications.</p>
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+
+      <!-- WHAT'S WORKING / WHAT'S NOT -->
+      <tr><td style="padding:0 20px;">
+        <h3 style="font-size:16px;color:#212529;margin:18px 0 4px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0d6efd;margin-right:8px;vertical-align:middle;"></span>Current state of open mobility systems</h3>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+          <tr>
+            <td width="50%" valign="top" style="padding-right:7px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #dee2e6;border-radius:10px;padding:12px 14px;">
+                <tr><td>
+                  <h4 style="color:#198754;font-size:13.5px;margin:0 0 4px;">What's working</h4>
+                  <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Platforms exist:</strong> IUDX and Transport Stack are built and proven functional.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Expertise available:</strong> IISc, IIIT Delhi, IIT Kanpur — on both technology and policy.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Success cases:</strong> Transport for All challenge — startups built solid solutions on limited data.</td></tr>
+                    <tr><td style="padding:5px 0;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Government interest:</strong> MoHUA and Smart City Mission engaged.</td></tr>
+                  </table>
+                </td></tr>
+              </table>
+            </td>
+            <td width="50%" valign="top" style="padding-left:7px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #dee2e6;border-radius:10px;padding:12px 14px;">
+                <tr><td>
+                  <h4 style="color:#dc3545;font-size:13.5px;margin:0 0 4px;">What's not working</h4>
+                  <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Data locked in vendor systems:</strong> no incentive to open up; takes years to force.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Unwillingness to share:</strong> cities fear exposing service gaps.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Poor data quality:</strong> 60% of project time fixing it; 37% of trips break route IDs.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">No data SLAs:</strong> feeds shut off arbitrarily despite heavy citizen use.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Privacy paralysis:</strong> DPDP uncertainty leads to inaction.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Operators seen as competitors:</strong> cities withhold bus stop locations.</td></tr>
+                    <tr><td style="padding:5px 0;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Official churn:</strong> frequent transfers erase institutional memory.</td></tr>
+                  </table>
+                </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+
+      <!-- DATA OWNERSHIP & LEGAL FRAMEWORK -->
+      <tr><td style="padding:0 20px;">
+        <h3 style="font-size:16px;color:#212529;margin:18px 0 4px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0d6efd;margin-right:8px;vertical-align:middle;"></span>Data ownership and legal framework</h3>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+          <tr>
+            <td width="50%" valign="top" style="padding-right:7px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #dee2e6;border-radius:10px;padding:12px 14px;">
+                <tr><td>
+                  <h4 style="color:#0d6efd;font-size:13.5px;margin:0 0 4px;">Ownership clarity</h4>
+                  <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Transit data is a public good:</strong> taxpayer-funded data should be taxpayer-owned.</td></tr>
+                    <tr><td style="padding:5px 0;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Namma Yatri model:</strong> a private entity opened its data for trust, enabling research in Chennai and Bangalore.</td></tr>
+                  </table>
+                </td></tr>
+              </table>
+            </td>
+            <td width="50%" valign="top" style="padding-left:7px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #dee2e6;border-radius:10px;padding:12px 14px;">
+                <tr><td>
+                  <h4 style="color:#0d6efd;font-size:13.5px;margin:0 0 4px;">Legal and policy context</h4>
+                  <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Personal data protected:</strong> DPDP Act (mandatory 2027) needs consent for PII.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Non-personal data unregulated:</strong> no ownership concept — a "free for all" with no sharing mandate.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Geospatial exception:</strong> National Geospatial Policy (2022) mandates publicly-funded geospatial data be public.</td></tr>
+                    <tr><td style="padding:5px 0;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">No near-term change:</strong> non-personal framework unlikely to be revisited for a decade after the 6–8 year DPDP process.</td></tr>
+                  </table>
+                </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+
+      <!-- SCALING CHALLENGES -->
+      <tr><td style="padding:0 20px;">
+        <h3 style="font-size:16px;color:#212529;margin:18px 0 4px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0d6efd;margin-right:8px;vertical-align:middle;"></span>Scaling challenges and solutions</h3>
+        <h4 style="font-size:13px;color:#2e4d9c;margin:12px 0 2px;font-weight:700;">Why national scale-up fails</h4>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:10px 0;">
+          <tr>
+            <td width="50%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-radius:10px 0 0 0;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:13.5px;line-height:1.4;">
+              <strong style="color:#212529;display:block;margin-bottom:4px;">India's diversity</strong>
+              <span style="color:#3c4654;font-size:12.5px;">Every state/city is different — reaching each SDU takes far longer.</span>
+            </td>
+            <td width="50%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;border-radius:0 10px 0 0;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:13.5px;line-height:1.4;">
+              <strong style="color:#212529;display:block;margin-bottom:4px;">No central mandate</strong>
+              <span style="color:#3c4654;font-size:12.5px;">Unlike roads/flyovers, open data has no enforcement as law/rule.</span>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-top:none;border-radius:0 0 0 10px;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:13.5px;line-height:1.4;">
+              <strong style="color:#212529;display:block;margin-bottom:4px;">Capacity gaps</strong>
+              <span style="color:#3c4654;font-size:12.5px;">Agencies can't code or maintain data; each reinvents the wheel.</span>
+            </td>
+            <td width="50%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;border-top:none;border-radius:0 0 10px 0;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:13.5px;line-height:1.4;">
+              <strong style="color:#212529;display:block;margin-bottom:4px;">Broken procurement</strong>
+              <span style="color:#3c4654;font-size:12.5px;">Tendering blocks innovation; marketplace-based procurement is needed.</span>
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+
+      <!-- PROPOSED SOLUTIONS -->
+      <tr><td style="padding:0 20px;">
+        <h4 style="font-size:13px;color:#2e4d9c;margin:12px 0 2px;font-weight:700;">Proposed solutions</h4>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:10px 0;">
+          <tr>
+            <td width="33%" valign="top" style="padding-right:5px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #dee2e6;border-radius:10px;padding:12px 14px;">
+                <tr><td>
+                  <h4 style="color:#0d6efd;font-size:13.5px;margin:0 0 4px;">National level</h4>
+                  <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Central alignment:</strong> if MoHUA sets standards, everyone follows — fastest path to scale.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Policy → law:</strong> move from guidance to enforceable acts/rules.</td></tr>
+                    <tr><td style="padding:5px 0;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>ONDC model:</strong> 9+ metros and bus entities joining.</td></tr>
+                  </table>
+                </td></tr>
+              </table>
+            </td>
+            <td width="33%" valign="top" style="padding:0 5px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #dee2e6;border-radius:10px;padding:12px 14px;">
+                <tr><td>
+                  <h4 style="color:#0d6efd;font-size:13.5px;margin:0 0 4px;">Institutional level</h4>
+                  <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Capacity programs:</strong> standard formats for crew, bus, depot management.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Handhold agencies:</strong> prove value via use cases like Chennai tax overlays.</td></tr>
+                    <tr><td style="padding:5px 0;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Tender specs:</strong> mandatory clauses for data ownership.</td></tr>
+                  </table>
+                </td></tr>
+              </table>
+            </td>
+            <td width="33%" valign="top" style="padding-left:5px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #dee2e6;border-radius:10px;padding:12px 14px;">
+                <tr><td>
+                  <h4 style="color:#0d6efd;font-size:13.5px;margin:0 0 4px;">Technical level</h4>
+                  <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Operational data standards:</strong> India-specific crew/fleet/depot standards.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Software escrow:</strong> UK-style model for continuity.</td></tr>
+                    <tr><td style="padding:5px 0;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Open-source community:</strong> vendors build on a shared base.</td></tr>
+                  </table>
+                </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+
+      <!-- DATA QUALITY & STANDARDS -->
+      <tr><td style="padding:0 20px;">
+        <h3 style="font-size:16px;color:#212529;margin:18px 0 4px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0d6efd;margin-right:8px;vertical-align:middle;"></span>Data quality and standards</h3>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+          <tr>
+            <td width="50%" valign="top" style="padding-right:7px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #dee2e6;border-radius:10px;padding:12px 14px;">
+                <tr><td>
+                  <h4 style="color:#dc3545;font-size:13.5px;margin:0 0 4px;">Quality issues identified</h4>
+                  <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Route ID problems:</strong> 37% of trips don't follow route IDs.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Research impact:</strong> quality limits research; much time goes to quantifying it.</td></tr>
+                    <tr><td style="padding:5px 0;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Metrics needed:</strong> platform should publish quality metrics alongside the data.</td></tr>
+                  </table>
+                </td></tr>
+              </table>
+            </td>
+            <td width="50%" valign="top" style="padding-left:7px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #dee2e6;border-radius:10px;padding:12px 14px;">
+                <tr><td>
+                  <h4 style="color:#dc3545;font-size:13.5px;margin:0 0 4px;">Standardization gaps</h4>
+                  <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>AIS-140 GPS standards:</strong> present at policy level, implementation varies.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>ASRTU rate contracts:</strong> vendors chase e-ticketing; apps undelivered.</td></tr>
+                    <tr><td style="padding:5px 0;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>GTFS insufficient:</strong> needs an operational data layer beneath it.</td></tr>
+                  </table>
+                </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+
+      <!-- OPEN QUESTIONS -->
+      <tr><td style="padding:0 20px;">
+        <h3 style="font-size:16px;color:#212529;margin:18px 0 4px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0d6efd;margin-right:8px;vertical-align:middle;"></span>Open questions</h3>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f3f8ff;border:1px solid #dee2e6;border-radius:10px;padding:12px 14px;">
+          <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Revenue sharing:</strong> how do we compensate individuals whose aggregated data creates value?</td></tr>
+          <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Joint ownership:</strong> should data generated on public systems be jointly owned with the operator?</td></tr>
+          <tr><td style="padding:5px 0;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong style="color:#212529;">Vendor continuity:</strong> how do we balance open systems with vendor lock-in?</td></tr>
+        </table>
+      </td></tr>
+
+      <!-- WHAT WE'RE TAKING FORWARD -->
+      <tr><td style="padding:0 20px;">
+        <h3 style="font-size:16px;color:#212529;margin:18px 0 4px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0d6efd;margin-right:8px;vertical-align:middle;"></span>What we're taking forward</h3>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:10px 0;">
+          <tr>
+            <td width="50%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-radius:10px 0 0 0;box-shadow:0 1px 3px rgba(16,24,40,.06);">
+              <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td valign="top" style="width:24px;height:24px;border-radius:50%;background:#0d6efd;color:#fff;text-align:center;font-weight:700;font-size:12px;line-height:24px;">1</td>
+                  <td valign="top" style="padding-left:10px;">
+                    <strong style="color:#212529;font-size:13.5px;display:block;">Research consortium</strong>
+                    <span style="font-size:12.5px;color:#3c4654;">Prof. Gita, Prof. Pravesh and Prof. Inder to build India-specific operational data standards.</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td width="50%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;border-radius:0 10px 0 0;box-shadow:0 1px 3px rgba(16,24,40,.06);">
+              <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td valign="top" style="width:24px;height:24px;border-radius:50%;background:#0d6efd;color:#fff;text-align:center;font-weight:700;font-size:12px;line-height:24px;">2</td>
+                  <td valign="top" style="padding-left:10px;">
+                    <strong style="color:#212529;font-size:13.5px;display:block;">Capacity-building curriculum</strong>
+                    <span style="font-size:12.5px;color:#3c4654;">Train transit agencies on data-coding standards and maintenance.</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-top:none;border-radius:0 0 0 10px;box-shadow:0 1px 3px rgba(16,24,40,.06);">
+              <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td valign="top" style="width:24px;height:24px;border-radius:50%;background:#0d6efd;color:#fff;text-align:center;font-weight:700;font-size:12px;line-height:24px;">3</td>
+                  <td valign="top" style="padding-left:10px;">
+                    <strong style="color:#212529;font-size:13.5px;display:block;">Standard tender template</strong>
+                    <span style="font-size:12.5px;color:#3c4654;">Mandatory clauses ensuring data ownership for all SDU procurements.</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td width="50%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;border-top:none;border-radius:0 0 10px 0;box-shadow:0 1px 3px rgba(16,24,40,.06);">
+              <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td valign="top" style="width:24px;height:24px;border-radius:50%;background:#0d6efd;color:#fff;text-align:center;font-weight:700;font-size:12px;line-height:24px;">4</td>
+                  <td valign="top" style="padding-left:10px;">
+                    <strong style="color:#212529;font-size:13.5px;display:block;">Data-quality metrics</strong>
+                    <span style="font-size:12.5px;color:#3c4654;">Record and publish quality metrics on the Delhi Transport Stack platform.</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+
+      <!-- ===== SECTION 2: WHAT'S ON TRANSPORT STACK ===== -->
+      <tr><td style="border-top:1px solid #dee2e6;padding:24px 20px 0;">
+        <h2 style="font-size:22px;color:#0d6efd;margin:4px 0 4px;letter-spacing:-.02em;line-height:1.15;">What's on Transport Stack</h2>
+        <p style="font-size:13.5px;color:#6c757d;margin-bottom:4px;">A look at the platform's features, the data already published, and what's being built on top of it.</p>
+      </td></tr>
+
+      <!-- PLATFORM FEATURES -->
+      <tr><td style="padding:0 20px;">
+        <h3 style="font-size:16px;color:#212529;margin:18px 0 4px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0d6efd;margin-right:8px;vertical-align:middle;"></span>Platform features</h3>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:10px 0;">
+          <tr>
+            <td width="50%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-radius:10px 0 0 0;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">Multimodal coverage</strong>Buses, metros and shared mobility — all standardized in one place.
+            </td>
+            <td width="50%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;border-radius:0 10px 0 0;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">Open-source code base</strong>Journey planner, ETA services, bus-bunching detection — all public repos.
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-top:none;border-radius:0 0 0 10px;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">Low entry barrier</strong>Transparent ecosystem designed to cut the cost of entry.
+            </td>
+            <td width="50%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;border-top:none;border-radius:0 0 10px 0;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">OTD migration in progress</strong>Older Open Transit Data platform being deprecated; all data moving to Transport Stack.
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+
+      <!-- REPRESENTATIVE DATASETS -->
+      <tr><td style="padding:0 20px;">
+        <h3 style="font-size:16px;color:#212529;margin:18px 0 4px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0d6efd;margin-right:8px;vertical-align:middle;"></span>Representative datasets on the platform</h3>
+        <p style="margin:5px 0;color:#3c4654;">A snapshot of what's published today — the list keeps growing as more modes and cities come online:</p>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:10px 0;">
+          <tr>
+            <td width="33%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-radius:10px 0 0 0;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">Bus static data (GTFS)</strong>Routes, stops, schedules and trip definitions for Delhi's bus network.
+            </td>
+            <td width="33%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;border-radius:0 10px 0 0;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">Bus real-time data (AVLS)</strong>Live vehicle positions from on-board GPS units.
+            </td>
+            <td width="33%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;border-radius:0 10px 0 0;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">Bus ETA &amp; derived feeds</strong>Arrival predictions and bus-bunching detection from raw AVLS.
+            </td>
+          </tr>
+          <tr>
+            <td width="33%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-top:none;border-radius:0 0 0 10px;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">Metro data</strong>Metro routes, stations and schedules in the same standardized format.
+            </td>
+            <td width="33%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;border-top:none;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">Intermediate Public Transport</strong>Shared-mobility data around metro stations.
+            </td>
+            <td width="33%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;border-top:none;border-radius:0 0 10px 0;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">Journey planner APIs</strong>Public API endpoints for multimodal trip planning.
+            </td>
+          </tr>
+        </table>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-left:3px solid #0d6efd;background:#f3f8ff;border-radius:0 8px 8px 0;padding:9px 14px;margin:10px 0;">
+          <tr><td style="font-size:12.5px;color:#3c4654;"><strong style="color:#2e4d9c;">Coming soon: ticketing &amp; ridership.</strong> Delhi's ticketing data exists but sits in a disguised internal system; transport-department approval is pending before it can be released.</td></tr>
+        </table>
+      </td></tr>
+
+      <!-- TALKING BOX -->
+      <tr><td style="padding:0 20px;">
+        <h3 style="font-size:16px;color:#212529;margin:18px 0 4px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0d6efd;margin-right:8px;vertical-align:middle;"></span>Built on the stack</h3>
+        <p style="margin:5px 0;color:#3c4654;">The point of an open data platform is what people build on top of it. Here's a featured build — with space for many more.</p>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:14px 0;">
+          <tr>
+            <td width="35%" valign="top" style="border:1px solid #dee2e6;border-radius:10px;overflow:hidden;background:#f3f8ff;box-shadow:0 1px 3px rgba(16,24,40,.06);">
+              <img src="https://chartr.in/images/talking-box/talking-box-both.png" alt="Talking Box" style="width:100%;display:block;padding:8px;" />
+              <p style="font-size:11.5px;color:#6c757d;padding:6px 12px;background:#fff;border-top:1px solid #dee2e6;margin:0;">Talking Box — two form factors for different stop types.</p>
+            </td>
+            <td width="65%" valign="top" style="padding-left:16px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #dee2e6;border-radius:10px;padding:14px;box-shadow:0 1px 3px rgba(16,24,40,.06);">
+                <tr><td>
+                  <h4 style="color:#0d6efd;font-size:15px;margin:0 0 4px;">Talking Box — voice assistant for bus stops</h4>
+                  <p style="font-size:11.5px;color:#6c757d;margin:0 0 8px;">Built by <a href="https://chartr.in/" style="color:#0d6efd;text-decoration:none;">Chartr</a> · live in Delhi</p>
+                  <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Press. Talk. Done.</strong> — one-button interaction; no smartphone needed.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Multilingual:</strong> Hindi &amp; English today, more languages coming.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Real-time ETA:</strong> live arrivals, journey planning and route guidance spoken aloud.</td></tr>
+                    <tr><td style="padding:5px 0;border-bottom:1px solid #dee2e6;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Static fallback:</strong> uses scheduled APIs when real-time buses are unavailable.</td></tr>
+                    <tr><td style="padding:5px 0;font-size:12.5px;color:#3c4654;line-height:1.4;"><strong>Powered by Chartr's live GTFS + AVLS data</strong> flowing through Transport Stack.</td></tr>
+                  </table>
+                  <p style="margin:10px 0 0;font-size:12.5px;"><a href="https://chartr.in/talking-box/" style="color:#0d6efd;text-decoration:none;">→ See the product page</a></p>
+                </td></tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+
+      <!-- ===== SECTION 3: GET INVOLVED ===== -->
+      <tr><td style="border-top:1px solid #dee2e6;padding:24px 20px 0;">
+        <h2 style="font-size:22px;color:#0d6efd;margin:4px 0 4px;letter-spacing:-.02em;line-height:1.15;">Get Involved</h2>
+        <p style="font-size:13.5px;color:#6c757d;margin-bottom:4px;">Transport Stack is open source and community-driven. Three primary ways to plug in:</p>
+      </td></tr>
+
+      <tr><td style="padding:0 20px;">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:10px 0;">
+          <tr>
+            <td width="33%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-radius:10px 0 0 0;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">GitHub</strong>
+              Browse the repos, star the ones you use, file issues, or open pull requests.<br>
+              <a href="https://github.com/transport-stack" style="color:#0d6efd;text-decoration:none;font-weight:500;margin-top:6px;display:inline-block;">github.com/transport-stack →</a>
+            </td>
+            <td width="33%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">GitHub Discussions</strong>
+              Ask questions, share what you're building, and trade notes.<br>
+              <a href="https://github.com/orgs/transport-stack/discussions" style="color:#0d6efd;text-decoration:none;font-weight:500;margin-top:6px;display:inline-block;">Discussions →</a>
+            </td>
+            <td width="33%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;border-radius:0 10px 0 0;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">Wiki</strong>
+              Documentation, how-tos, data dictionaries and architectural notes.<br>
+              <a href="https://wiki.transportstack.in/" style="color:#0d6efd;text-decoration:none;font-weight:500;margin-top:6px;display:inline-block;">wiki.transportstack.in →</a>
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+
+      <tr><td style="padding:0 20px;">
+        <h3 style="font-size:16px;color:#212529;margin:18px 0 4px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0d6efd;margin-right:8px;vertical-align:middle;"></span>Other ways to engage</h3>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:10px 0;">
+          <tr>
+            <td width="33%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-radius:10px 0 0 10px;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">Build something &amp; tell us</strong>
+              The "Built on the stack" section above is intentionally under-filled. Try the data, ship something small, and we'll feature your work in the next dispatch.
+            </td>
+            <td width="33%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">Join the next roundtable</strong>
+              RT-1 surfaced more questions than answers. RT-2 picks up on operational data standards, procurement clauses and capacity-building.
+            </td>
+            <td width="33%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;border-radius:0 10px 10px 0;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <strong style="color:#212529;font-size:13.5px;display:block;margin-bottom:4px;">Bring a city or agency</strong>
+              If you're a transit agency, city official or researcher working with an SDU, the platform and community can help you get data flowing.
+            </td>
+          </tr>
+        </table>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-left:3px solid #0d6efd;background:#f3f8ff;border-radius:0 8px 8px 0;padding:9px 14px;margin:10px 0;">
+          <tr><td style="font-size:12.5px;color:#3c4654;"><strong style="color:#2e4d9c;">Have an idea or a question?</strong> The fastest path is a post on <a href="https://github.com/orgs/transport-stack/discussions" style="color:#0d6efd;text-decoration:none;">GitHub Discussions</a> — maintainers and the wider community read it regularly.</td></tr>
+        </table>
+      </td></tr>
+
+      <!-- ===== SECTION 4: RESOURCES ===== -->
+      <tr><td style="border-top:1px solid #dee2e6;padding:24px 20px 0;">
+        <h2 style="font-size:22px;color:#0d6efd;margin:4px 0 4px;letter-spacing:-.02em;line-height:1.15;">Resources</h2>
+        <p style="font-size:13.5px;color:#6c757d;margin-bottom:4px;">Key resources shared at the roundtable.</p>
+      </td></tr>
+
+      <tr><td style="padding:0 20px;">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:10px 0;">
+          <tr>
+            <td width="33%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-radius:10px 0 0 0;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <a href="https://dataforpublicgood.org.in/" style="color:#0d6efd;font-weight:700;text-decoration:none;font-size:13.5px;display:block;margin-bottom:4px;">CDPG</a>
+              Centre of Data for Public Good — open-source platforms, AI/ML models and data policies.<br>
+              <a href="https://dataforpublicgood.org.in/" style="color:#0d6efd;text-decoration:none;font-weight:500;margin-top:4px;display:inline-block;">dataforpublicgood.org.in →</a>
+            </td>
+            <td width="33%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <a href="https://delhi.transportstack.in/" style="color:#0d6efd;font-weight:700;text-decoration:none;font-size:13.5px;display:block;margin-bottom:4px;">Delhi Transport Stack</a>
+              Delhi's open mobility platform — multimodal data, open APIs and open-source code.<br>
+              <a href="https://delhi.transportstack.in/" style="color:#0d6efd;text-decoration:none;font-weight:500;margin-top:4px;display:inline-block;">delhi.transportstack.in →</a>
+            </td>
+            <td width="33%" valign="top" style="padding:12px 14px;border:1px solid #dee2e6;border-left:none;border-radius:0 10px 0 0;box-shadow:0 1px 3px rgba(16,24,40,.06);font-size:12.5px;color:#3c4654;line-height:1.4;">
+              <a href="https://iudx.org.in/" style="color:#0d6efd;font-weight:700;text-decoration:none;font-size:13.5px;display:block;margin-bottom:4px;">IUDX</a>
+              India Urban Data Exchange — open-source data exchange platform for Smart City Mission.<br>
+              <a href="https://iudx.org.in/" style="color:#0d6efd;text-decoration:none;font-weight:500;margin-top:4px;display:inline-block;">iudx.org.in →</a>
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+
+      <!-- LINKS TABLE -->
+      <tr><td style="padding:0 20px;">
+        <h3 style="font-size:16px;color:#212529;margin:18px 0 4px;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0d6efd;margin-right:8px;vertical-align:middle;"></span>Links</h3>
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #dee2e6;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(16,24,40,.06);margin-top:6px;">
+          <tr style="background:#f3f8ff;">
+            <td style="padding:7px 12px;font-size:10.5px;font-weight:700;color:#2e4d9c;letter-spacing:.05em;text-transform:uppercase;border-bottom:1px solid #dee2e6;">Resource</td>
+            <td style="padding:7px 12px;font-size:10.5px;font-weight:700;color:#2e4d9c;letter-spacing:.05em;text-transform:uppercase;border-bottom:1px solid #dee2e6;">Link</td>
+          </tr>
+          <tr><td style="padding:7px 12px;font-size:12.5px;color:#212529;font-weight:600;border-bottom:1px solid #dee2e6;">Transport Stack GitHub</td><td style="padding:7px 12px;font-size:12.5px;border-bottom:1px solid #dee2e6;"><a href="https://github.com/transport-stack" style="color:#0d6efd;text-decoration:none;">github.com/transport-stack</a></td></tr>
+          <tr><td style="padding:7px 12px;font-size:12.5px;color:#212529;font-weight:600;border-bottom:1px solid #dee2e6;">Transport Stack Wiki</td><td style="padding:7px 12px;font-size:12.5px;border-bottom:1px solid #dee2e6;"><a href="https://wiki.transportstack.in" style="color:#0d6efd;text-decoration:none;">wiki.transportstack.in</a></td></tr>
+          <tr><td style="padding:7px 12px;font-size:12.5px;color:#212529;font-weight:600;border-bottom:1px solid #dee2e6;">GitHub Discussions</td><td style="padding:7px 12px;font-size:12.5px;border-bottom:1px solid #dee2e6;"><a href="https://github.com/orgs/transport-stack/discussions" style="color:#0d6efd;text-decoration:none;">orgs/transport-stack/discussions</a></td></tr>
+          <tr><td style="padding:7px 12px;font-size:12.5px;color:#212529;font-weight:600;border-bottom:1px solid #dee2e6;">Delhi Transport Stack</td><td style="padding:7px 12px;font-size:12.5px;border-bottom:1px solid #dee2e6;"><a href="https://delhi.transportstack.in/" style="color:#0d6efd;text-decoration:none;">delhi.transportstack.in</a></td></tr>
+          <tr><td style="padding:7px 12px;font-size:12.5px;color:#212529;font-weight:600;border-bottom:1px solid #dee2e6;">IUDX</td><td style="padding:7px 12px;font-size:12.5px;border-bottom:1px solid #dee2e6;"><a href="https://iudx.org.in/" style="color:#0d6efd;text-decoration:none;">iudx.org.in</a></td></tr>
+          <tr><td style="padding:7px 12px;font-size:12.5px;color:#212529;font-weight:600;border-bottom:1px solid #dee2e6;">CDPG</td><td style="padding:7px 12px;font-size:12.5px;border-bottom:1px solid #dee2e6;"><a href="https://dataforpublicgood.org.in/" style="color:#0d6efd;text-decoration:none;">dataforpublicgood.org.in</a></td></tr>
+          <tr><td style="padding:7px 12px;font-size:12.5px;color:#212529;font-weight:600;">Talking Box (Chartr)</td><td style="padding:7px 12px;font-size:12.5px;"><a href="https://chartr.in/talking-box/" style="color:#0d6efd;text-decoration:none;">chartr.in/talking-box</a></td></tr>
+        </table>
+      </td></tr>
+
+      <!-- ===== FOOTER ===== -->
+      <tr><td style="border-top:1px solid #dee2e6;padding:14px 20px;">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+          <tr>
+            <td>
+              <img src="https://delhi.transportstack.in/static/media/ts-logo-updated.06f04be10e290d3d4c43.png" alt="Transport Stack" style="height:28px;width:auto;display:block;" />
+              <p style="font-size:11.5px;color:#6c757d;margin:0;">Transport Stack Dispatch</p>
+            </td>
+          </tr>
+        </table>
+      </td></tr>
+
     </table>
 
   </td></tr>
